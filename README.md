@@ -4,19 +4,20 @@ Welcome to my new project! This time I'm making something I wanted to create sin
 ## play the game:
 # https://hectorvilas.github.io/solitaire/
 
-## ❌✅roadmap✅❌
+## roadmap
 
 ### basics
 - a new object will be created with the following:
-- ❌ an array for stock
-- ❌ an array for wastepile
-- ❌ 4 arrays for foundations
-- ❌ 7 arrays for tableau
+- ✅ an array for stock
+- ✅ an array for wastepile
+- ✅ 4 arrays for foundations
+- ✅ 7 arrays for tableau
 
 ### cards
-- ❌ create an array with all the necessary cards (52)
+- ✅ create an array with all the necessary cards (52)
 - each card must be an object:
-- ❌ objects must contain suit, number, color, isFlipped, image url
+- ✅ objects must contain suit, number, color, isFlipped
+- ❌ image url (maybe won't be necessary)
 - ❌ 1 will be ace card and number > 10 will be a court card, in code will still be a number
 
 ### DOM
@@ -70,3 +71,24 @@ First time using grid, and I like how intuitive it is. [This guide](https://css-
 I've also been reading about Klondike on Wikipedia and learned how those spaces in the table are called, it will make the code more comfy to write and will look less ignorant if somebody reads it.
 
 I'm a little nervous with this project, this is the first time I even think how I will make something like this. Will I success? The logic part will be challenging but I think I figured it out. The visual part will be more challenging, because I need to learn a lot more about `CSS`.
+
+> card generator
+
+This little piece of code will generate each necessary card and store them in an array.
+
+```javascript
+let suitsList = ["club", "diamonds", "spades", "hearts"]
+
+for(let suitLoop = 0; suitLoop < 4; suitLoop++){
+  for(let cardLoop = 1; cardLoop < 14; cardLoop++){
+    let suit, number, color
+    suit = suitsList[suitLoop]
+    number = cardLoop
+    
+    suitLoop%2 === 0 ? color = "black": color = "red"
+    
+    let card = { suit, number, color, isFlipped: false }
+    cards.push(card)
+  }
+}
+```
