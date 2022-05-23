@@ -106,3 +106,23 @@ for(let i = 0; i < table.tableau.length; i++){
 }
 ```
 This will place the corresponding cards in each tableau pile. For each card placed, the same card is removed from the deck, to prevent duplications.
+
+> experimental function to place card names on table
+
+I finally have something to show. I'm happy I made it work:
+
+![gif](./media/READMEmd/progress01.gif)
+
+I wrote a function to visualize the name of the cards in the table. There's a lot of work to do, but at least now I can have something visual. Since it's going to be removed once the cards are drawn, here is the code fragment:
+
+```javascript
+function placeCardsDom(){
+  table.stock.forEach(card => $stock.innerText += ` ${card.suit} ${card.number}`)
+  $wastepile.innerText = ` ${table.waste[0].suit} ${table.waste[0].number}`
+  for(let i = 0; i < table.tableau.length; i++){
+    table.tableau[i].forEach(pile => {
+      $tableaus[i].innerText += `${pile.suit} ${pile.number}\n`
+    })
+  }
+}
+```
