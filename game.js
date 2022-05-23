@@ -38,7 +38,6 @@ function shuffleCards(){
 }
 
 function layCards(){
-  //tableau
   for(let i = 0; i < table.tableau.length; i++){
     let quantity = i;
     for (let j = quantity+1; j > 0; j--) {
@@ -46,12 +45,10 @@ function layCards(){
       cards.shift()
     }
   }
-  //wastepile
   table.waste.push(cards[0])
   cards.shift()
-  //stock
   table.stock = cards
-  cards = [];
+  cards = []
 }
 
 //experimental
@@ -65,7 +62,19 @@ function placeCardsDom(){
   }
 }
 
+//adding divisions in wastepile and tableau
+function domDivisions(){
+  $tableaus.forEach(pile => {
+    for (let i = 0; i < 20; i++) {
+      let separator = document.createElement("div")
+      separator.classList.add("separator",`${i}`)
+      pile.appendChild(separator)
+    }
+  })
+}
+
 cardCreation()
 shuffleCards()
 layCards()
 placeCardsDom()
+domDivisions()
