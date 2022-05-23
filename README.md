@@ -111,7 +111,7 @@ This will place the corresponding cards in each tableau pile. For each card plac
 
 I finally have something to show. I'm happy I made it work:
 
-![gif](./media/READMEmd/progress01.gif)
+![gif](./media/images/READMEmd/progress01.gif)
 
 I wrote a function to visualize the name of the cards in the table. There's a lot of work to do, but at least now I can have something visual. Since it's going to be removed once the cards are drawn, here is the code fragment:
 
@@ -126,3 +126,8 @@ function placeCardsDom(){
   }
 }
 ```
+
+> added divs for each tableau pile
+> each card name is now placed on each division
+
+![gif](./media/images/READMEmd/progress02.png)
