@@ -14,7 +14,8 @@ const $foundations = document.querySelectorAll(".foundation");
 const $tableaus = document.querySelectorAll(".tableau");
 
 function cardCreation(){
-  let suitsList = ["club", "diamonds", "spades", "hearts"]
+  // let suitsList = ["club", "diamonds", "spades", "hearts"]
+  let suitsList = ["♣", "♦", "♠", "♥"]
   
   for(let suitLoop = 0; suitLoop < 4; suitLoop++){
     for(let cardLoop = 1; cardLoop < 14; cardLoop++){
@@ -53,6 +54,18 @@ function layCards(){
   cards = [];
 }
 
+//experimental
+function placeCardsDom(){
+  table.stock.forEach(card => $stock.innerText += ` ${card.suit} ${card.number}`)
+  $wastepile.innerText = ` ${table.waste[0].suit} ${table.waste[0].number}`
+  $tableaus.forEach(tableauPile => 
+    table.tableau.forEach(cardPile =>
+      cardPile.forEach(card => tableauPile.innerText += ` ${card.suit} ${card.number}`)
+    )
+  )
+}
+
 cardCreation()
 shuffleCards()
 layCards()
+placeCardsDom()
