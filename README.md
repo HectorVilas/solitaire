@@ -128,6 +128,7 @@ function placeCardsDom(){
 ```
 
 > added divs for each tableau pile
+
 > each card name is now placed on each division
 
 ![gif](./media/images/READMEmd/progress02.png)
