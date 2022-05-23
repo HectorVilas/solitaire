@@ -7,6 +7,12 @@ let table = {
   tableau: [[],[],[],[],[],[],[]],
 }
 
+const $stock = document.querySelector(".stock");
+const $wastepile = document.querySelector(".wastepile");
+const $infoSpace = document.querySelector(".info-space");
+const $foundations = document.querySelectorAll(".foundation");
+const $tableaus = document.querySelectorAll(".tableau");
+
 function cardCreation(){
   let suitsList = ["club", "diamonds", "spades", "hearts"]
   
@@ -43,7 +49,7 @@ function layCards(){
   table.waste.push(cards[0])
   cards.shift()
   //stock
-  table.foundations = cards
+  table.stock = cards
   cards = [];
 }
 
