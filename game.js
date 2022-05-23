@@ -51,30 +51,35 @@ function layCards(){
   cards = []
 }
 
-//experimental
-function placeCardsDom(){
-  table.stock.forEach(card => $stock.innerText += ` ${card.suit} ${card.number}`)
-  $wastepile.innerText = ` ${table.waste[0].suit} ${table.waste[0].number}`
-  for(let i = 0; i < table.tableau.length; i++){
-    table.tableau[i].forEach(pile => {
-      $tableaus[i].innerText += `${pile.suit} ${pile.number}\n`
-    })
-  }
-}
-
 //adding divisions in wastepile and tableau
 function domDivisions(){
   $tableaus.forEach(pile => {
     for (let i = 0; i < 20; i++) {
       let separator = document.createElement("div")
-      separator.classList.add("separator",`${i}`)
+      separator.classList.add("separator",`n${i}`)
       pile.appendChild(separator)
     }
   })
 }
 
+//placing cards on each tableau pile's space
+function placeCardsDom(){
+  table.stock.forEach(card => $stock.innerText += ` ${card.suit} ${card.number}`)
+
+  $wastepile.innerText = ` ${table.waste[0].suit} ${table.waste[0].number}`
+
+  for(let i = 0; i < table.tableau.length; i++){
+    for (let j = 0; j < table.tableau[i].length; j++) {
+      let space = document.querySelector(`.tab-${i} .n${j}`)
+      space.innerText = `${table.tableau[i][j].suit} ${table.tableau[i][j].number}`
+    }
+  }
+}
+
+
+
 cardCreation()
 shuffleCards()
 layCards()
-placeCardsDom()
 domDivisions()
+placeCardsDom()
