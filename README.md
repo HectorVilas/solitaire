@@ -92,3 +92,17 @@ for(let suitLoop = 0; suitLoop < 4; suitLoop++){
   }
 }
 ```
+> card shuffling and laying
+
+After trying some stuff, I modified the original table object and replaced the pile1, pile2... pile7 keys with a simple 2D array, for better code. Thanks to this, I can place the cards in the tableau with a few lines of code:
+
+```javascript
+for(let i = 0; i < table.tableau.length; i++){
+  let quantity = i;
+  for (let j = quantity+1; j > 0; j--) {
+    table.tableau[i].push(cards[0])
+    cards.shift()
+  }
+}
+```
+This will place the corresponding cards in each tableau pile. For each card placed, the same card is removed from the deck, to prevent duplications.
