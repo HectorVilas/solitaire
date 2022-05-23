@@ -58,11 +58,11 @@ function layCards(){
 function placeCardsDom(){
   table.stock.forEach(card => $stock.innerText += ` ${card.suit} ${card.number}`)
   $wastepile.innerText = ` ${table.waste[0].suit} ${table.waste[0].number}`
-  $tableaus.forEach(tableauPile => 
-    table.tableau.forEach(cardPile =>
-      cardPile.forEach(card => tableauPile.innerText += ` ${card.suit} ${card.number}`)
-    )
-  )
+  for(let i = 0; i < table.tableau.length; i++){
+    table.tableau[i].forEach(pile => {
+      $tableaus[i].innerText += `${pile.suit} ${pile.number}\n`
+    })
+  }
 }
 
 cardCreation()
