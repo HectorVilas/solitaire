@@ -131,4 +131,25 @@ function placeCardsDom(){
 
 > each card name is now placed on each division
 
-![gif](./media/images/READMEmd/progress02.png)
+![Tableau with divisions](./media/images/READMEmd/progress02.png)
+
+> function to store moving card and destination card
+
+> function to check if movement is valid
+
+It was a little hard, but I managed to make a function to check if a movement is valid (or "legal"). This is how it works:
+- when a space receives a "mousedown", it's card will be stored in an auxiliary variable
+- same with "mouseup" but in another auxiliary variable
+- if those two spaces have a card, another function will run to check movement validation
+
+The movement will be valid if:
+- the two cards are in different piles
+- the destination card is the last card in the pile
+- the dragged card is one number less than the destination card
+
+Here is a little gif showing in console if the movement is valid:
+![gif](./media/images/READMEmd/progress03.gif)
+
+It still needs to check if those two cards aren't the same color and if the destination card is flipped, but I think I can work with this as is and leave it for later.
+
+The next step should be to move those cards when the validation function confirms that the move is valid.
