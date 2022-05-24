@@ -1,5 +1,5 @@
-let cardOrigin;
-let cardDestination;
+let cardFrom;
+let cardTo;
 
 let cards = []
 
@@ -69,27 +69,42 @@ function domDivisions(){
         clickAction("mouseup", pile,space)
         e.preventDefault()
       })
-      
+
       thisTableau.appendChild(separator)
     }
   })
 }
-
+//action to store the interacting cards
 function clickAction(action, pile, space){
   if(action === "mousedown"){
-    cardOrigin = {pile: pile, space: space}
-    console.log(cardOrigin)
+    cardFrom = {pile: pile, space: space}
   } else if(action === "mouseup"){
-    cardDestination = {pile: pile, space: space}
-    // if(cardOrigin.pile === cardDestination.pile){
-    //   console.log("same pile");
-    // }
-    console.log(cardDestination)
-    cardOrigin = undefined
-    cardDestination = undefined
+    cardTo = {pile: pile, space: space}
+    isValidMove()
+    //removing values to helper variables
+    cardFrom = undefined
+    cardTo = undefined
   }
 }
-
+//check if card can be moved to another pile
+function isValidMove(){
+  let from = table.tableau[cardFrom.pile][cardFrom.space]
+  let to = table.tableau[cardTo.pile][cardTo.space]
+  //do nothing if origin or destination is an empty space
+  if(from == undefined || to == undefined) return
+  //check if card can be placed
+  if(from.number === to.number-1
+    && cardFrom.pile !== cardTo.pile
+    // && to.isFlipped === true //disabled temporally
+    //check if the destination is the last card in the pile
+    && table.tableau[cardTo.pile][cardTo.space]
+    === table.tableau[cardTo.pile][table.tableau[cardTo.pile].length-1]
+    ){
+    console.log("valid move");
+  } else {
+    console.log("NOT valid move");
+  }
+}
 //placing cards on each tableau pile's space
 function placeCardsDom(){
   table.stock.forEach(card => $stock.innerText += ` ${card.suit} ${card.number}`)
