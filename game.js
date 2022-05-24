@@ -1,3 +1,6 @@
+let cardOrigin;
+let cardDestination;
+
 let cards = []
 
 let table = {
@@ -53,13 +56,38 @@ function layCards(){
 
 //adding divisions in wastepile and tableau
 function domDivisions(){
-  $tableaus.forEach(pile => {
-    for (let i = 0; i < 20; i++) {
+  $tableaus.forEach((thisTableau, pile) => {
+    for (let space = 0; space < 20; space++) {
       let separator = document.createElement("div")
-      separator.classList.add("separator",`n${i}`)
-      pile.appendChild(separator)
+      separator.classList.add("separator",`n${space}`)
+      
+      separator.addEventListener("mousedown", (e) => {
+        clickAction("mousedown", pile, space)
+        e.preventDefault()
+      })
+      separator.addEventListener("mouseup", (e) => {
+        clickAction("mouseup", pile,space)
+        e.preventDefault()
+      })
+      
+      thisTableau.appendChild(separator)
     }
   })
+}
+
+function clickAction(action, pile, space){
+  if(action === "mousedown"){
+    cardOrigin = {pile: pile, space: space}
+    console.log(cardOrigin)
+  } else if(action === "mouseup"){
+    cardDestination = {pile: pile, space: space}
+    // if(cardOrigin.pile === cardDestination.pile){
+    //   console.log("same pile");
+    // }
+    console.log(cardDestination)
+    cardOrigin = undefined
+    cardDestination = undefined
+  }
 }
 
 //placing cards on each tableau pile's space
