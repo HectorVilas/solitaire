@@ -58,19 +58,28 @@ function layCards(){
 function domDivisions(){
   $tableaus.forEach((thisTableau, pile) => {
     for (let space = 0; space < 20; space++) {
-      let separator = document.createElement("div")
-      separator.classList.add("separator",`n${space}`)
-      
-      separator.addEventListener("mousedown", () => {
-        clickAction("mousedown", separator.parentNode.id, pile, space)
-      })
-      separator.addEventListener("mouseup", () => {
-        clickAction("mouseup", separator.parentNode.id, pile, space)
-      })
-
-      thisTableau.appendChild(separator)
+      createSpace(thisTableau,pile,space)
     }
   })
+  createSpace($stock)
+  createSpace($wastepile)
+  $foundations.forEach(foundation => {
+    createSpace(foundation)
+  })
+}
+//space creation with listener
+function createSpace(appendTo, pile = 0, space = 0){
+  let separator = document.createElement("div")
+  separator.classList.add("separator",`n${space}`)
+  
+  separator.addEventListener("mousedown", () => {
+    clickAction("mousedown", separator.parentNode.id, pile, space)
+  })
+  separator.addEventListener("mouseup", () => {
+    clickAction("mouseup", separator.parentNode.id, pile, space)
+  })
+
+  appendTo.appendChild(separator)
 }
 //action to store the interacting cards
 function clickAction(action, place, pile, space){
@@ -111,9 +120,9 @@ function isValidMove(){
 }
 //placing cards on each tableau pile's space
 function placeCardsDom(){
-  // table.stock.forEach(card => $stock.innerText += ` ${card.suit} ${card.number}`)
+  table.stock.forEach(card => $stock.firstChild.innerText += ` ${card.suit} ${card.number}`)
 
-  // $wastepile.innerText = ` ${table.waste[0].suit} ${table.waste[0].number}`
+  $wastepile.firstChild.innerText = ` ${table.waste[0].suit} ${table.waste[0].number}`
 
   for(let i = 0; i < table.tableau.length; i++){
     for (let j = 0; j < table.tableau[i].length; j++) {
