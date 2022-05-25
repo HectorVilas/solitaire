@@ -165,3 +165,13 @@ So I left the validation function alone and wrote another one to check if the ca
 The rules change depending the pile. Descending numbers on tableau, ascending numbers on foundation, moving out and not in from the waste pile, etc. This will be my next step, now that I can detect the kind of movement is being made.
 
 ![gif](./media/images/READMEmd/progress04.gif)
+
+> check if movement is valid based on number only
+
+> depending the pile, the number must be one bigger or smaller
+
+I think I'm figuring it out how to make all the checks. Maybe, instead of nesting `if`s or making it complicated to read with lots of conditions, I should use a few auxiliar variable to store the matches (number, color and suit) and then proceed to check those 3 values to determine if the card can finally be moved.
+
+Here's a little demo, showing how the movements are valid or not based on numbers only:
+
+![gif](./media/images/READMEmd/progress05.gif)
