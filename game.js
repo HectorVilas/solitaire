@@ -1,5 +1,6 @@
 let from, to;
 const tabIDs = ["tab-0","tab-1","tab-2","tab-3","tab-4","tab-5","tab-6"]
+const foundIDs = ["fnd-0","fnd-1","fnd-2","fnd-3"]
 
 let deck = []
 
@@ -86,13 +87,48 @@ function clickAction(action, place, pile, space){
   let cardValue = {place,pile,space}
   if(action === "mousedown"){
     from = cardValue
+    if(from.place === "stock"){
+      stockToWaste()
+      from = undefined
+    }
   } else if(action === "mouseup"){
     to = cardValue
-    isValidMove()
+    // isValidMove()
+    dragCard()
     // removing values to helper variables
     from = undefined
     to = undefined
   }
+}
+function dragCard(){
+  if(from === undefined || to === undefined) return
+  if(tabIDs.includes(from.place)){ //-----from tableau piles
+    
+    if(tabIDs.includes(to.place)){ //to tableau
+      console.log("tableau to tableau");
+    }else if(foundIDs.includes(to.place)){//to foundations
+      console.log("tableau to foundation");
+    }
+
+  }else if(from.place === "wastepile"){ //-----from waste pile
+    
+    if(foundIDs.includes(to.place)){ //to foundation
+      console.log("waste to foundation");
+    }else if(tabIDs.includes(to.place)){ //to tableau piles
+      console.log("waste to tableau pile");
+    }
+
+  }else if(foundIDs.includes(from.place)){ //-----from foundation
+
+    if(tabIDs.includes(to.place)){ //to tableau piles
+      console.log("foundation to tableau");
+    }
+
+  }
+
+}
+function stockToWaste(){
+  console.log("pending action: move card to waste");
 }
 //check if card can be moved to another pile
 function isValidMove(){
