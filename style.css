@@ -31,6 +31,10 @@ p {
   display: flex;
   flex: 1 1 0;
   box-shadow: inset 0 0 0 1px gray;
+}.separator:hover{
+  background-color: #444;
+}.separator:active{
+  background-color: #999;
 }
 
 /*for testing*/
