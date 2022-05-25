@@ -153,3 +153,15 @@ Here is a little gif showing in console if the movement is valid:
 It still needs to check if those two cards aren't the same color and if the destination card is flipped, but I think I can work with this as is and leave it for later.
 
 The next step should be to move those cards when the validation function confirms that the move is valid.
+
+> space creation moved to function
+
+> detect valid card moves from pile to pile
+
+I almost delete everything and start from scratch, because I forgot a few important things, like the cards don't only move from tableau pile to tableau pile! Also didn't find a way to place a child to all the other divs in the table, but after testing and testing found a way to make it work.
+
+So I left the validation function alone and wrote another one to check if the card can be moved to another pile. If the movement is valid, it will show a message in the console. NOW is when I should check if the card can be moved over another.
+
+The rules change depending the pile. Descending numbers on tableau, ascending numbers on foundation, moving out and not in from the waste pile, etc. This will be my next step, now that I can detect the kind of movement is being made.
+
+![gif](./media/images/READMEmd/progress04.gif)
