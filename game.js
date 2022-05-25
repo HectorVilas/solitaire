@@ -51,6 +51,12 @@ function layCards(){
   }
   table.waste.push(deck[0])
   deck.shift()
+  //for testing --------------------------------------------------
+  table.foundations.forEach(foundation => {
+    foundation.push(deck[0])
+    deck.shift()
+  })
+  //for testing --------------------------------------------------
   table.stock = deck
   deck = []
 }
@@ -64,8 +70,8 @@ function domDivisions(){
   })
   createSpace($stock)
   createSpace($wastepile)
-  $foundations.forEach(foundation => {
-    createSpace(foundation)
+  $foundations.forEach((foundation,pile) => {
+    createSpace(foundation,pile)
   })
 }
 //space creation with listener
@@ -88,7 +94,7 @@ function clickAction(action, place, pile, space){
   if(action === "mousedown"){
     from = cardValue
     if(from.place === "stock"){
-      stockToWaste()
+      stockPile()
       from = undefined
     }
   } else if(action === "mouseup"){
@@ -100,60 +106,103 @@ function clickAction(action, place, pile, space){
     to = undefined
   }
 }
+//checks origin and destination of card
 function dragCard(){
+  let cardOrigin, cardDestination
   if(from === undefined || to === undefined) return
-  if(tabIDs.includes(from.place)){ //-----from tableau piles
-    
+  if(tabIDs.includes(from.place)){ 
+    //from tableau piles
+    cardOrigin = "tableau"
     if(tabIDs.includes(to.place)){ //to tableau
-      console.log("tableau to tableau");
+      // console.log("tableau to tableau")
+      cardDestination = "tableau"
+      moveCards(cardOrigin,cardDestination,"-")
     }else if(foundIDs.includes(to.place)){//to foundations
-      console.log("tableau to foundation");
+      // console.log("tableau to foundation")
+      cardDestination = "foundation"
+      moveCards(cardOrigin,cardDestination,"+")
+    } else {
+      console.log("movement canceled")
     }
-
-  }else if(from.place === "wastepile"){ //-----from waste pile
-    
+  //from waste pile
+  }else if(from.place === "wastepile"){
+    cardOrigin = "wastepile"
     if(foundIDs.includes(to.place)){ //to foundation
-      console.log("waste to foundation");
+      // console.log("waste to foundation")
+      cardDestination = "foundation"
+      moveCards(cardOrigin,cardDestination,"+")
     }else if(tabIDs.includes(to.place)){ //to tableau piles
-      console.log("waste to tableau pile");
+      // console.log("waste to tableau pile")
+      cardDestination = "tableau"
+      moveCards(cardOrigin,cardDestination,"-")
+    } else {
+      console.log("movement canceled")
     }
-
-  }else if(foundIDs.includes(from.place)){ //-----from foundation
-
+  //from foundation
+  }else if(foundIDs.includes(from.place)){ 
+    cardOrigin = "foundation"
     if(tabIDs.includes(to.place)){ //to tableau piles
-      console.log("foundation to tableau");
+      // console.log("foundation to tableau")
+      cardDestination = "tableau"
+      moveCards(cardOrigin,cardDestination,"-")
+    } else {
+      console.log("movement canceled")
     }
-
   }
-
 }
-function stockToWaste(){
+//function to place one card in waste or return cards if empty
+function stockPile(){
   console.log("pending action: move card to waste");
 }
 //check if card can be moved to another pile
-function isValidMove(){
-  //prevent errors when dragging from invalid spaces
-  if(from === undefined || to === undefined) return;
-  //storing the card info
-  let cardFrom = table.tableau[from.pile][from.space]
-  let cardTo = table.tableau[to.pile][to.space]
+function moveCards(origin, destination, direction){
+  let fromCard, toCard
+  origin === "tableau" ? fromCard = table.tableau[from.pile][from.space] :
+  origin === "wastepile" ? fromCard = table.waste[from.pile] :
+  origin === "foundation" ? fromCard = table.foundations[from.pile][from.space] :
+  alert("origin card not assigned")
 
-  if(cardFrom !== undefined && cardTo !== undefined //spaces have cards
-    &&cardFrom.number === cardTo.number-1 //valid numbers
-    && from.pile !== to.pile //different piles
-    // && to.isFlipped === true //disabled temporally
-    && table.tableau[to.pile][to.space] //destination is the last card -
-    === table.tableau[to.pile][table.tableau[to.pile].length-1] // - of pile
-    ){
-    console.log("valid move");
-    if(tabIDs.includes(from.place) && tabIDs.includes(to.place)){
-      console.log("tableau pile to tableau pile");
-    }
+  destination === "tableau" ? toCard = table.tableau[to.pile][to.space] :
+  destination === "foundation" ? toCard = table.foundations[to.pile][to.space] :
+  alert("destination card not assigned")
 
-  } else {
-    console.log("NOT valid move");
+  if(fromCard === undefined || toCard === undefined) return
+  
+  // console.log(fromCard,origin);
+  // console.log(toCard,destination);
+  console.log(fromCard.number,toCard.number);
+
+  if(direction === "+" && fromCard.number === toCard.number+1){
+    console.log("valid");
+  }else if(direction === "-" && fromCard.number === toCard.number-1){
+    console.log("valid");
+  }else{
+    console.log("NOT valid");
   }
 }
+// function isValidMove(){
+//   //prevent errors when dragging from invalid spaces
+//   if(from === undefined || to === undefined) return;
+//   //storing the card info
+//   let cardFrom = table.tableau[from.pile][from.space]
+//   let cardTo = table.tableau[to.pile][to.space]
+
+//   if(cardFrom !== undefined && cardTo !== undefined //spaces have cards
+//     &&cardFrom.number === cardTo.number-1 //valid numbers
+//     && from.pile !== to.pile //different piles
+//     // && to.isFlipped === true //disabled temporally
+//     && table.tableau[to.pile][to.space] //destination is the last card -
+//     === table.tableau[to.pile][table.tableau[to.pile].length-1] // - of pile
+//     ){
+//     console.log("valid move");
+//     if(tabIDs.includes(from.place) && tabIDs.includes(to.place)){
+//       console.log("tableau pile to tableau pile");
+//     }
+
+//   } else {
+//     console.log("NOT valid move");
+//   }
+// }
 //placing cards on each tableau pile's space
 function placeCardsDom(){
   table.stock.forEach(card => $stock.firstChild.innerText += ` ${card.suit} ${card.number}`)
@@ -166,6 +215,11 @@ function placeCardsDom(){
       space.innerText = `${table.tableau[i][j].suit} ${table.tableau[i][j].number}`
     }
   }
+  //for testing --------------------------------------------------
+  $foundations.forEach((foundation,i) => {
+    foundation.firstChild.innerText = `${table.foundations[i][0].suit} ${table.foundations[i][0].number}`
+  })
+  //for testing --------------------------------------------------
 }
 
 
