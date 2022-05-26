@@ -118,12 +118,12 @@ function dragCard(){
       //+++++tableau to tableau
       toCard = table.tableau[to.pile][to.space]
       isValidMove({fromCard,toCard,ascendingNumber:false,sameSuit:false,
-        sameColor:false})
+        needsSameColor:false})
     }else if(foundIDs.includes(to.place)){
       //+++++tableau to foundations
       toCard = table.foundations[to.pile][to.space]
       isValidMove({fromCard,toCard,ascendingNumber:true,sameSuit:true,
-        sameColor:true})
+        needsSameColor:true})
     } else {
       console.log("movement canceled")
     }
@@ -133,12 +133,12 @@ function dragCard(){
       //+++++waste to foundation
       toCard = table.foundations[to.pile][to.space]
       isValidMove({fromCard,toCard,ascendingNumber:true,sameSuit:true,
-        sameColor:true})
+        needsSameColor:true})
     }else if(tabIDs.includes(to.place)){
       //+++++waste to tableau piles
       toCard = table.tableau[to.pile][to.space]
       isValidMove({fromCard,toCard,ascendingNumber:false,sameSuit:false,
-        sameColor:false})
+        needsSameColor:false})
     } else {
       console.log("movement canceled")
     }
@@ -149,7 +149,7 @@ function dragCard(){
       toCard = table.tableau[to.pile][to.space]
       //-
       isValidMove({fromCard,toCard,ascendingNumber:false,sameSuit:false,
-        sameColor:false})
+        needsSameColor:false})
     } else {
       console.log("movement canceled")
     }
@@ -157,7 +157,7 @@ function dragCard(){
 }
 //function to check if move is valid
 function isValidMove({fromCard,toCard,ascendingNumber,sameSuit,
-  sameColor}){
+  needsSameColor}){
 
   let validNum = validSuit = validColor = theLastCard
   = differentPile = isLastCard = false;
@@ -174,11 +174,8 @@ function isValidMove({fromCard,toCard,ascendingNumber,sameSuit,
     validSuit = true
   }
 
-  if(sameColor){
-    if(fromCard.color === toCard.color){
-      validColor = true
-    }
-  } else {
+  if((needsSameColor && fromCard.color === toCard.color)
+  || (!needsSameColor && fromCard.color !== toCard.color)){
     validColor = true
   }
 
@@ -211,19 +208,19 @@ function stockPile(){
 }
 //placing cards on each tableau pile's space
 function placeCardsDom(){
-  table.stock.forEach(card => $stock.firstChild.innerText += ` ${card.suit} ${card.number}`)
+  table.stock.forEach(card => $stock.firstChild.innerText += ` ${card.suit} ${card.number} ${card.color}`)
 
-  $wastepile.firstChild.innerText = ` ${table.waste[0].suit} ${table.waste[0].number}`
+  $wastepile.firstChild.innerText = ` ${table.waste[0].suit} ${table.waste[0].number} ${table.waste[0].color}`
 
   for(let i = 0; i < table.tableau.length; i++){
     for (let j = 0; j < table.tableau[i].length; j++) {
       let space = document.querySelector(`#tab-${i} .n${j}`)
-      space.innerText = `${table.tableau[i][j].suit} ${table.tableau[i][j].number}`
+      space.innerText = `${table.tableau[i][j].suit} ${table.tableau[i][j].number} ${table.tableau[i][j].color}`
     }
   }
   //for testing --------------------------------------------------
   $foundations.forEach((foundation,i) => {
-    foundation.firstChild.innerText = `${table.foundations[i][0].suit} ${table.foundations[i][0].number}`
+    foundation.firstChild.innerText = `${table.foundations[i][0].suit} ${table.foundations[i][0].number} ${table.foundations[i][0].color}`
   })
   //for testing --------------------------------------------------
 }
