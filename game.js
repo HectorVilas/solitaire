@@ -209,38 +209,6 @@ function isValidMove({fromCard,toCard,ascendingNumber,sameSuit,
 function stockPile(){
   console.log("pending action: move card to waste");
 }
-//check if card can be moved to another pile
-// function moveCards(origin, destination, direction){
-//   let isvalidNum = isValidSuit = isValidColor = isLastCard = false
-//   let fromCard, toCard
-//   origin === "tableau" ? fromCard = table.tableau[from.pile][from.space] :
-//   origin === "wastepile" ? fromCard = table.waste[from.pile] :
-//   origin === "foundation" ? fromCard = table.foundations[from.pile][from.space] :
-//   alert("origin card not assigned")
-
-//   destination === "tableau" ? toCard = table.tableau[to.pile][to.space] :
-//   destination === "foundation" ? toCard = table.foundations[to.pile][to.space] :
-//   alert("destination card not assigned")
-
-//   if(fromCard === undefined || toCard === undefined) return
-
-//   if(direction === "+" && fromCard.number === toCard.number+1){
-//     isvalidNum = true
-//   }else if(direction === "-" && fromCard.number === toCard.number-1){
-//     isvalidNum = true
-//   }
-  
-//   if(destination === "foundation"){
-//     if(fromCard.suit === toCard.suit){
-//       isValidSuit = true
-//     }
-//   } else {
-//     isValidSuit = true
-//   }
-  
-//   console.log("num: "+isvalidNum, "\n♦♣♠: "+isValidSuit,
-//   "\ncol: "+isValidColor, "\n..n: "+isLastCard);
-// }
 //placing cards on each tableau pile's space
 function placeCardsDom(){
   table.stock.forEach(card => $stock.firstChild.innerText += ` ${card.suit} ${card.number}`)
