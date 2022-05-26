@@ -1,6 +1,6 @@
 let from, to;
-const tabIDs = ["tab-0","tab-1","tab-2","tab-3","tab-4","tab-5","tab-6"]
-const foundIDs = ["fnd-0","fnd-1","fnd-2","fnd-3"]
+const tabIDs = []
+const foundIDs = []
 
 let deck = []
 
@@ -16,6 +16,9 @@ const $wastepile = document.querySelector("#wastepile");
 const $infoSpace = document.querySelector("#info-space");
 const $foundations = document.querySelectorAll(".foundation");
 const $tableaus = document.querySelectorAll(".tableau");
+
+$foundations.forEach(found => tabIDs.push(found.id))
+$tableaus.forEach(tab => tabIDs.push(tab.id))
 
 function cardCreation(){
   // let suitsList = ["club", "diamonds", "spades", "hearts"]
@@ -167,8 +170,7 @@ function moveCards(origin, destination, direction){
     isvalidNum = true
   }
   
-  if((origin === "wastepile" && destination === "foundation")
-  || (origin === "tableau" && destination === "foundation")){
+    if(destination === "foundation"){
     if(fromCard.suit === toCard.suit){
       isValidSuit = true
     }
@@ -179,29 +181,6 @@ function moveCards(origin, destination, direction){
   console.log("validNum: "+isvalidNum, "validSuit: "+isValidSuit,
   "validColor: "+isValidColor, "lastCard"+isLastCard);
 }
-// function isValidMove(){
-//   //prevent errors when dragging from invalid spaces
-//   if(from === undefined || to === undefined) return;
-//   //storing the card info
-//   let cardFrom = table.tableau[from.pile][from.space]
-//   let cardTo = table.tableau[to.pile][to.space]
-
-//   if(cardFrom !== undefined && cardTo !== undefined //spaces have cards
-//     &&cardFrom.number === cardTo.number-1 //valid numbers
-//     && from.pile !== to.pile //different piles
-//     // && to.isFlipped === true //disabled temporally
-//     && table.tableau[to.pile][to.space] //destination is the last card -
-//     === table.tableau[to.pile][table.tableau[to.pile].length-1] // - of pile
-//     ){
-//     console.log("valid move");
-//     if(tabIDs.includes(from.place) && tabIDs.includes(to.place)){
-//       console.log("tableau pile to tableau pile");
-//     }
-
-//   } else {
-//     console.log("NOT valid move");
-//   }
-// }
 //placing cards on each tableau pile's space
 function placeCardsDom(){
   table.stock.forEach(card => $stock.firstChild.innerText += ` ${card.suit} ${card.number}`)
