@@ -175,3 +175,7 @@ I think I'm figuring it out how to make all the checks. Maybe, instead of nestin
 Here's a little demo, showing how the movements are valid or not based on numbers only:
 
 ![gif](./media/images/READMEmd/progress05.gif)
+
+> moved and adapted code from unnecesary function to another
+
+> created another function to check all the neccesary conditions to allow movement
