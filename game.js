@@ -158,7 +158,7 @@ function dragCard(){
 //function to check if move is valid
 function isValidMove({fromCard,toCard,ascendingNumber,sameSuit,
   needsSameColor}){
-
+  if(fromCard === undefined || toCard === undefined) return
   let validNum = validSuit = validColor = theLastCard
   = differentPile = isLastCard = false;
   if((ascendingNumber && fromCard.number === toCard.number+1)
