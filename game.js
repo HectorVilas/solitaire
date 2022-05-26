@@ -110,7 +110,6 @@ function clickAction(action, place, pile, space){
 }
 //checks origin and destination of card
 function dragCard(){
-  let isvalidNum = isValidSuit = isValidColor = isLastCard = false
   let fromCard, toCard
 
   if(tabIDs.includes(from.place)){ //from tableau piles
@@ -118,11 +117,13 @@ function dragCard(){
     if(tabIDs.includes(to.place)){
       //+++++tableau to tableau
       toCard = table.tableau[to.pile][to.space]
-      //-
+      isValidMove({fromCard,toCard,ascendingNumber:false,sameSuit:false,
+        sameColor:false})
     }else if(foundIDs.includes(to.place)){
       //+++++tableau to foundations
       toCard = table.foundations[to.pile][to.space]
-      //+
+      isValidMove({fromCard,toCard,ascendingNumber:true,sameSuit:true,
+        sameColor:true})
     } else {
       console.log("movement canceled")
     }
@@ -131,11 +132,13 @@ function dragCard(){
     if(foundIDs.includes(to.place)){
       //+++++waste to foundation
       toCard = table.foundations[to.pile][to.space]
-      //+
+      isValidMove({fromCard,toCard,ascendingNumber:true,sameSuit:true,
+        sameColor:true})
     }else if(tabIDs.includes(to.place)){
       //+++++waste to tableau piles
       toCard = table.tableau[to.pile][to.space]
-      //-
+      isValidMove({fromCard,toCard,ascendingNumber:false,sameSuit:false,
+        sameColor:false})
     } else {
       console.log("movement canceled")
     }
@@ -145,14 +148,62 @@ function dragCard(){
       //+++++foundation to tableau piles
       toCard = table.tableau[to.pile][to.space]
       //-
+      isValidMove({fromCard,toCard,ascendingNumber:false,sameSuit:false,
+        sameColor:false})
     } else {
       console.log("movement canceled")
     }
   }
+}
+//function to check if move is valid
+function isValidMove({fromCard,toCard,ascendingNumber,sameSuit,
+  sameColor}){
 
-  console.log("num: "+isvalidNum, "\n♦♣♠: "+isValidSuit,
-  "\ncol: "+isValidColor, "\n..n: "+isLastCard);
-  // console.log(fromCard.suit,toCard.suit);
+  let validNum = validSuit = validColor = theLastCard
+  = differentPile = isLastCard = false;
+  if((ascendingNumber && fromCard.number === toCard.number+1)
+  || (!ascendingNumber && fromCard.number === toCard.number-1)){
+    validNum = true
+  }
+
+  if(sameSuit){
+    if(fromCard.suit === toCard.suit){
+      validSuit = true
+    }
+  }else{
+    validSuit = true
+  }
+
+  if(sameColor){
+    if(fromCard.color === toCard.color){
+      validColor = true
+    }
+  } else {
+    validColor = true
+  }
+
+  if(tabIDs.includes(to.place)){
+    let lastCard = table.tableau[to.pile][table.tableau[to.pile].length-1]
+    if(toCard === lastCard){
+      isLastCard = true
+    }
+  } else {
+    isLastCard = true
+  }
+  
+  if(tabIDs.includes(from.place) && tabIDs.includes(to.place)){
+    if(from.place !== to.place){
+      differentPile = true
+    }
+  } else {
+    differentPile = true
+  }
+
+  validNum && validSuit && validColor && isLastCard && differentPile ?
+  console.log(true) : console.log(false)
+
+  console.log("nmbr: "+validNum,"\n♥♦♣♠: "+validSuit,
+  "\ncolr: "+validColor,"\nlast: "+isLastCard,"\ndiff: "+differentPile);
 }
 //function to place one card in waste or return cards if empty
 function stockPile(){
