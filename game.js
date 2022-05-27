@@ -55,6 +55,7 @@ function layCards(){
       deck.shift()
     }
   }
+  deck[0].isFlipped = true
   table.waste.push(deck[0])
   deck.shift()
   //for testing --------------------------------------------------
@@ -65,6 +66,10 @@ function layCards(){
   //for testing --------------------------------------------------
   table.stock = deck
   deck = []
+
+  //flip cards
+  for(let i = 0; i < table.tableau.length; i++)
+  table.tableau[i][i].isFlipped = true
 }
 
 //adding divisions in wastepile and tableau
