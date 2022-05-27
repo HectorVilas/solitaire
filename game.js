@@ -1,4 +1,5 @@
 let deckDesign = "traditional"
+let unflippedImg = "./media/images/cards/traditional/reverse.png"
 let from, to;
 const tabIDs = []
 const foundIDs = []
@@ -112,6 +113,7 @@ function clickAction(action, place, pile, space){
 }
 //checks origin and destination of card
 function dragCard(){
+  if(from === undefined) return
   let fromCard, toCard
 
   if(tabIDs.includes(from.place)){ //from tableau piles
@@ -233,11 +235,38 @@ function placeCardsDom(){
   // })
   //for testing --------------------------------------------------
 }
-
-
+//draw the card's image in page
+function placeCards(){
+  //in stock
+  if(table.stock.length > 0){
+    let img = document.createElement("img")
+    img.src = unflippedImg
+    img.classList.add("card")
+    $stock.firstChild.appendChild(img)
+  }
+  //in waste
+  if(table.waste.length > 0){
+    let img = document.createElement("img")
+    img.src = table.waste[table.waste.length-1].url
+    img.classList.add("card")
+    $wastepile.firstChild.appendChild(img)
+  }
+  //in tableau
+  for(let i = 0; i < table.tableau.length; i++){
+    for (let j = 0; j < table.tableau[i].length; j++) {
+      let space = document.querySelector(`#tab-${i} .n${j}`)
+      let img = document.createElement("img")
+      img.src = unflippedImg
+      img.classList.add("card")
+      
+      space.appendChild(img)
+    }
+  }
+}
 
 cardCreation()
 shuffleCards()
 layCards()
 domDivisions()
-placeCardsDom()
+// placeCardsDom()
+placeCards()
