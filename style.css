@@ -27,9 +27,19 @@ p {
   flex-direction: column;
 }
 
+.card {
+  /* flex: 1 1 auto; */
+  pointer-events: none;
+  /*250x389*/
+  width: 84px;
+  height: 130px;
+  position: absolute;
+}
+
 .separator {
   display: flex;
   flex: 1 1 0;
+  justify-content: center;
   box-shadow: inset 0 0 0 1px gray;
 }.separator:hover{
   background-color: #444;
