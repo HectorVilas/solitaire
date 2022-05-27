@@ -1,3 +1,4 @@
+let deckDesign = "traditional"
 let from, to;
 const tabIDs = []
 const foundIDs = []
@@ -21,18 +22,19 @@ $foundations.forEach(found => foundIDs.push(found.id))
 $tableaus.forEach(tab => tabIDs.push(tab.id))
 
 function cardCreation(){
-  // let suitsList = ["club", "diamonds", "spades", "hearts"]
-  let suitsList = ["♣", "♦", "♠", "♥"]
+  let suitsList = ["club", "diamonds", "spades", "hearts"]
+  // let suitsList = ["♣", "♦", "♠", "♥"]
   
   for(let suitLoop = 0; suitLoop < 4; suitLoop++){
     for(let cardLoop = 1; cardLoop < 14; cardLoop++){
       let suit, number, color
       number = cardLoop
       suit = suitsList[suitLoop]
+      url = `./media/cards/${deckDesign}/${suit}${cardLoop}.png`
       
       suitLoop%2 === 0 ? color = "black": color = "red"
       
-      let card = { number, suit, color, isFlipped: false }
+      let card = { number, suit, color, isFlipped: false, url }
       deck.push(card)
     }
   }
