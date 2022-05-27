@@ -179,3 +179,23 @@ Here's a little demo, showing how the movements are valid or not based on number
 > moved and adapted code from unnecesary function to another
 
 > created another function to check all the neccesary conditions to allow movement
+
+> color validation depending pile destination
+
+> temporal facing down cards not showing it's content
+
+> isFlipped condition to allow movement
+
+The game received a few more conditions before allowing card movement. At this point I noticed how bad I started coding everything. Somethimes I'm adding stuff that should be applied before, and make it's implementation a little harder, or requires code rewriting. Another lesson learned: write down the problem solving before doing anything.
+
+> image URL in cards
+
+> exported card sheet as individual images
+
+I downloaded a svg file with a full card deck.
+
+Deck images by OpenClipart-Vectors from Pixabay ([url](https://pixabay.com/vectors/card-deck-deck-cards-playing-cards-161536/))
+
+I'll give the proper credits to the author in the page itself when it's ready, also the same credits are inside the "resources" folder in CREDITS.txt with the svg file.
+
+I may create my own cards in the future, depending on what I'm going to do with each card. If I want to animate them with rotations and other effects, making cards with divs doesn't feel like the proper way to do it. I think there's a function to convert divs and it's content to images, maybe it could be a better solution.
