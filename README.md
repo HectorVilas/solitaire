@@ -199,3 +199,17 @@ Deck images by OpenClipart-Vectors from Pixabay ([url](https://pixabay.com/vecto
 I'll give the proper credits to the author in the page itself when it's ready, also the same credits are inside the "resources" folder in CREDITS.txt with the svg file.
 
 I may create my own cards in the future, depending on what I'm going to do with each card. If I want to animate them with rotations and other effects, making cards with divs doesn't feel like the proper way to do it. I think there's a function to convert divs and it's content to images, maybe it could be a better solution.
+
+> function to place card images
+
+> foundation cards now are shown
+
+> flipped cards in tableau will appear facing up
+
+> flip last card in tableau piles
+
+I finally have something to see on screen, other than text.
+
+![gif](./media/images/READMEmd/progress06.gif)
+
+Everything still works, but now I have a problem: the listeners are in the separations, not in the cards.
