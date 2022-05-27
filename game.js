@@ -262,6 +262,20 @@ function placeCards(){
       space.appendChild(img)
     }
   }
+  //in foundation
+  // $foundations.forEach((foundation,i) => {
+  //   if(table.foundations[i] > 0){
+  //     console.log("<0");
+  //   }
+  // })
+  for (let i = 0; i < table.foundations.length; i++) {
+    if(table.foundations[i].length > 0){
+      let img = document.createElement("img")
+      img.src = table.foundations[i][table.foundations[i].length-1].url
+      img.classList.add("card")
+      $foundations[i].firstChild.appendChild(img)
+    }
+  }
 }
 
 cardCreation()
