@@ -205,38 +205,16 @@ function isValidMove({fromCard,toCard,ascendingNumber,sameSuit,
 function moveCards(fromCard,toCard){
   console.log("cards must move now");
   console.log(fromCard,toCard);
+  drawCards()
 }
 //function to place one card in waste or return cards if empty
 function stockPile(){
   console.log("pending action: move card to waste");
 }
-//placing cards on each tableau pile's space
-function placeCardsDom(){
-  table.stock.forEach(card => {
-    $stock.firstChild.innerText += "[/////]"
-  })
-  
-  $wastepile.firstChild.innerText = ` ${table.waste[0].suit} ${table.waste[0].number} ${table.waste[0].color}`
-
-  for(let i = 0; i < table.tableau.length; i++){
-    for (let j = 0; j < table.tableau[i].length; j++) {
-      let space = document.querySelector(`#tab-${i} .n${j}`)
-      if(j === table.tableau[i].length-1){
-        space.innerText = `${table.tableau[i][j].suit} ${table.tableau[i][j].number} ${table.tableau[i][j].color}`
-        table.tableau[i][j].isFlipped = true
-      } else {
-        space.innerText = "[/////]"
-      }
-    }
-  }
-  //for testing --------------------------------------------------
-  // $foundations.forEach((foundation,i) => {
-  //   foundation.firstChild.innerText = `${table.foundations[i][0].suit} ${table.foundations[i][0].number} ${table.foundations[i][0].color}`
-  // })
-  //for testing --------------------------------------------------
-}
 //draw the card's image in page
-function placeCards(){
+function drawCards(){
+  //clear existing cards
+  document.querySelectorAll(".separator").forEach(sep => { sep.innerHTML = ""})
   //in stock
   if(table.stock.length > 0){
     let img = document.createElement("img")
@@ -256,25 +234,25 @@ function placeCards(){
     for (let j = 0; j < table.tableau[i].length; j++) {
       let space = document.querySelector(`#tab-${i} .n${j}`)
       let img = document.createElement("img")
-      img.src = unflippedImg
+      if(table.tableau[i][j].isFlipped){
+        img.src = table.tableau[i][j].url
+      } else {
+        img.src = unflippedImg
+      }
       img.classList.add("card")
       
       space.appendChild(img)
     }
   }
-  //in foundation
-  // $foundations.forEach((foundation,i) => {
-  //   if(table.foundations[i] > 0){
-  //     console.log("<0");
-  //   }
-  // })
   for (let i = 0; i < table.foundations.length; i++) {
+    let img = document.createElement("img")
+    img.classList.add("card")
     if(table.foundations[i].length > 0){
-      let img = document.createElement("img")
       img.src = table.foundations[i][table.foundations[i].length-1].url
-      img.classList.add("card")
-      $foundations[i].firstChild.appendChild(img)
+    } else {
+      img.src = unflippedImg
     }
+    $foundations[i].firstChild.appendChild(img)
   }
 }
 
@@ -282,5 +260,4 @@ cardCreation()
 shuffleCards()
 layCards()
 domDivisions()
-// placeCardsDom()
-placeCards()
+drawCards()
