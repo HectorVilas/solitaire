@@ -22,7 +22,7 @@ $foundations.forEach(found => foundIDs.push(found.id))
 $tableaus.forEach(tab => tabIDs.push(tab.id))
 
 function cardCreation(){
-  let suitsList = ["club", "diamonds", "spades", "hearts"]
+  let suitsList = ["clubs", "diamonds", "spades", "hearts"]
   // let suitsList = ["♣", "♦", "♠", "♥"]
   
   for(let suitLoop = 0; suitLoop < 4; suitLoop++){
@@ -30,7 +30,7 @@ function cardCreation(){
       let suit, number, color
       number = cardLoop
       suit = suitsList[suitLoop]
-      url = `./media/cards/${deckDesign}/${suit}${cardLoop}.png`
+      url = `./media/images/cards/${deckDesign}/${suit}${cardLoop}.png`
       
       suitLoop%2 === 0 ? color = "black": color = "red"
       
