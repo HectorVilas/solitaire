@@ -154,7 +154,7 @@ function isValidMove({fromCard,toCard,ascendingNumber,sameSuit,
   needsSameColor}){
   if(fromCard === undefined || toCard === undefined) return
   let validNum = validSuit = validColor = theLastCard
-  = differentPile = isLastCard = false;
+  = differentPile = isLastCard = isFacingUp = false;
   if((ascendingNumber && fromCard.number === toCard.number+1)
   || (!ascendingNumber && fromCard.number === toCard.number-1)){
     validNum = true
@@ -185,12 +185,17 @@ function isValidMove({fromCard,toCard,ascendingNumber,sameSuit,
   } else {
     differentPile = true
   }
-  if(validNum && validSuit && validColor && isLastCard && differentPile){
+  if(fromCard.isFlipped && toCard.isFlipped){
+    isFacingUp = true
+  }
+  if(validNum && validSuit && validColor
+    && isLastCard && isFacingUp && differentPile){
     moveCards(fromCard,toCard)
   }
 
   console.log("nmbr: "+validNum,"\n♥♦♣♠: "+validSuit,
-  "\ncolr: "+validColor,"\nlast: "+isLastCard,"\ndiff: "+differentPile);
+  "\ncolr: "+validColor,"\nlast: "+isLastCard,
+  "\nflip: "+isFacingUp,"\ndiff: "+differentPile);
 }
 //move cards from one pile to another
 function moveCards(fromCard,toCard){
@@ -204,11 +209,7 @@ function stockPile(){
 //placing cards on each tableau pile's space
 function placeCardsDom(){
   table.stock.forEach(card => {
-    if(card.isFlipped){
-      $stock.firstChild.innerText += ` ${card.suit} ${card.number} ${card.color}`
-    } else {
-      $stock.firstChild.innerText += "[/////]"
-    }
+    $stock.firstChild.innerText += "[/////]"
   })
   
   $wastepile.firstChild.innerText = ` ${table.waste[0].suit} ${table.waste[0].number} ${table.waste[0].color}`
@@ -218,6 +219,7 @@ function placeCardsDom(){
       let space = document.querySelector(`#tab-${i} .n${j}`)
       if(j === table.tableau[i].length-1){
         space.innerText = `${table.tableau[i][j].suit} ${table.tableau[i][j].number} ${table.tableau[i][j].color}`
+        table.tableau[i][j].isFlipped = true
       } else {
         space.innerText = "[/////]"
       }
