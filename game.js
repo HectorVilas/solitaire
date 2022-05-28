@@ -25,7 +25,6 @@ $tableaus.forEach(tab => tabIDs.push(tab.id))
 
 function cardCreation(){
   let suitsList = ["clubs", "diamonds", "spades", "hearts"]
-  // let suitsList = ["♣", "♦", "♠", "♥"]
   
   for(let suitLoop = 0; suitLoop < 4; suitLoop++){
     for(let cardLoop = 1; cardLoop < 14; cardLoop++){
@@ -92,13 +91,6 @@ function createSpace(appendTo, pile = 0, space = 0){
   let separator = document.createElement("div")
   separator.classList.add("separator",`n${space}`)
   
-  // separator.addEventListener("mousedown", () => {
-  //   clickAction("mousedown", separator.parentNode.id, pile, space)
-  // })
-  // separator.addEventListener("mouseup", () => {
-  //   clickAction("mouseup", separator.parentNode.id, pile, space)
-  // })
-
   appendTo.appendChild(separator)
 }
 
@@ -233,11 +225,7 @@ function drawCards(){
     let img = document.createElement("img")
     img.src = unflippedImg
     img.classList.add("card","card-stock")
-
-    img.addEventListener("mousedown", () => {
-      // console.log(img);
-      stockPile()
-    })
+    img.setAttribute("data-place","stock")
 
     $stock.firstChild.appendChild(img)
   }
@@ -246,10 +234,9 @@ function drawCards(){
     let img = document.createElement("img")
     img.src = table.waste[table.waste.length-1].url
     img.classList.add("card","card-waste")
-
-    img.addEventListener("mousedown", () => {
-      console.log(img);
-    })
+    img.setAttribute("data-place","wastepile")
+    img.setAttribute("data-pile",0)
+    img.setAttribute("data-space",0)
 
     $wastepile.firstChild.appendChild(img)
   }
@@ -269,10 +256,6 @@ function drawCards(){
       img.setAttribute("data-space",j)
       // img.style.rotate = `${i*j%3}deg`
       
-      img.addEventListener("mousedown", () => {
-        console.log(img);
-      })
-
       space.appendChild(img)
     }
   }
@@ -280,19 +263,34 @@ function drawCards(){
   for (let i = 0; i < table.foundations.length; i++) {
     let img = document.createElement("img")
     img.classList.add("card","card-foundation")
+    img.setAttribute("data-place","foundation")
     img.setAttribute("data-pile",i)
+    img.setAttribute("data-space",0)
     if(table.foundations[i].length > 0){
       img.src = table.foundations[i][table.foundations[i].length-1].url
     } else {
       img.src = unflippedImg
     }
 
-    img.addEventListener("mousedown", () => {
-      console.log(img);
-    })
-
     $foundations[i].firstChild.appendChild(img)
   }
+  addListeners()
+}
+
+//add listeners to cards
+function addListeners(){
+  document.querySelectorAll(".card").forEach(card => {
+    card.addEventListener("mousedown", (e) => {
+      clickAction("mousedown", card.parentNode.parentNode.id,//--------------
+      card.getAttribute("data-pile"),card.getAttribute("data-space"))
+      e.preventDefault()
+    })
+
+    card.addEventListener("mouseup", () => {
+      clickAction("mouseup", card.parentNode.parentNode.id,
+      card.getAttribute("data-pile"),card.getAttribute("data-space"))
+    })
+  })
 }
 
 //hide unused separators (UNUSED)
