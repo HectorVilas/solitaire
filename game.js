@@ -18,6 +18,7 @@ const $wastepile = document.querySelector("#wastepile");
 const $infoSpace = document.querySelector("#info-space");
 const $foundations = document.querySelectorAll(".foundation");
 const $tableaus = document.querySelectorAll(".tableau");
+const $playArea = document.querySelector(".play-area")
 
 $foundations.forEach(found => foundIDs.push(found.id))
 $tableaus.forEach(tab => tabIDs.push(tab.id))
@@ -91,12 +92,12 @@ function createSpace(appendTo, pile = 0, space = 0){
   let separator = document.createElement("div")
   separator.classList.add("separator",`n${space}`)
   
-  separator.addEventListener("mousedown", () => {
-    clickAction("mousedown", separator.parentNode.id, pile, space)
-  })
-  separator.addEventListener("mouseup", () => {
-    clickAction("mouseup", separator.parentNode.id, pile, space)
-  })
+  // separator.addEventListener("mousedown", () => {
+  //   clickAction("mousedown", separator.parentNode.id, pile, space)
+  // })
+  // separator.addEventListener("mouseup", () => {
+  //   clickAction("mouseup", separator.parentNode.id, pile, space)
+  // })
 
   appendTo.appendChild(separator)
 }
@@ -214,7 +215,7 @@ function isValidMove({fromCard,toCard,ascendingNumber,sameSuit,
 //move cards from one pile to another
 function moveCards(fromCard,toCard){
   console.log("cards must move now");
-  console.log(fromCard,toCard);
+  // console.log(fromCard,toCard);
   drawCards()
 }
 
@@ -231,14 +232,25 @@ function drawCards(){
   if(table.stock.length > 0){
     let img = document.createElement("img")
     img.src = unflippedImg
-    img.classList.add("card")
+    img.classList.add("card","card-stock")
+
+    img.addEventListener("mousedown", () => {
+      // console.log(img);
+      stockPile()
+    })
+
     $stock.firstChild.appendChild(img)
   }
   //in waste
   if(table.waste.length > 0){
     let img = document.createElement("img")
     img.src = table.waste[table.waste.length-1].url
-    img.classList.add("card")
+    img.classList.add("card","card-waste")
+
+    img.addEventListener("mousedown", () => {
+      console.log(img);
+    })
+
     $wastepile.firstChild.appendChild(img)
   }
   //in tableau
@@ -252,19 +264,33 @@ function drawCards(){
         img.src = unflippedImg
       }
       img.classList.add("card")
+      img.setAttribute("data-place","tableau")
+      img.setAttribute("data-pile",i)
+      img.setAttribute("data-space",j)
+      // img.style.rotate = `${i*j%3}deg`
       
+      img.addEventListener("mousedown", () => {
+        console.log(img);
+      })
+
       space.appendChild(img)
     }
   }
   //in foundations
   for (let i = 0; i < table.foundations.length; i++) {
     let img = document.createElement("img")
-    img.classList.add("card")
+    img.classList.add("card","card-foundation")
+    img.setAttribute("data-pile",i)
     if(table.foundations[i].length > 0){
       img.src = table.foundations[i][table.foundations[i].length-1].url
     } else {
       img.src = unflippedImg
     }
+
+    img.addEventListener("mousedown", () => {
+      console.log(img);
+    })
+
     $foundations[i].firstChild.appendChild(img)
   }
 }
