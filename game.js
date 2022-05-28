@@ -295,6 +295,27 @@ function drawCards(){
   }
 }
 
+//hide unused separators (UNUSED)
+function separators(){
+  let longest = 0;
+  table.tableau.forEach((tab) => {
+    if(longest < tab.length){
+      longest = tab.length
+    }
+  })
+
+  for(let i = 0; i < table.tableau.length; i++){
+    for (let j = 0; j < 19; j++) {
+      let space = document.querySelector(`#tab-${i} .n${j}`)
+      if(j > longest){
+        space.classList.add("hidden")
+      }else {
+        space.classList.remove("hidden")
+      }
+    }
+  }
+}
+
 cardCreation()
 shuffleCards()
 layCards()

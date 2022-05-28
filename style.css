@@ -29,7 +29,6 @@ p {
 
 .card {
   /*250x389*/
-  --width: calc(95vw/7);
   width: calc(95vw/7);
   height: auto;
   position: absolute;
@@ -43,6 +42,10 @@ p {
   display: flex;
   flex: 1 1 0;
   justify-content: center;
+}
+
+.hidden {
+  display: none;
 }
 
 /*for testing*/
