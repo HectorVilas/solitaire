@@ -85,6 +85,7 @@ function domDivisions(){
     createSpace(foundation,pile)
   })
 }
+
 //space creation with listener
 function createSpace(appendTo, pile = 0, space = 0){
   let separator = document.createElement("div")
@@ -99,6 +100,7 @@ function createSpace(appendTo, pile = 0, space = 0){
 
   appendTo.appendChild(separator)
 }
+
 //action to store the interacting cards
 function clickAction(action, place, pile, space){
   let cardValue = {place,pile,space}
@@ -116,6 +118,7 @@ function clickAction(action, place, pile, space){
     to = undefined
   }
 }
+
 //checks origin and destination of card
 function dragCard(){
   if(from === undefined) return
@@ -158,6 +161,7 @@ function dragCard(){
     }
   }
 }
+
 //function to check if move is valid
 function isValidMove({fromCard,toCard,ascendingNumber,sameSuit,
   needsSameColor}){
@@ -206,16 +210,19 @@ function isValidMove({fromCard,toCard,ascendingNumber,sameSuit,
   "\ncolr: "+validColor,"\nlast: "+isLastCard,
   "\nflip: "+isFacingUp,"\ndiff: "+differentPile);
 }
+
 //move cards from one pile to another
 function moveCards(fromCard,toCard){
   console.log("cards must move now");
   console.log(fromCard,toCard);
   drawCards()
 }
+
 //function to place one card in waste or return cards if empty
 function stockPile(){
   console.log("pending action: move card to waste");
 }
+
 //draw the card's image in page
 function drawCards(){
   //clear existing cards
@@ -249,6 +256,7 @@ function drawCards(){
       space.appendChild(img)
     }
   }
+  //in foundations
   for (let i = 0; i < table.foundations.length; i++) {
     let img = document.createElement("img")
     img.classList.add("card")
