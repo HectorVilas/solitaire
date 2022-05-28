@@ -213,3 +213,11 @@ I finally have something to see on screen, other than text.
 ![gif](./media/images/READMEmd/progress06.gif)
 
 Everything still works, but now I have a problem: the listeners are in the separations, not in the cards.
+
+> card autoscale and hover style
+
+![gif](./media/images/READMEmd/progress07.gif)
+
+![gif](./media/images/READMEmd/progress08.gif)
+
+> moved listeners from separators to cards
