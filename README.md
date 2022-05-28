@@ -221,3 +221,19 @@ Everything still works, but now I have a problem: the listeners are in the separ
 ![gif](./media/images/READMEmd/progress08.gif)
 
 > moved listeners from separators to cards
+
+> (unused) function to hide separators without cards
+
+> data attributes added to each card image
+
+> click actions moved to cards
+
+Now the cards are holding the necessary info to be the ones with listeners instead of the divisions. The game now is back to it's original state before adding images.
+
+![gif](./media/images/READMEmd/progress09.gif)
+
+I can finally start writing the code to move the cards, this time for real.
+
+I have two things to consider:
+- the cards must move from an array to another, duplicating the moving ones and then deleting the originals from the other pile, as I did when laying the cards in the table.
+- the page redrawing, because everything is considered in the code, not the DOM. So my idea is to just update the affected piles, or maybe I can find a way to just add or remove the cards that moved, without "refreshing" the entire pile. I'm not sure if it worth the "optimization", I still don't know about how heavy are some things in the code.
