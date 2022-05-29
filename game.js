@@ -204,9 +204,11 @@ function isValidMove({fromCard,toCard,ascendingNumber,sameSuit,
     }
   } else if(foundIDs.includes(to.place) && fromCard.number === 1){
     console.log("empty foundation");
+    toCard = "emtpy"
     moveCards(fromCard,toCard)
   } else if(tabIDs.includes(to.place)){
     console.log("empty tableau");
+    toCard = "emtpy"
     moveCards(fromCard,toCard)
   }
     
@@ -219,7 +221,44 @@ function isValidMove({fromCard,toCard,ascendingNumber,sameSuit,
 //move cards from one pile to another
 function moveCards(fromCard,toCard){
   console.log("cards must move now");
-  // console.log(fromCard,toCard);
+  // console.log("from:",from,"fromCard:",fromCard,"to:",to,"toCard:",toCard);
+
+  let fromHere = removeFromHere = toHere = undefined
+  //declaring fromHere
+  if(tabIDs.includes(from.place)){
+    fromHere = table.tableau[from.pile][from.space]
+    removeFromHere = table.tableau[from.pile]
+  } else if(foundIDs.includes(from.place)){
+    fromHere = table.foundations[from.pile]
+    removeFromHere = table.foundations[from.pile]
+
+    console.log("from foundation");
+  } else if(from.place === "wastepile"){
+    fromHere = table.waste[0]
+    removeFromHere = table.waste[0]
+  }
+  // //declaringtoHere
+  // if(toCard !== "empty"){
+  //   if(tabIDs.includes(to.place)){
+  //     toHere = table.tableau[to.pile][to.space]
+  //   } else if(foundIDs.includes(to.place)){
+  //     tohere = table.foundations[to.pile]
+  //     console.log("from foundation");
+  //   } else if(to.place === "wastepile"){
+  //     toHere = table.waste[0]
+  //   }
+  // }
+  // console.log("test",fromHere,toHere);
+  if(foundIDs.includes(to.place)){
+    toHere = table.foundations[to.pile]
+
+  }else if(tabIDs.includes(to.place)){
+    toHere = table.tableau[to.pile]
+  }
+
+  toHere.push(fromHere)
+  removeFromHere.pop()
+
   drawCards()
 }
 
