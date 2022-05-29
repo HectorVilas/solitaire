@@ -237,3 +237,19 @@ I can finally start writing the code to move the cards, this time for real.
 I have two things to consider:
 - the cards must move from an array to another, duplicating the moving ones and then deleting the originals from the other pile, as I did when laying the cards in the table.
 - the page redrawing, because everything is considered in the code, not the DOM. So my idea is to just update the affected piles, or maybe I can find a way to just add or remove the cards that moved, without "refreshing" the entire pile. I'm not sure if it worth the "optimization", I still don't know about how heavy are some things in the code.
+
+> background image applied (credits in ./resource/credits.txt)
+
+> padding-bottom with card size to prevent overflowing
+
+> allow card movement if empty space
+
+> placeholder for empty piles
+
+> code to move cards from pile to pile
+
+Finally some interaction! I hate this code, but I don't want to rewrite everything again from scratch (maybe in the future). After struggling a little trying to understand my own code, I managed to do this:
+
+![gif](./media/images/READMEmd/progress10.gif)
+
+This will move a single card, now I need to adjust the code to be able to move entire piles.
