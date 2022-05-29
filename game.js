@@ -160,7 +160,13 @@ function dragCard(){
 //function to check if move is valid
 function isValidMove({fromCard,toCard,ascendingNumber,sameSuit,
   needsSameColor}){
-  if(fromCard === undefined) return
+  if(fromCard === undefined){
+    return
+  } else if (fromCard.isFlipped === false){
+    fromCard.isFlipped = true
+    drawCards()
+  }
+
   let validNum = validSuit = validColor = theLastCard
   = differentPile = isLastCard = isFacingUp = false;
 
@@ -235,7 +241,7 @@ function moveCards(fromCard,toCard){
     console.log("from foundation");
   } else if(from.place === "wastepile"){
     fromHere = table.waste[0]
-    removeFromHere = table.waste[0]
+    removeFromHere = table.waste
   }
   // //declaringtoHere
   // if(toCard !== "empty"){
@@ -264,7 +270,17 @@ function moveCards(fromCard,toCard){
 
 //function to place one card in waste or return cards if empty
 function stockPile(){
-  console.log("pending action: move card to waste");
+  // console.log("pending action: move card to waste");
+  if(table.stock.length > 0){
+    table.stock[0].isFlipped = true
+    table.waste.push(table.stock[0])
+    table.stock.shift()
+  } else if(table.waste.length > 0){
+    table.stock = table.waste
+    table.waste = []
+  }
+
+  drawCards()
 }
 
 //draw the card's image in page
@@ -349,7 +365,7 @@ function drawCards(){
 function addListeners(){
   document.querySelectorAll(".card").forEach(card => {
     card.addEventListener("mousedown", (e) => {
-      clickAction("mousedown", card.parentNode.parentNode.id,//--------------
+      clickAction("mousedown", card.parentNode.parentNode.id,
       card.getAttribute("data-pile"),card.getAttribute("data-space"))
       e.preventDefault()
     })
