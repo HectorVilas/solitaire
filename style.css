@@ -36,7 +36,7 @@ p {
 
 .card {
   width: var(--card-size);
-  max-width: 100px;
+  max-width: 175px;
   height: auto;
   position: absolute;
 }.card:hover{
