@@ -253,3 +253,9 @@ Finally some interaction! I hate this code, but I don't want to rewrite everythi
 ![gif](./media/images/READMEmd/progress10.gif)
 
 This will move a single card, now I need to adjust the code to be able to move entire piles.
+
+> stock-waste pile logic added
+
+If there's cards in the stock pile, one will be moved to the waste pile. If there's none, the wastepile will go back to the stock. If both are empty piles, nothing happens.
+
+![gif](./media/images/READMEmd/progress11.gif)
