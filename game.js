@@ -133,7 +133,7 @@ function dragCard(){
       console.log("movement canceled")
     }
   }else if(from.place === "wastepile"){//from waste pile
-    fromCard = table.waste[from.pile]
+    fromCard = table.waste[table.waste.length-1]
     if(foundIDs.includes(to.place)){//+++++waste to foundation
       toCard = table.foundations[to.pile][to.space]
       isValidMove({fromCard,toCard,ascendingNumber:true,sameSuit:true,
