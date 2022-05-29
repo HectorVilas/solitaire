@@ -146,7 +146,7 @@ function dragCard(){
       console.log("movement canceled")
     }
   }else if(foundIDs.includes(from.place)){ //from foundation
-    fromCard = table.foundations[from.pile][from.space]
+    fromCard = table.foundations[from.pile][table.foundations[from.pile].length-1]
     if(tabIDs.includes(to.place)){//+++++foundation to tableau piles
       toCard = table.tableau[to.pile][to.space]
       isValidMove({fromCard,toCard,ascendingNumber:false,sameSuit:false,
@@ -206,16 +206,16 @@ function isValidMove({fromCard,toCard,ascendingNumber,sameSuit,
     }
     if(validNum && validSuit && validColor
       && isLastCard && isFacingUp && differentPile){
-      moveCards(fromCard,toCard)
+      moveCards()
     }
   } else if(foundIDs.includes(to.place) && fromCard.number === 1){
     console.log("empty foundation");
     toCard = "emtpy"
-    moveCards(fromCard,toCard)
+    moveCards()
   } else if(tabIDs.includes(to.place)){
     console.log("empty tableau");
     toCard = "emtpy"
-    moveCards(fromCard,toCard)
+    moveCards()
   }
     
       
@@ -225,7 +225,7 @@ function isValidMove({fromCard,toCard,ascendingNumber,sameSuit,
 }
 
 //move cards from one pile to another
-function moveCards(fromCard,toCard){
+function moveCards(){
   console.log("cards must move now");
   // console.log("from:",from,"fromCard:",fromCard,"to:",to,"toCard:",toCard);
 
@@ -237,30 +237,19 @@ function moveCards(fromCard,toCard){
   } else if(foundIDs.includes(from.place)){
     fromHere = table.foundations[from.pile]
     removeFromHere = table.foundations[from.pile]
-
-    console.log("from foundation");
   } else if(from.place === "wastepile"){
-    fromHere = table.waste[0]
+    fromHere = table.waste[table.waste.length-1]
     removeFromHere = table.waste
   }
-  // //declaringtoHere
-  // if(toCard !== "empty"){
-  //   if(tabIDs.includes(to.place)){
-  //     toHere = table.tableau[to.pile][to.space]
-  //   } else if(foundIDs.includes(to.place)){
-  //     tohere = table.foundations[to.pile]
-  //     console.log("from foundation");
-  //   } else if(to.place === "wastepile"){
-  //     toHere = table.waste[0]
-  //   }
-  // }
-  // console.log("test",fromHere,toHere);
+  fromHere.isFlipped = true
+  
   if(foundIDs.includes(to.place)){
     toHere = table.foundations[to.pile]
 
   }else if(tabIDs.includes(to.place)){
     toHere = table.tableau[to.pile]
   }
+  toHere.isFlipped = true
 
   toHere.push(fromHere)
   removeFromHere.pop()
