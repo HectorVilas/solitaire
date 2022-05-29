@@ -59,10 +59,11 @@ function layCards(){
   table.waste.push(deck[0])
   deck.shift()
   //for testing --------------------------------------------------
-  table.foundations.forEach(foundation => {
-    foundation.push(deck[0])
-    deck.shift()
-  })
+  // table.foundations.forEach(foundation => {
+  //   deck[0].isFlipped = true
+  //   foundation.push(deck[0])
+  //   deck.shift()
+  // })
   //for testing --------------------------------------------------
   table.stock = deck
   deck = []
@@ -158,47 +159,57 @@ function dragCard(){
 //function to check if move is valid
 function isValidMove({fromCard,toCard,ascendingNumber,sameSuit,
   needsSameColor}){
-  if(fromCard === undefined || toCard === undefined) return
+  if(fromCard === undefined) return
   let validNum = validSuit = validColor = theLastCard
   = differentPile = isLastCard = isFacingUp = false;
-  if((ascendingNumber && fromCard.number === toCard.number+1)
-  || (!ascendingNumber && fromCard.number === toCard.number-1)){
-    validNum = true
-  }
-  if(sameSuit){
-    if(fromCard.suit === toCard.suit){
+
+  if(toCard !== undefined){
+    if((ascendingNumber && fromCard.number === toCard.number+1)
+    || (!ascendingNumber && fromCard.number === toCard.number-1)){
+      validNum = true
+    }
+    if(sameSuit){
+      if(fromCard.suit === toCard.suit){
+        validSuit = true
+      }
+    }else{
       validSuit = true
     }
-  }else{
-    validSuit = true
-  }
-  if((needsSameColor && fromCard.color === toCard.color)
-  || (!needsSameColor && fromCard.color !== toCard.color)){
-    validColor = true
-  }
-  if(tabIDs.includes(to.place)){
-    let lastCard = table.tableau[to.pile][table.tableau[to.pile].length-1]
-    if(toCard === lastCard){
+    if((needsSameColor && fromCard.color === toCard.color)
+    || (!needsSameColor && fromCard.color !== toCard.color)){
+      validColor = true
+    }
+    if(tabIDs.includes(to.place)){
+      let lastCard = table.tableau[to.pile][table.tableau[to.pile].length-1]
+      if(toCard === lastCard){
+        isLastCard = true
+      }
+    } else {
       isLastCard = true
     }
-  } else {
-    isLastCard = true
-  }
-  if(tabIDs.includes(from.place) && tabIDs.includes(to.place)){
-    if(from.place !== to.place){
+    if(tabIDs.includes(from.place) && tabIDs.includes(to.place)){
+      if(from.place !== to.place){
+        differentPile = true
+      }
+    } else {
       differentPile = true
     }
-  } else {
-    differentPile = true
-  }
-  if(fromCard.isFlipped && toCard.isFlipped){
-    isFacingUp = true
-  }
-  if(validNum && validSuit && validColor
-    && isLastCard && isFacingUp && differentPile){
+    if(fromCard.isFlipped && toCard.isFlipped){
+      isFacingUp = true
+    }
+    if(validNum && validSuit && validColor
+      && isLastCard && isFacingUp && differentPile){
+      moveCards(fromCard,toCard)
+    }
+  } else if(foundIDs.includes(to.place) && fromCard.number === 1){
+    console.log("empty foundation");
+    moveCards(fromCard,toCard)
+  } else if(tabIDs.includes(to.place)){
+    console.log("empty tableau");
     moveCards(fromCard,toCard)
   }
-
+    
+      
   console.log("nmbr: "+validNum,"\n♥♦♣♠: "+validSuit,
   "\ncolr: "+validColor,"\nlast: "+isLastCard,
   "\nflip: "+isFacingUp,"\ndiff: "+differentPile);
@@ -275,6 +286,7 @@ function drawCards(){
     $foundations[i].firstChild.appendChild(img)
   }
   addListeners()
+  adjustSeparators()
 }
 
 //add listeners to cards
@@ -293,8 +305,8 @@ function addListeners(){
   })
 }
 
-//hide unused separators (UNUSED)
-function separators(){
+//hide unused separators
+function adjustSeparators(){
   let longest = 0;
   table.tableau.forEach((tab) => {
     if(longest < tab.length){
