@@ -1,5 +1,6 @@
 let deckDesign = "traditional"
 let unflippedImg = "./media/images/cards/traditional/reverse.png"
+let emptyImg = "./media/images/cards/traditional/empty.png"
 let from, to;
 const tabIDs = []
 const foundIDs = []
@@ -232,42 +233,58 @@ function drawCards(){
   //clear existing cards
   document.querySelectorAll(".separator").forEach(sep => { sep.innerHTML = ""})
   //in stock
+  let img = document.createElement("img")
   if(table.stock.length > 0){
-    let img = document.createElement("img")
     img.src = unflippedImg
+  } else {
+    img.src = emptyImg
+  }
     img.classList.add("card","card-stock")
     img.setAttribute("data-place","stock")
 
     $stock.firstChild.appendChild(img)
-  }
   //in waste
+  img = document.createElement("img")
   if(table.waste.length > 0){
-    let img = document.createElement("img")
     img.src = table.waste[table.waste.length-1].url
+  } else {
+    img.src = emptyImg
+  }
     img.classList.add("card","card-waste")
     img.setAttribute("data-place","wastepile")
     img.setAttribute("data-pile",0)
     img.setAttribute("data-space",0)
 
     $wastepile.firstChild.appendChild(img)
-  }
   //in tableau
   for(let i = 0; i < table.tableau.length; i++){
-    for (let j = 0; j < table.tableau[i].length; j++) {
-      let space = document.querySelector(`#tab-${i} .n${j}`)
-      let img = document.createElement("img")
-      if(table.tableau[i][j].isFlipped){
-        img.src = table.tableau[i][j].url
-      } else {
-        img.src = unflippedImg
+    if(table.tableau[i].length !== 0){
+      for (let j = 0; j < table.tableau[i].length; j++) {
+        let space = document.querySelector(`#tab-${i} .n${j}`)
+        let img = document.createElement("img")
+        if(table.tableau[i][j].isFlipped){
+          img.src = table.tableau[i][j].url
+        } else {
+          img.src = unflippedImg
+        }
+        img.classList.add("card")
+        img.setAttribute("data-place","tableau")
+        img.setAttribute("data-pile",i)
+        img.setAttribute("data-space",j)
+        // img.style.rotate = `${i*j%3}deg`
+        
+        space.appendChild(img)
       }
-      img.classList.add("card")
-      img.setAttribute("data-place","tableau")
-      img.setAttribute("data-pile",i)
-      img.setAttribute("data-space",j)
-      // img.style.rotate = `${i*j%3}deg`
-      
-      space.appendChild(img)
+    } else {
+      let space = document.querySelector(`#tab-${i} .n${0}`)
+        let img = document.createElement("img")
+        img.src = emptyImg
+        img.classList.add("card")
+        img.setAttribute("data-place","tableau")
+        img.setAttribute("data-pile",i)
+        img.setAttribute("data-space",0)
+        
+        space.appendChild(img)
     }
   }
   //in foundations
@@ -280,7 +297,7 @@ function drawCards(){
     if(table.foundations[i].length > 0){
       img.src = table.foundations[i][table.foundations[i].length-1].url
     } else {
-      img.src = unflippedImg
+      img.src = emptyImg
     }
 
     $foundations[i].firstChild.appendChild(img)
