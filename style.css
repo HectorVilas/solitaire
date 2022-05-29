@@ -1,5 +1,5 @@
 :root {
-  --card-size: calc(95vw/7);
+  --card-size: calc(90vw/7);
 }
 
 body {
@@ -36,7 +36,7 @@ p {
 
 .card {
   width: var(--card-size);
-  max-width: 125px;
+  max-width: 100px;
   height: auto;
   position: absolute;
 }.card:hover{
