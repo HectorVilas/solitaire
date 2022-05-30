@@ -265,3 +265,11 @@ If there's cards in the stock pile, one will be moved to the waste pile. If ther
 Confirmed: the code is a mess. I still find things breaking because it's not easy to read. Sometimes I'm not sure if i need to point to a pile or a specific place in the pile, this should be something easy to understand. At least this kind of game have very basic rules, so I can keep going.
 
 I was thinking, I should rewrite the code for a future project, where I can change the game rules to make it possible to have more game modess. I think it would be much easier to do, and considering this from the problem solving stage will make things go smooth.
+
+> animation to make tableaus fit on screen
+
+No more ugly fixed empty spaces and no more instant space adjustement.
+
+![gif](./media/images/READMEmd/progress12.gif)
+
+![gif](./media/images/READMEmd/progress13.gif)
