@@ -370,12 +370,14 @@ function adjustSeparators(){
   })
 
   for(let i = 0; i < table.tableau.length; i++){
-    for (let j = 0; j < 19; j++) {
+    for (let j = 0; j < 20; j++) {
       let space = document.querySelector(`#tab-${i} .n${j}`)
       if(j > longest){
-        space.classList.add("hidden")
+        space.classList.add("sep-hidden")
+        space.classList.remove("separator")
       }else {
-        space.classList.remove("hidden")
+        space.classList.remove("sep-hidden")
+        space.classList.add("separator")
       }
     }
   }

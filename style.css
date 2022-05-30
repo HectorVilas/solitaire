@@ -49,6 +49,17 @@ p {
   flex: 1 1 0;
   justify-content: center;
 }
+.tableau>.separator {
+  transition: 5s;
+  max-height: 100px;
+}
+.sep-hidden{
+  display: flex;
+  flex: 1 1 0;
+  justify-content: center;
+  transition: 5s;
+  max-height: 0px;
+}
 
 .hidden {
   display: none;
