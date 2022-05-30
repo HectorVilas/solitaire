@@ -59,13 +59,6 @@ function layCards(){
   deck[0].isFlipped = true
   table.waste.push(deck[0])
   deck.shift()
-  //for testing --------------------------------------------------
-  // table.foundations.forEach(foundation => {
-  //   deck[0].isFlipped = true
-  //   foundation.push(deck[0])
-  //   deck.shift()
-  // })
-  //for testing --------------------------------------------------
   table.stock = deck
   deck = []
 
@@ -210,24 +203,22 @@ function isValidMove({fromCard,toCard,ascendingNumber,sameSuit,
     }
   } else if(foundIDs.includes(to.place) && fromCard.number === 1){
     console.log("empty foundation");
-    toCard = "emtpy"
+    toCard = "empty"
     moveCards()
   } else if(tabIDs.includes(to.place)){
     console.log("empty tableau");
-    toCard = "emtpy"
+    toCard = "empty"
     moveCards()
   }
-    
-      
-  console.log("nmbr: "+validNum,"\n♥♦♣♠: "+validSuit,
-  "\ncolr: "+validColor,"\nlast: "+isLastCard,
-  "\nflip: "+isFacingUp,"\ndiff: "+differentPile);
+  
+  // console.log("nmbr: "+validNum,"\n♥♦♣♠: "+validSuit,
+  // "\ncolr: "+validColor,"\nlast: "+isLastCard,
+  // "\nflip: "+isFacingUp,"\ndiff: "+differentPile);
 }
 
 //move cards from one pile to another
 function moveCards(){
   console.log("cards must move now");
-  // console.log("from:",from,"fromCard:",fromCard,"to:",to,"toCard:",toCard);
 
   let fromHere = removeFromHere = toHere = undefined
   //declaring fromHere
