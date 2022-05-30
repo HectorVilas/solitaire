@@ -221,22 +221,20 @@ function isValidMove({fromCard,toCard,ascendingNumber,sameSuit,
 
 //move cards from one pile to another
 function moveCards(){
-  console.log("cards must move now");
-
   let fromHere = removeFromHere = toHere = undefined
   //declaring fromHere
   if(tabIDs.includes(from.place)){
     fromHere = table.tableau[from.pile][from.space]
     removeFromHere = table.tableau[from.pile]
   } else if(foundIDs.includes(from.place)){
-    fromHere = table.foundations[from.pile]
+    fromHere = table.foundations[from.pile][table.foundations[from.pile].length-1]
     removeFromHere = table.foundations[from.pile]
   } else if(from.place === "wastepile"){
     fromHere = table.waste[table.waste.length-1]
     removeFromHere = table.waste
   }
   fromHere.isFlipped = true
-  
+  //declaring toHere
   if(foundIDs.includes(to.place)){
     toHere = table.foundations[to.pile]
 
@@ -245,7 +243,7 @@ function moveCards(){
   }
   toHere.isFlipped = true
 
-  console.log("fromHere",fromHere,"removeFromHere",removeFromHere,"toHere",toHere);
+  // console.log("fromHere",fromHere,"removeFromHere",removeFromHere,"toHere",toHere);
 
   toHere.push(fromHere)
   removeFromHere.pop()
