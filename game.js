@@ -114,12 +114,14 @@ function dragCard(){
 
   if(tabIDs.includes(from.place)){ //from tableau piles
     fromCard = table.tableau[from.pile][from.space]
+    console.log("fromCard",fromCard);
     if(tabIDs.includes(to.place)){//+++++tableau to tableau
       toCard = table.tableau[to.pile][to.space]
       isValidMove({fromCard,toCard,ascendingNumber:false,sameSuit:false,
         needsSameColor:false})
     }else if(foundIDs.includes(to.place)){//+++++tableau to foundations
-      toCard = table.foundations[to.pile][to.space]
+      toCard = table.foundations[to.pile][table.foundations[to.pile].length-1]
+      console.log("toCard",toCard);
       isValidMove({fromCard,toCard,ascendingNumber:true,sameSuit:true,
         needsSameColor:true})
     } else {
@@ -128,7 +130,7 @@ function dragCard(){
   }else if(from.place === "wastepile"){//from waste pile
     fromCard = table.waste[table.waste.length-1]
     if(foundIDs.includes(to.place)){//+++++waste to foundation
-      toCard = table.foundations[to.pile][to.space]
+      toCard = table.foundations[to.pile][table.foundations[to.pile].length-1]
       isValidMove({fromCard,toCard,ascendingNumber:true,sameSuit:true,
         needsSameColor:true})
     }else if(tabIDs.includes(to.place)){//+++++waste to tableau piles
@@ -209,8 +211,9 @@ function isValidMove({fromCard,toCard,ascendingNumber,sameSuit,
     console.log("empty tableau");
     toCard = "empty"
     moveCards()
+    console.log("fromCard",fromCard,"toCard",toCard);
   }
-  
+
   // console.log("nmbr: "+validNum,"\n♥♦♣♠: "+validSuit,
   // "\ncolr: "+validColor,"\nlast: "+isLastCard,
   // "\nflip: "+isFacingUp,"\ndiff: "+differentPile);
@@ -241,6 +244,8 @@ function moveCards(){
     toHere = table.tableau[to.pile]
   }
   toHere.isFlipped = true
+
+  console.log("fromHere",fromHere,"removeFromHere",removeFromHere,"toHere",toHere);
 
   toHere.push(fromHere)
   removeFromHere.pop()
