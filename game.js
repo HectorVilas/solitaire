@@ -1,7 +1,8 @@
 let deckDesign = "traditional"
 let unflippedImg = "./media/images/cards/traditional/reverse.png"
 let emptyImg = "./media/images/cards/traditional/empty.png"
-let from, to
+let from,to
+let onDoubleClick = false
 let cardsTotal
 const tabIDs = []
 const foundIDs = []
@@ -96,6 +97,7 @@ function createSpace(appendTo, pile = 0, space = 0){
 function clickAction(action, place, pile, space){
   let cardValue = {place,pile,space}
   if(action === "mousedown"){
+    to = undefined // removing values to helper variables
     from = cardValue
     if(from.place === "stock"){
       stockToWaste()
@@ -109,9 +111,7 @@ function clickAction(action, place, pile, space){
   } else if(action === "mouseup"){
     to = cardValue
     if(from !== undefined || to !== undefined) dragCard()
-    // removing values to helper variables
-    from = undefined
-    to = undefined
+    from = undefined // removing values to helper variables
   }
 }
 
@@ -365,6 +365,7 @@ function addListeners(){
     card.addEventListener("mousedown", (e) => {
       clickAction("mousedown", card.parentNode.parentNode.id,
       card.getAttribute("data-pile"),card.getAttribute("data-space"))
+      doubleClick()
       e.preventDefault()
     })
 
@@ -407,6 +408,22 @@ function checkWinCondition(){
   if(totalInFoundation == cardsTotal){
     alert("YOU WIN! This is a temporal message")
   }
+}
+
+//card to foundation in double click
+function doubleClick(){
+  if (onDoubleClick && from !== undefined) {
+    console.log("double click");
+    if(tabIDs.includes(from.place)){
+      console.log("from tableau");
+    } else if(from.place === "wastepile"){
+      console.log("from wastepile");
+    }
+  }
+  onDoubleClick = true
+  setTimeout(() => {
+    onDoubleClick = false
+  }, 250)
 }
 
 cardCreation()
