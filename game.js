@@ -118,14 +118,14 @@ function dragCard(){
 
   if(tabIDs.includes(from.place)){ //from tableau piles
     fromCard = table.tableau[from.pile][from.space]
-    console.log("fromCard",fromCard);
+    // console.log("fromCard",fromCard);
     if(tabIDs.includes(to.place)){//+++++tableau to tableau
       toCard = table.tableau[to.pile][to.space]
       isValidMove({fromCard,toCard,ascendingNumber:false,sameSuit:false,
         needsSameColor:false})
     }else if(foundIDs.includes(to.place)){//+++++tableau to foundations
       toCard = table.foundations[to.pile][table.foundations[to.pile].length-1]
-      console.log("toCard",toCard);
+      // console.log("toCard",toCard);
       isValidMove({fromCard,toCard,ascendingNumber:true,sameSuit:true,
         needsSameColor:true})
     } else {
@@ -205,14 +205,14 @@ function isValidMove({fromCard,toCard,ascendingNumber,sameSuit,
       moveCards()
     }
   } else if(foundIDs.includes(to.place) && fromCard.number === 1){
-    console.log("empty foundation");
+    // console.log("empty foundation");
     toCard = "empty"
     moveCards()
   } else if(tabIDs.includes(to.place)){
-    console.log("empty tableau");
+    // console.log("empty tableau");
     toCard = "empty"
     moveCards()
-    console.log("fromCard",fromCard,"toCard",toCard);
+    // console.log("fromCard",fromCard,"toCard",toCard);
   }
 }
 
@@ -240,8 +240,21 @@ function moveCards(){
   }
   toHere.isFlipped = true
 
-  toHere.push(fromHere)
-  removeFromHere.pop()
+  //move piles
+  let fromIndex = removeFromHere.findIndex(card => card === fromHere)
+  let howMany = removeFromHere.length - fromIndex
+  let cardsToMove = removeFromHere.slice(fromIndex)
+
+  console.log(fromIndex,howMany,cardsToMove);
+
+  // toHere.push(fromHere)
+  // toHere.push(cardsToMove)
+  cardsToMove.forEach(card => toHere.push(card))
+  
+  for (let i = howMany; i > 0; i--) {
+    removeFromHere.pop()
+  }
+  // removeFromHere.pop()
 
   placeCardsInDom()
 }
@@ -270,6 +283,7 @@ function placeCardsInDom(){
     img.src = unflippedImg
   } else {
     img.src = emptyImg
+    img.classList.add("not-animated")
   }
     img.classList.add("card","card-stock")
     img.setAttribute("data-place","stock")
@@ -281,6 +295,7 @@ function placeCardsInDom(){
     img.src = table.waste[table.waste.length-1].url
   } else {
     img.src = emptyImg
+    img.classList.add("not-animated")
   }
     img.classList.add("card","card-waste")
     img.setAttribute("data-place","wastepile")
@@ -310,6 +325,7 @@ function placeCardsInDom(){
       let space = document.querySelector(`#tab-${i} .n${0}`)
         let img = document.createElement("img")
         img.src = emptyImg
+        img.classList.add("not-animated")
         img.classList.add("card")
         img.setAttribute("data-place","tableau")
         img.setAttribute("data-pile",i)
@@ -329,6 +345,7 @@ function placeCardsInDom(){
       img.src = table.foundations[i][table.foundations[i].length-1].url
     } else {
       img.src = emptyImg
+      img.classList.add("not-animated")
     }
 
     $foundations[i].firstChild.appendChild(img)
