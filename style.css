@@ -10,6 +10,7 @@ body {
   background-repeat: repeat;
   background-size: 100%;
   color: white;
+  overflow: hidden;
 }
 
 p {
@@ -39,15 +40,21 @@ p {
   max-width: 175px;
   height: auto;
   position: absolute;
+  transition: 250ms;
 }.card:hover{
   filter: drop-shadow(0 0 5px white);
   margin-top: -2px;
+}
+.not-animated:hover {
+  filter: none;
+  margin-top: 0;
 }
 
 .separator {
   display: flex;
   flex: 1 1 0;
   justify-content: center;
+  overflow: hidden;
 }
 .tableau>.separator {
   transition: 5s;
