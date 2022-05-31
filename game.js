@@ -97,6 +97,10 @@ function clickAction(action, place, pile, space){
     if(from.place === "stock"){
       stockPile()
       from = undefined
+    }else if(tabIDs.includes(from.place) && table.tableau[from.pile][from.space]
+    === table.tableau[from.pile][table.tableau[from.pile].length-1]){
+      table.tableau[from.pile][table.tableau[from.pile].length-1].isFlipped = true
+      drawCards()
     }
   } else if(action === "mouseup"){
     to = cardValue
@@ -157,9 +161,12 @@ function isValidMove({fromCard,toCard,ascendingNumber,sameSuit,
   needsSameColor}){
   if(fromCard === undefined){
     return
-  } else if (fromCard.isFlipped === false){
-    fromCard.isFlipped = true
-    drawCards()
+  // } else if (fromCard.isFlipped === false){
+  //   if(tabIDs.includes(from.place) && table.tableau[from.pile][from.space]
+  //   === table.tableau[from.pile][table.tableau[from.pile].length-1]){
+  //     fromCard.isFlipped = true
+  //     drawCards()
+  //   }
   }
 
   let validNum = validSuit = validColor = theLastCard
