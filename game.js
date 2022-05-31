@@ -95,12 +95,12 @@ function clickAction(action, place, pile, space){
   if(action === "mousedown"){
     from = cardValue
     if(from.place === "stock"){
-      stockPile()
+      stockToWaste()
       from = undefined
     }else if(tabIDs.includes(from.place) && table.tableau[from.pile][from.space]
     === table.tableau[from.pile][table.tableau[from.pile].length-1]){
       table.tableau[from.pile][table.tableau[from.pile].length-1].isFlipped = true
-      drawCards()
+      placeCardsInDom()
     }
   } else if(action === "mouseup"){
     to = cardValue
@@ -161,12 +161,6 @@ function isValidMove({fromCard,toCard,ascendingNumber,sameSuit,
   needsSameColor}){
   if(fromCard === undefined){
     return
-  // } else if (fromCard.isFlipped === false){
-  //   if(tabIDs.includes(from.place) && table.tableau[from.pile][from.space]
-  //   === table.tableau[from.pile][table.tableau[from.pile].length-1]){
-  //     fromCard.isFlipped = true
-  //     drawCards()
-  //   }
   }
 
   let validNum = validSuit = validColor = theLastCard
@@ -220,10 +214,6 @@ function isValidMove({fromCard,toCard,ascendingNumber,sameSuit,
     moveCards()
     console.log("fromCard",fromCard,"toCard",toCard);
   }
-
-  // console.log("nmbr: "+validNum,"\n♥♦♣♠: "+validSuit,
-  // "\ncolr: "+validColor,"\nlast: "+isLastCard,
-  // "\nflip: "+isFacingUp,"\ndiff: "+differentPile);
 }
 
 //move cards from one pile to another
@@ -250,17 +240,14 @@ function moveCards(){
   }
   toHere.isFlipped = true
 
-  // console.log("fromHere",fromHere,"removeFromHere",removeFromHere,"toHere",toHere);
-
   toHere.push(fromHere)
   removeFromHere.pop()
 
-  drawCards()
+  placeCardsInDom()
 }
 
 //function to place one card in waste or return cards if empty
-function stockPile(){
-  // console.log("pending action: move card to waste");
+function stockToWaste(){
   if(table.stock.length > 0){
     table.stock[0].isFlipped = true
     table.waste.push(table.stock[0])
@@ -270,11 +257,11 @@ function stockPile(){
     table.waste = []
   }
 
-  drawCards()
+  placeCardsInDom()
 }
 
 //draw the card's image in page
-function drawCards(){
+function placeCardsInDom(){
   //clear existing cards
   document.querySelectorAll(".separator").forEach(sep => { sep.innerHTML = ""})
   //in stock
@@ -316,7 +303,6 @@ function drawCards(){
         img.setAttribute("data-place","tableau")
         img.setAttribute("data-pile",i)
         img.setAttribute("data-space",j)
-        // img.style.rotate = `${i*j%3}deg`
         
         space.appendChild(img)
       }
@@ -394,4 +380,4 @@ cardCreation()
 shuffleCards()
 layCards()
 domDivisions()
-drawCards()
+placeCardsInDom()
