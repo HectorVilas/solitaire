@@ -101,7 +101,8 @@ function clickAction(action, place, pile, space){
       stockToWaste()
       from = undefined
     }else if(tabIDs.includes(from.place) && table.tableau[from.pile][from.space]
-    === table.tableau[from.pile][table.tableau[from.pile].length-1]){
+    === table.tableau[from.pile][table.tableau[from.pile].length-1]
+    && table.tableau[from.pile].length > 0){
       table.tableau[from.pile][table.tableau[from.pile].length-1].isFlipped = true
       placeCardsInDom()
     }
