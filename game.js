@@ -1,7 +1,8 @@
 let deckDesign = "traditional"
 let unflippedImg = "./media/images/cards/traditional/reverse.png"
 let emptyImg = "./media/images/cards/traditional/empty.png"
-let from, to;
+let from, to
+let cardsTotal
 const tabIDs = []
 const foundIDs = []
 
@@ -40,6 +41,8 @@ function cardCreation(){
       deck.push(card)
     }
   }
+  //asigning number for win condition
+  cardsTotal = deck.length;
 }
 
 function shuffleCards(){
@@ -352,6 +355,7 @@ function placeCardsInDom(){
   }
   addListeners()
   adjustSeparators()
+  checkWinCondition()
 }
 
 //add listeners to cards
@@ -390,6 +394,17 @@ function adjustSeparators(){
         space.classList.add("separator")
       }
     }
+  }
+}
+
+//game is over when the 4 foundations have all the 13 cards
+function checkWinCondition(){
+  let totalInFoundation = table.foundations[0].length
+  + table.foundations[1].length
+  + table.foundations[2].length
+  + table.foundations[3].length
+  if(totalInFoundation == cardsTotal){
+    alert("YOU WIN! This is a temporal message")
   }
 }
 
