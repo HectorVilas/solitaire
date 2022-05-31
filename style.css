@@ -46,7 +46,6 @@ p {
   margin-top: -2px;
 }
 .not-animated:hover {
-  filter: none;
   margin-top: 0;
 }
 

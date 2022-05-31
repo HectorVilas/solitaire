@@ -273,3 +273,11 @@ No more ugly fixed empty spaces and no more instant space adjustement.
 ![gif](./media/images/READMEmd/progress12.gif)
 
 ![gif](./media/images/READMEmd/progress13.gif)
+
+> empty spaces not animated
+
+> piles can now be moved
+
+Now it's possible to move more than one card. It wasn't hard, but randomizing the cards every time I make a change makes it difficult to test.
+
+![gif](./media/images/READMEmd/progress14.gif)
