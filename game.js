@@ -424,6 +424,8 @@ function doubleClick(){
       fromCard = table.waste[table.waste.length-1]
       place = "wastepile"
     }
+
+    if(fromCard === undefined) return
     
     for (let i = 0; i < 4; i++) {
       let foundation = table.foundations[i]
