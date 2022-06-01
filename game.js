@@ -413,13 +413,44 @@ function checkWinCondition(){
 //card to foundation in double click
 function doubleClick(){
   if (onDoubleClick && from !== undefined) {
+    let fromCard, place
+    done = false
     console.log("double click");
     if(tabIDs.includes(from.place)){
-      console.log("from tableau");
+      fromCard = table.tableau[from.pile][from.space]
+      place = "tableau"
     } else if(from.place === "wastepile"){
-      console.log("from wastepile");
+      fromCard = table.waste[table.waste.length-1]
+      place = "waste"
+    }
+    
+    for (let i = 0; i < 4; i++) {
+      let foundation = table.foundations[i]
+      if(foundation.length > 0){
+        if(fromCard.suit === foundation[foundation.length-1].suit
+          && foundation[foundation.length-1].number === fromCard.number-1){
+            if(place === "tableau"){
+              foundation.push(table.tableau[from.pile][from.space])
+              table.tableau[from.pile].pop()
+              placeCardsInDom()
+            }
+        }
+      } else if(fromCard.number === 1 && !done){
+        console.log(foundation);
+        if(place === "tableau"){
+          foundation.push(table.tableau[from.pile][from.space])
+          table.tableau[from.pile].pop()
+          done = true
+        } else if(place === "waste"){
+          foundation.push(table.waste[table.waste.length-1])
+          table.waste.pop()
+          done = true
+        }
+        placeCardsInDom()
+      }
     }
   }
+
   onDoubleClick = true
   setTimeout(() => {
     onDoubleClick = false
