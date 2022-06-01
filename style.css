@@ -19,6 +19,27 @@ p {
   margin: 0;
 }
 
+/*hud*/
+.btn-gear {
+  --btn-gear-size: calc(var(--card-size)/2);
+  display: flex;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--btn-gear-size);
+  height: var(--btn-gear-size);
+  margin: 0;
+  padding: 0;
+  transition: ease-in-out 250ms;
+  background: none;
+  border: none;
+ }.btn-gear:hover{
+  filter: drop-shadow(0 0 5px black);
+  rotate: 90deg;
+}.btn-gear:active{
+  filter: drop-shadow(0 0 5px white);
+}
+
 /*table specifics*/
 .play-area {
   height: 100vh;
