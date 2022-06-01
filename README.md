@@ -281,3 +281,18 @@ No more ugly fixed empty spaces and no more instant space adjustement.
 Now it's possible to move more than one card. It wasn't hard, but randomizing the cards every time I make a change makes it difficult to test.
 
 ![gif](./media/images/READMEmd/progress14.gif)
+
+> temporal win condition
+
+The game still don't have anything else in the page other than the table itself. I put an `alert()` to announce the game is won, will change to a custom prompt-like message in the future.
+
+> double click function
+
+> double click will move a card to any compatible foundation if possible.
+
+Took me a while to figure it out but now it's possible to double click on a card and, if its an ace or there's already the same suit and it's number is one bigger, it will move to the corresponding foundation pile.
+
+
+![gif](./media/images/READMEmd/progress15.gif)
+
+![gif](./media/images/READMEmd/progress16.gif)
