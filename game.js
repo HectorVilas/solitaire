@@ -421,7 +421,7 @@ function doubleClick(){
       place = "tableau"
     } else if(from.place === "wastepile"){
       fromCard = table.waste[table.waste.length-1]
-      place = "waste"
+      place = "wastepile"
     }
     
     for (let i = 0; i < 4; i++) {
@@ -429,20 +429,27 @@ function doubleClick(){
       if(foundation.length > 0){
         if(fromCard.suit === foundation[foundation.length-1].suit
           && foundation[foundation.length-1].number === fromCard.number-1){
-            if(place === "tableau"){
-              foundation.push(table.tableau[from.pile][from.space])
+            if(place === "tableau" && !done){
+              console.log("from tableau to foundation is possible");
+              foundation.push(fromCard)
               table.tableau[from.pile].pop()
+              done = true
+              placeCardsInDom()
+            } else if(place === "wastepile" && !done){
+              console.log("from waste to foundation is possible");
+              foundation.push(fromCard)
+              table.waste.pop()
+              done = true
               placeCardsInDom()
             }
         }
       } else if(fromCard.number === 1 && !done){
-        console.log(foundation);
         if(place === "tableau"){
-          foundation.push(table.tableau[from.pile][from.space])
+          foundation.push(fromCard)
           table.tableau[from.pile].pop()
           done = true
-        } else if(place === "waste"){
-          foundation.push(table.waste[table.waste.length-1])
+        } else if(place === "wastepile"){
+          foundation.push(fromCard)
           table.waste.pop()
           done = true
         }
