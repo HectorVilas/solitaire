@@ -412,6 +412,7 @@ function checkWinCondition(){
 
 //card to foundation in double click
 function doubleClick(){
+  if(from === undefined || foundIDs.includes(from.place)) return
   if (onDoubleClick && from !== undefined) {
     let fromCard, place
     done = false
