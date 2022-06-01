@@ -122,18 +122,16 @@ function dragCard(){
 
   if(tabIDs.includes(from.place)){ //from tableau piles
     fromCard = table.tableau[from.pile][from.space]
-    // console.log("fromCard",fromCard);
     if(tabIDs.includes(to.place)){//+++++tableau to tableau
       toCard = table.tableau[to.pile][to.space]
       isValidMove({fromCard,toCard,ascendingNumber:false,sameSuit:false,
         needsSameColor:false})
     }else if(foundIDs.includes(to.place)){//+++++tableau to foundations
       toCard = table.foundations[to.pile][table.foundations[to.pile].length-1]
-      // console.log("toCard",toCard);
       isValidMove({fromCard,toCard,ascendingNumber:true,sameSuit:true,
         needsSameColor:true})
     } else {
-      console.log("movement canceled")
+      // console.log("movement canceled")
     }
   }else if(from.place === "wastepile"){//from waste pile
     fromCard = table.waste[table.waste.length-1]
@@ -146,7 +144,7 @@ function dragCard(){
       isValidMove({fromCard,toCard,ascendingNumber:false,sameSuit:false,
         needsSameColor:false})
     } else {
-      console.log("movement canceled")
+      // console.log("movement canceled")
     }
   }else if(foundIDs.includes(from.place)){ //from foundation
     fromCard = table.foundations[from.pile][table.foundations[from.pile].length-1]
@@ -155,7 +153,7 @@ function dragCard(){
       isValidMove({fromCard,toCard,ascendingNumber:false,sameSuit:false,
         needsSameColor:false})
     } else {
-      console.log("movement canceled")
+      // console.log("movement canceled")
     }
   }
 }
@@ -209,14 +207,11 @@ function isValidMove({fromCard,toCard,ascendingNumber,sameSuit,
       moveCards()
     }
   } else if(foundIDs.includes(to.place) && fromCard.number === 1){
-    // console.log("empty foundation");
     toCard = "empty"
     moveCards()
   } else if(tabIDs.includes(to.place)){
-    // console.log("empty tableau");
     toCard = "empty"
     moveCards()
-    // console.log("fromCard",fromCard,"toCard",toCard);
   }
 }
 
@@ -249,16 +244,11 @@ function moveCards(){
   let howMany = removeFromHere.length - fromIndex
   let cardsToMove = removeFromHere.slice(fromIndex)
 
-  console.log(fromIndex,howMany,cardsToMove);
-
-  // toHere.push(fromHere)
-  // toHere.push(cardsToMove)
   cardsToMove.forEach(card => toHere.push(card))
   
   for (let i = howMany; i > 0; i--) {
     removeFromHere.pop()
   }
-  // removeFromHere.pop()
 
   placeCardsInDom()
 }
@@ -416,7 +406,7 @@ function doubleClick(){
   if (onDoubleClick && from !== undefined) {
     let fromCard, place
     done = false
-    console.log("double click");
+    // console.log("double click");
     if(tabIDs.includes(from.place)){
       fromCard = table.tableau[from.pile][from.space]
       place = "tableau"
@@ -433,13 +423,11 @@ function doubleClick(){
         if(fromCard.suit === foundation[foundation.length-1].suit
           && foundation[foundation.length-1].number === fromCard.number-1){
             if(place === "tableau" && !done){
-              console.log("from tableau to foundation is possible");
               foundation.push(fromCard)
               table.tableau[from.pile].pop()
               done = true
               placeCardsInDom()
             } else if(place === "wastepile" && !done){
-              console.log("from waste to foundation is possible");
               foundation.push(fromCard)
               table.waste.pop()
               done = true
