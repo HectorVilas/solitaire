@@ -416,19 +416,19 @@ function doubleClick(){
   if (onDoubleClick && from !== undefined) {
     done = false
 
-    if(from === undefined) return
+    if(from.card === undefined) return
     
     for (let i = 0; i < 4; i++) {
       let foundation = table.foundations[i]
       if(foundation.length > 0){
         if(from.card.suit === foundation[foundation.length-1].suit
           && foundation[foundation.length-1].number === from.card.number-1){
-            if(place === "tableau" && !done){
+            if(from.pileName === "tableau" && !done){
               foundation.push(from.card)
               table.tableau[from.pile].pop()
               done = true
               redrawCards()
-            } else if(place === "waste" && !done){
+            } else if(from.pileName === "waste" && !done){
               foundation.push(from.card)
               table.waste.pop()
               done = true
