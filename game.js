@@ -107,12 +107,11 @@ function clickAction(action, place, pile, space){
     pileName = "stock"
     card = "stock"
   }else if(place === "waste"){
-    pileNane = "waste"
+    pileName = "waste"
     card = table.waste[table.waste.length-1]
   }
-
-  //if card length 0 = "empty"
   
+  //what is going to pass to the origin and destiny variables
   let cardValue = {place, pile, space, pileName, card}
 
   console.log(cardValue);
@@ -125,14 +124,16 @@ function clickAction(action, place, pile, space){
       stockToWaste()
       from = undefined
     }else if(tabIDs.includes(from.place) && table.tableau[from.pile][from.space]
-    === table.tableau[from.pile][table.tableau[from.pile].length-1]
+    === table.tableau[from.pile][table.tableau[from.pile].length-1] //is last card
     && table.tableau[from.pile].length > 0){
       table.tableau[from.pile][table.tableau[from.pile].length-1].isFlipped = true
-      placeCardsInDom()
+      redrawCards()
     }
   } else if(action === "mouseup"){
     to = cardValue
+    
     if(from !== undefined || to !== undefined) dragCard()
+
     from = undefined // removing values to helper variables
   }
 }
@@ -140,75 +141,61 @@ function clickAction(action, place, pile, space){
 //checks origin and destination of card
 function dragCard(){
   if(from === undefined) return
-  let fromCard, toCard
 
   if(tabIDs.includes(from.place)){ //from tableau piles
-    fromCard = table.tableau[from.pile][from.space]
     if(tabIDs.includes(to.place)){//+++++tableau to tableau
-      toCard = table.tableau[to.pile][to.space]
-      isValidMove({fromCard,toCard,ascendingNumber:false,sameSuit:false,
-        needsSameColor:false})
+      isValidMove({ascendingNumber:false,sameSuit:false,needsSameColor:false})
     }else if(foundIDs.includes(to.place)){//+++++tableau to foundations
-      toCard = table.foundations[to.pile][table.foundations[to.pile].length-1]
-      isValidMove({fromCard,toCard,ascendingNumber:true,sameSuit:true,
-        needsSameColor:true})
+      isValidMove({ascendingNumber:true,sameSuit:true,needsSameColor:true})
     } else {
-      // console.log("movement canceled")
+      console.log("movement canceled")
     }
   }else if(from.place === "waste"){//from waste pile
-    fromCard = table.waste[table.waste.length-1]
     if(foundIDs.includes(to.place)){//+++++waste to foundation
-      toCard = table.foundations[to.pile][table.foundations[to.pile].length-1]
-      isValidMove({fromCard,toCard,ascendingNumber:true,sameSuit:true,
-        needsSameColor:true})
+      isValidMove({ascendingNumber:true,sameSuit:true,needsSameColor:true})
     }else if(tabIDs.includes(to.place)){//+++++waste to tableau piles
-      toCard = table.tableau[to.pile][to.space]
-      isValidMove({fromCard,toCard,ascendingNumber:false,sameSuit:false,
-        needsSameColor:false})
+      isValidMove({ascendingNumber:false,sameSuit:false,needsSameColor:false})
     } else {
-      // console.log("movement canceled")
+      console.log("movement canceled")
     }
   }else if(foundIDs.includes(from.place)){ //from foundation
-    fromCard = table.foundations[from.pile][table.foundations[from.pile].length-1]
     if(tabIDs.includes(to.place)){//+++++foundation to tableau piles
-      toCard = table.tableau[to.pile][to.space]
-      isValidMove({fromCard,toCard,ascendingNumber:false,sameSuit:false,
-        needsSameColor:false})
+      isValidMove({ascendingNumber:false,sameSuit:false,needsSameColor:false})
     } else {
-      // console.log("movement canceled")
+      console.log("movement canceled")
     }
   }
 }
 
 //function to check if move is valid
-function isValidMove({fromCard,toCard,ascendingNumber,sameSuit,
+function isValidMove({ascendingNumber,sameSuit,
   needsSameColor}){
-  if(fromCard === undefined){
+  if(from.card === undefined){
     return
   }
 
   let validNum = validSuit = validColor = theLastCard
   = differentPile = isLastCard = isFacingUp = false;
 
-  if(toCard !== undefined){
-    if((ascendingNumber && fromCard.number === toCard.number+1)
-    || (!ascendingNumber && fromCard.number === toCard.number-1)){
+  if(to.card !== undefined){
+    if((ascendingNumber && from.card.number === to.card.number+1)
+    || (!ascendingNumber && from.card.number === to.card.number-1)){
       validNum = true
     }
     if(sameSuit){
-      if(fromCard.suit === toCard.suit){
+      if(from.card.suit === to.card.suit){
         validSuit = true
       }
     }else{
       validSuit = true
     }
-    if((needsSameColor && fromCard.color === toCard.color)
-    || (!needsSameColor && fromCard.color !== toCard.color)){
+    if((needsSameColor && from.card.color === to.card.color)
+    || (!needsSameColor && from.card.color !== to.card.color)){
       validColor = true
     }
     if(tabIDs.includes(to.place)){
       let lastCard = table.tableau[to.pile][table.tableau[to.pile].length-1]
-      if(toCard === lastCard){
+      if(to.card === lastCard){
         isLastCard = true
       }
     } else {
@@ -221,18 +208,18 @@ function isValidMove({fromCard,toCard,ascendingNumber,sameSuit,
     } else {
       differentPile = true
     }
-    if(fromCard.isFlipped && toCard.isFlipped){
+    if(from.card.isFlipped && to.card.isFlipped){
       isFacingUp = true
     }
     if(validNum && validSuit && validColor
       && isLastCard && isFacingUp && differentPile){
       moveCards()
     }
-  } else if(foundIDs.includes(to.place) && fromCard.number === 1){
-    toCard = "empty"
+  } else if(foundIDs.includes(to.place) && from.card.number === 1){
+    to.card = "empty"
     moveCards()
   } else if(tabIDs.includes(to.place)){
-    toCard = "empty"
+    to.card = "empty"
     moveCards()
   }
 }
@@ -272,7 +259,7 @@ function moveCards(){
     removeFromHere.pop()
   }
 
-  placeCardsInDom()
+  redrawCards()
 }
 
 //function to place one card in waste or return cards if empty
@@ -286,11 +273,11 @@ function stockToWaste(){
     table.waste = []
   }
 
-  placeCardsInDom()
+  redrawCards()
 }
 
 //draw the card's image in page
-function placeCardsInDom(){
+function redrawCards(){
   //clear existing cards
   document.querySelectorAll(".separator").forEach(sep => { sep.innerHTML = ""})
   //in stock
@@ -425,48 +412,40 @@ function checkWinCondition(){
 //card to foundation in double click
 function doubleClick(){
   if(from === undefined || foundIDs.includes(from.place)) return
+  
   if (onDoubleClick && from !== undefined) {
-    let fromCard, place
     done = false
-    // console.log("double click");
-    if(tabIDs.includes(from.place)){
-      fromCard = table.tableau[from.pile][from.space]
-      place = "tableau"
-    } else if(from.place === "waste"){
-      fromCard = table.waste[table.waste.length-1]
-      place = "waste"
-    }
 
-    if(fromCard === undefined) return
+    if(from === undefined) return
     
     for (let i = 0; i < 4; i++) {
       let foundation = table.foundations[i]
       if(foundation.length > 0){
-        if(fromCard.suit === foundation[foundation.length-1].suit
-          && foundation[foundation.length-1].number === fromCard.number-1){
+        if(from.card.suit === foundation[foundation.length-1].suit
+          && foundation[foundation.length-1].number === from.card.number-1){
             if(place === "tableau" && !done){
-              foundation.push(fromCard)
+              foundation.push(from.card)
               table.tableau[from.pile].pop()
               done = true
-              placeCardsInDom()
+              redrawCards()
             } else if(place === "waste" && !done){
-              foundation.push(fromCard)
+              foundation.push(from.card)
               table.waste.pop()
               done = true
-              placeCardsInDom()
+              redrawCards()
             }
         }
-      } else if(fromCard.number === 1 && !done){
-        if(place === "tableau"){
-          foundation.push(fromCard)
+      } else if(from.card.number === 1 && !done){
+        if(from.pileName === "tableau"){
+          foundation.push(from.card)
           table.tableau[from.pile].pop()
           done = true
-        } else if(place === "waste"){
-          foundation.push(fromCard)
+        } else if(from.pileName === "waste"){
+          foundation.push(from.card)
           table.waste.pop()
           done = true
         }
-        placeCardsInDom()
+        redrawCards()
       }
     }
   }
@@ -488,4 +467,4 @@ cardCreation()
 shuffleCards()
 layCards()
 domDivisions()
-placeCardsInDom()
+redrawCards()
