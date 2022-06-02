@@ -296,3 +296,11 @@ Took me a while to figure it out but now it's possible to double click on a card
 ![gif](./media/images/READMEmd/progress15.gif)
 
 ![gif](./media/images/READMEmd/progress16.gif)
+
+> gear button for menu drop
+
+I drew a gear on InkScape to use as menu button, surprisingly the file itself can be shown in the page, so the button is a vectorial image.
+
+![gif](./media/images/READMEmd/progress17.gif)
+
+I still don't know how I want the menu to look. My original idea was something visual, so it won't require text. I could make some frame per frame animation on InkScape and turn it into a gif with Gimp, with a minimalistic design, maybe. About the menu itself, I wanted to use a poker table railing image but can't find any with a top-down view.
