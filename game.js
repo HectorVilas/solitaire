@@ -17,7 +17,7 @@ let table = {
 }
 
 const $stock = document.querySelector("#stock");
-const $wastepile = document.querySelector("#wastepile");
+const $waste = document.querySelector("#waste");
 const $infoSpace = document.querySelector("#info-space");
 const $foundations = document.querySelectorAll(".foundation");
 const $tableaus = document.querySelectorAll(".tableau");
@@ -79,7 +79,7 @@ function domDivisions(){
     }
   })
   createSpace($stock)
-  createSpace($wastepile)
+  createSpace($waste)
   $foundations.forEach((foundation,pile) => {
     createSpace(foundation,pile)
   })
@@ -95,7 +95,27 @@ function createSpace(appendTo, pile = 0, space = 0){
 
 //action to store the interacting cards
 function clickAction(action, place, pile, space){
-  let cardValue = {place,pile,space}
+  //adding "pileName" and "card"
+  let pileName, card
+  if(tabIDs.includes(place)){
+    pileName = "tableau"
+    card = table.tableau[pile][space]
+  }else if(foundIDs.includes(place)){
+    pileName = "foundation"
+    card = table.foundations[pile][table.foundations[pile].length-1]
+  }else if(place === "stock"){
+    pileName = "stock"
+    card = "empty"
+  }else if(place === "waste"){
+    pileName = "waste"
+    card = table.waste[table.waste.length-1]
+  }
+  if(card === undefined || card.length === 0) card = "empty"
+  
+  //what is going to pass to the origin and destiny variables
+  let cardValue = {place, pile, space, pileName, card}
+
+  //place card info in "from" or "to" depending mouse action
   if(action === "mousedown"){
     to = undefined // removing values to helper variables
     from = cardValue
@@ -103,14 +123,16 @@ function clickAction(action, place, pile, space){
       stockToWaste()
       from = undefined
     }else if(tabIDs.includes(from.place) && table.tableau[from.pile][from.space]
-    === table.tableau[from.pile][table.tableau[from.pile].length-1]
+    === table.tableau[from.pile][table.tableau[from.pile].length-1] //is last card
     && table.tableau[from.pile].length > 0){
       table.tableau[from.pile][table.tableau[from.pile].length-1].isFlipped = true
-      placeCardsInDom()
+      redrawCards()
     }
   } else if(action === "mouseup"){
     to = cardValue
+    
     if(from !== undefined || to !== undefined) dragCard()
+
     from = undefined // removing values to helper variables
   }
 }
@@ -118,100 +140,88 @@ function clickAction(action, place, pile, space){
 //checks origin and destination of card
 function dragCard(){
   if(from === undefined) return
-  let fromCard, toCard
 
   if(tabIDs.includes(from.place)){ //from tableau piles
-    fromCard = table.tableau[from.pile][from.space]
     if(tabIDs.includes(to.place)){//+++++tableau to tableau
-      toCard = table.tableau[to.pile][to.space]
-      isValidMove({fromCard,toCard,ascendingNumber:false,sameSuit:false,
-        needsSameColor:false})
+      isValidMove({ascendingNumber:false,sameSuit:false,needsSameColor:false})
     }else if(foundIDs.includes(to.place)){//+++++tableau to foundations
-      toCard = table.foundations[to.pile][table.foundations[to.pile].length-1]
-      isValidMove({fromCard,toCard,ascendingNumber:true,sameSuit:true,
-        needsSameColor:true})
+      isValidMove({ascendingNumber:true,sameSuit:true,needsSameColor:true})
     } else {
-      // console.log("movement canceled")
+      console.log("movement canceled")
     }
-  }else if(from.place === "wastepile"){//from waste pile
-    fromCard = table.waste[table.waste.length-1]
+  }else if(from.place === "waste"){//from waste pile
     if(foundIDs.includes(to.place)){//+++++waste to foundation
-      toCard = table.foundations[to.pile][table.foundations[to.pile].length-1]
-      isValidMove({fromCard,toCard,ascendingNumber:true,sameSuit:true,
-        needsSameColor:true})
+      isValidMove({ascendingNumber:true,sameSuit:true,needsSameColor:true})
     }else if(tabIDs.includes(to.place)){//+++++waste to tableau piles
-      toCard = table.tableau[to.pile][to.space]
-      isValidMove({fromCard,toCard,ascendingNumber:false,sameSuit:false,
-        needsSameColor:false})
+      isValidMove({ascendingNumber:false,sameSuit:false,needsSameColor:false})
     } else {
-      // console.log("movement canceled")
+      console.log("movement canceled")
     }
   }else if(foundIDs.includes(from.place)){ //from foundation
-    fromCard = table.foundations[from.pile][table.foundations[from.pile].length-1]
     if(tabIDs.includes(to.place)){//+++++foundation to tableau piles
-      toCard = table.tableau[to.pile][to.space]
-      isValidMove({fromCard,toCard,ascendingNumber:false,sameSuit:false,
-        needsSameColor:false})
+      isValidMove({ascendingNumber:false,sameSuit:false,needsSameColor:false})
     } else {
-      // console.log("movement canceled")
+      console.log("movement canceled")
     }
   }
 }
 
 //function to check if move is valid
-function isValidMove({fromCard,toCard,ascendingNumber,sameSuit,
-  needsSameColor}){
-  if(fromCard === undefined){
+function isValidMove({ascendingNumber,sameSuit,needsSameColor}){
+  if(from.card === undefined){
     return
   }
 
   let validNum = validSuit = validColor = theLastCard
   = differentPile = isLastCard = isFacingUp = false;
 
-  if(toCard !== undefined){
-    if((ascendingNumber && fromCard.number === toCard.number+1)
-    || (!ascendingNumber && fromCard.number === toCard.number-1)){
+  if(to.card !== "empty"){
+    if((ascendingNumber && from.card.number === to.card.number+1)
+    || (!ascendingNumber && from.card.number === to.card.number-1)){
       validNum = true
     }
     if(sameSuit){
-      if(fromCard.suit === toCard.suit){
+      if(from.card.suit === to.card.suit){
         validSuit = true
       }
     }else{
       validSuit = true
     }
-    if((needsSameColor && fromCard.color === toCard.color)
-    || (!needsSameColor && fromCard.color !== toCard.color)){
+    if((needsSameColor && from.card.color === to.card.color)
+    || (!needsSameColor && from.card.color !== to.card.color)){
       validColor = true
     }
-    if(tabIDs.includes(to.place)){
+    if(to.pileName === "tableau"){
       let lastCard = table.tableau[to.pile][table.tableau[to.pile].length-1]
-      if(toCard === lastCard){
+      if(to.card === lastCard){
         isLastCard = true
       }
     } else {
       isLastCard = true
     }
-    if(tabIDs.includes(from.place) && tabIDs.includes(to.place)){
+    if(from.pileName === "tableau" && to.pileName === "tableau"){
       if(from.place !== to.place){
         differentPile = true
       }
     } else {
       differentPile = true
     }
-    if(fromCard.isFlipped && toCard.isFlipped){
+    if(from.card.isFlipped && to.card.isFlipped){
       isFacingUp = true
     }
+
+    console.log(validNum,validSuit,validColor,
+      isLastCard,isFacingUp,differentPile);
+    console.log(from.card.num,to.card.num);
+      
     if(validNum && validSuit && validColor
       && isLastCard && isFacingUp && differentPile){
       moveCards()
     }
-  } else if(foundIDs.includes(to.place) && fromCard.number === 1){
-    toCard = "empty"
-    moveCards()
-  } else if(tabIDs.includes(to.place)){
-    toCard = "empty"
-    moveCards()
+  } else if(to.pileName === "foundation" && from.card.number === 1){
+    moveCards() //when card is ace and space is empty
+  } else if(to.pileName === "tableau"){
+    moveCards() //when tableau space is empty
   }
 }
 
@@ -219,17 +229,17 @@ function isValidMove({fromCard,toCard,ascendingNumber,sameSuit,
 function moveCards(){
   let fromHere = removeFromHere = toHere = undefined
   //declaring fromHere
-  if(tabIDs.includes(from.place)){
+  if(from.pileName === "tableau"){
     fromHere = table.tableau[from.pile][from.space]
     removeFromHere = table.tableau[from.pile]
-  } else if(foundIDs.includes(from.place)){
+  } else if(from.pileName === "foundation"){
     fromHere = table.foundations[from.pile][table.foundations[from.pile].length-1]
     removeFromHere = table.foundations[from.pile]
-  } else if(from.place === "wastepile"){
+  } else if(from.pileName === "waste"){
     fromHere = table.waste[table.waste.length-1]
     removeFromHere = table.waste
   }
-  fromHere.isFlipped = true
+  if(fromHere !== undefined) fromHere.isFlipped = true
   //declaring toHere
   if(foundIDs.includes(to.place)){
     toHere = table.foundations[to.pile]
@@ -250,7 +260,7 @@ function moveCards(){
     removeFromHere.pop()
   }
 
-  placeCardsInDom()
+  redrawCards()
 }
 
 //function to place one card in waste or return cards if empty
@@ -264,11 +274,11 @@ function stockToWaste(){
     table.waste = []
   }
 
-  placeCardsInDom()
+  redrawCards()
 }
 
 //draw the card's image in page
-function placeCardsInDom(){
+function redrawCards(){
   //clear existing cards
   document.querySelectorAll(".separator").forEach(sep => { sep.innerHTML = ""})
   //in stock
@@ -292,11 +302,11 @@ function placeCardsInDom(){
     img.classList.add("not-animated")
   }
     img.classList.add("card","card-waste")
-    img.setAttribute("data-place","wastepile")
+    img.setAttribute("data-place","waste")
     img.setAttribute("data-pile",0)
     img.setAttribute("data-space",0)
 
-    $wastepile.firstChild.appendChild(img)
+    $waste.firstChild.appendChild(img)
   //in tableau
   for(let i = 0; i < table.tableau.length; i++){
     if(table.tableau[i].length !== 0){
@@ -403,48 +413,40 @@ function checkWinCondition(){
 //card to foundation in double click
 function doubleClick(){
   if(from === undefined || foundIDs.includes(from.place)) return
+  
   if (onDoubleClick && from !== undefined) {
-    let fromCard, place
     done = false
-    // console.log("double click");
-    if(tabIDs.includes(from.place)){
-      fromCard = table.tableau[from.pile][from.space]
-      place = "tableau"
-    } else if(from.place === "wastepile"){
-      fromCard = table.waste[table.waste.length-1]
-      place = "wastepile"
-    }
 
-    if(fromCard === undefined) return
+    if(from.card === undefined) return
     
     for (let i = 0; i < 4; i++) {
       let foundation = table.foundations[i]
       if(foundation.length > 0){
-        if(fromCard.suit === foundation[foundation.length-1].suit
-          && foundation[foundation.length-1].number === fromCard.number-1){
-            if(place === "tableau" && !done){
-              foundation.push(fromCard)
+        if(from.card.suit === foundation[foundation.length-1].suit
+          && foundation[foundation.length-1].number === from.card.number-1){
+            if(from.pileName === "tableau" && !done){
+              foundation.push(from.card)
               table.tableau[from.pile].pop()
               done = true
-              placeCardsInDom()
-            } else if(place === "wastepile" && !done){
-              foundation.push(fromCard)
+              redrawCards()
+            } else if(from.pileName === "waste" && !done){
+              foundation.push(from.card)
               table.waste.pop()
               done = true
-              placeCardsInDom()
+              redrawCards()
             }
         }
-      } else if(fromCard.number === 1 && !done){
-        if(place === "tableau"){
-          foundation.push(fromCard)
+      } else if(from.card.number === 1 && !done){
+        if(from.pileName === "tableau"){
+          foundation.push(from.card)
           table.tableau[from.pile].pop()
           done = true
-        } else if(place === "wastepile"){
-          foundation.push(fromCard)
+        } else if(from.pileName === "waste"){
+          foundation.push(from.card)
           table.waste.pop()
           done = true
         }
-        placeCardsInDom()
+        redrawCards()
       }
     }
   }
@@ -466,4 +468,4 @@ cardCreation()
 shuffleCards()
 layCards()
 domDivisions()
-placeCardsInDom()
+redrawCards()
