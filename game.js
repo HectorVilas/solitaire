@@ -17,7 +17,7 @@ let table = {
 }
 
 const $stock = document.querySelector("#stock");
-const $wastepile = document.querySelector("#wastepile");
+const $waste = document.querySelector("#waste");
 const $infoSpace = document.querySelector("#info-space");
 const $foundations = document.querySelectorAll(".foundation");
 const $tableaus = document.querySelectorAll(".tableau");
@@ -79,7 +79,7 @@ function domDivisions(){
     }
   })
   createSpace($stock)
-  createSpace($wastepile)
+  createSpace($waste)
   $foundations.forEach((foundation,pile) => {
     createSpace(foundation,pile)
   })
@@ -95,7 +95,29 @@ function createSpace(appendTo, pile = 0, space = 0){
 
 //action to store the interacting cards
 function clickAction(action, place, pile, space){
-  let cardValue = {place,pile,space}
+  //adding "pileName" and "card"
+  let pileName, card
+  if(tabIDs.includes(place)){
+    pileName = "tableau"
+    card = table.tableau[pile][space]
+  }else if(foundIDs.includes(place)){
+    pileName = "foundation"
+    card = table.foundations[pile]
+  }else if(place === "stock"){
+    pileName = "stock"
+    card = "stock"
+  }else if(place === "waste"){
+    pileNane = "waste"
+    card = table.waste[table.waste.length-1]
+  }
+
+  //if card length 0 = "empty"
+  
+  let cardValue = {place, pile, space, pileName, card}
+
+  console.log(cardValue);
+
+  //place card info in "from" or "to" depending mouse action
   if(action === "mousedown"){
     to = undefined // removing values to helper variables
     from = cardValue
@@ -133,7 +155,7 @@ function dragCard(){
     } else {
       // console.log("movement canceled")
     }
-  }else if(from.place === "wastepile"){//from waste pile
+  }else if(from.place === "waste"){//from waste pile
     fromCard = table.waste[table.waste.length-1]
     if(foundIDs.includes(to.place)){//+++++waste to foundation
       toCard = table.foundations[to.pile][table.foundations[to.pile].length-1]
@@ -225,7 +247,7 @@ function moveCards(){
   } else if(foundIDs.includes(from.place)){
     fromHere = table.foundations[from.pile][table.foundations[from.pile].length-1]
     removeFromHere = table.foundations[from.pile]
-  } else if(from.place === "wastepile"){
+  } else if(from.place === "waste"){
     fromHere = table.waste[table.waste.length-1]
     removeFromHere = table.waste
   }
@@ -292,11 +314,11 @@ function placeCardsInDom(){
     img.classList.add("not-animated")
   }
     img.classList.add("card","card-waste")
-    img.setAttribute("data-place","wastepile")
+    img.setAttribute("data-place","waste")
     img.setAttribute("data-pile",0)
     img.setAttribute("data-space",0)
 
-    $wastepile.firstChild.appendChild(img)
+    $waste.firstChild.appendChild(img)
   //in tableau
   for(let i = 0; i < table.tableau.length; i++){
     if(table.tableau[i].length !== 0){
@@ -410,9 +432,9 @@ function doubleClick(){
     if(tabIDs.includes(from.place)){
       fromCard = table.tableau[from.pile][from.space]
       place = "tableau"
-    } else if(from.place === "wastepile"){
+    } else if(from.place === "waste"){
       fromCard = table.waste[table.waste.length-1]
-      place = "wastepile"
+      place = "waste"
     }
 
     if(fromCard === undefined) return
@@ -427,7 +449,7 @@ function doubleClick(){
               table.tableau[from.pile].pop()
               done = true
               placeCardsInDom()
-            } else if(place === "wastepile" && !done){
+            } else if(place === "waste" && !done){
               foundation.push(fromCard)
               table.waste.pop()
               done = true
@@ -439,7 +461,7 @@ function doubleClick(){
           foundation.push(fromCard)
           table.tableau[from.pile].pop()
           done = true
-        } else if(place === "wastepile"){
+        } else if(place === "waste"){
           foundation.push(fromCard)
           table.waste.pop()
           done = true
