@@ -455,6 +455,13 @@ function doubleClick(){
   }, 250)
 }
 
+//hud listeners
+$btnGear = document.querySelector(".btn-gear")
+$menu = document.querySelector(".menu")
+$btnGear.addEventListener("click", () => {
+  $menu.classList.toggle("menu-show")
+})
+
 cardCreation()
 shuffleCards()
 layCards()

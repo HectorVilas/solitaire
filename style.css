@@ -4,7 +4,7 @@
 
 body {
   display: flex;
-  justify-content: center;
+  align-items: center;
   margin: 0;
   padding: 0;
   background-color: rgb(0, 75, 0);
@@ -13,6 +13,7 @@ body {
   background-size: 100%;
   color: white;
   overflow: hidden;
+  flex-direction: column;
 }
 
 p {
@@ -24,20 +25,40 @@ p {
   --btn-gear-size: calc(var(--card-size)/2);
   display: flex;
   position: absolute;
+  z-index: 2;
   top: 0;
   left: 0;
   width: var(--btn-gear-size);
   height: var(--btn-gear-size);
   margin: 0;
   padding: 0;
-  transition: ease-in-out 250ms;
+  transition: rotate ease-in-out 500ms;
   background: none;
-  border: none;
- }.btn-gear:hover{
+  border-style: none;
+  border-radius: 50%;
+}.btn-gear:hover{
   filter: drop-shadow(0 0 5px black);
   rotate: 90deg;
 }.btn-gear:active{
-  filter: drop-shadow(0 0 5px white);
+  transition: margin ease-in-out 100ms;
+  margin: 2px 0 0 2px;
+  filter: drop-shadow(0 0 3px black);
+}
+
+.menu{
+  --menu-height: 5em;
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  z-index: 1;
+  background-color: #333;
+  width: 100%;
+  height: var(--menu-height);
+  margin-top: calc(var(--menu-height)*-1);
+  transition: 250ms;
+  box-shadow: inset 0 -20px 30px black;
+}.menu-show{
+  margin-top: 0;
 }
 
 /*table specifics*/
@@ -70,6 +91,7 @@ p {
   margin-top: -2px;
 }
 .not-animated:hover {
+  transition: 0;
   margin-top: 0;
 }
 
@@ -80,7 +102,7 @@ p {
   overflow: hidden;
 }
 .tableau>.separator {
-  transition: 5s;
+  transition: max-height 5s;
   max-height: 100px;
 }
 .sep-hidden{
