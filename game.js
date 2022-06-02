@@ -102,7 +102,7 @@ function clickAction(action, place, pile, space){
     card = table.tableau[pile][space]
   }else if(foundIDs.includes(place)){
     pileName = "foundation"
-    card = table.foundations[pile]
+    card = table.foundations[pile][table.foundations[pile].length-1]
   }else if(place === "stock"){
     pileName = "stock"
     card = "empty"
@@ -209,6 +209,11 @@ function isValidMove({ascendingNumber,sameSuit,needsSameColor}){
     if(from.card.isFlipped && to.card.isFlipped){
       isFacingUp = true
     }
+
+    console.log(validNum,validSuit,validColor,
+      isLastCard,isFacingUp,differentPile);
+    console.log(from.card.num,to.card.num);
+      
     if(validNum && validSuit && validColor
       && isLastCard && isFacingUp && differentPile){
       moveCards()
