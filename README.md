@@ -310,3 +310,7 @@ I still don't know how I want the menu to look. My original idea was something v
 I finally did something about the horrible code. I stored more info in the auxiliar variables, so now there's less need to repeat code to know where the cards come from or goes. The code could be much better if I had a better planning from the start. A big problem is having the piles in differente `key:value`s, so I need to always check the name of the pile and then I know which one is the one that receives the changes, something that I can't (or don't know) store in the auxiliar variables.
 
 Before doing such big change, I created a branch (first time doing it on a personal project). It was easy, but I don't like how Github won't track my contributions untill I merge with the main branch. Nobody asked me for it, but I want to see every day contributions, I want to know how active I was each day.
+
+> image url moved outside card object
+
+Now I will be able to change card design "in the fly". All the url info is now outside the cards and in the DOM redraw function. Won't be necessary to restart the game. I still need to find new designs and maybe draw my owns.
