@@ -98,13 +98,13 @@ function clickAction(action, place, pile, space){
     card = table.tableau[pile][space]
   }else if(foundIDs.includes(place)){
     pileName = "foundation"
-    card = table.foundations[pile][table.foundations[pile].length-1]
+    card = lastInPile(table.foundations[pile])
   }else if(place === "stock"){
     pileName = "stock"
     card = "empty"
   }else if(place === "waste"){
     pileName = "waste"
-    card = table.waste[table.waste.length-1]
+    card = lastInPile(table.waste)
   }
   if(card === undefined || card.length === 0) card = "empty"
   
@@ -119,9 +119,9 @@ function clickAction(action, place, pile, space){
       stockToWaste()
       from = undefined
     }else if(tabIDs.includes(from.place) && table.tableau[from.pile][from.space]
-    === table.tableau[from.pile][table.tableau[from.pile].length-1] //is last card
+    === lastInPile(table.tableau[from.pile])
     && table.tableau[from.pile].length > 0){
-      table.tableau[from.pile][table.tableau[from.pile].length-1].isFlipped = true
+      lastInPile(table.tableau[from.pile]).isFlipped = true
       redrawCards()
     }
   } else if(action === "mouseup"){
@@ -188,7 +188,7 @@ function isValidMove({ascendingNumber,sameSuit,needsSameColor}){
       validColor = true
     }
     if(to.pileName === "tableau"){
-      let lastCard = table.tableau[to.pile][table.tableau[to.pile].length-1]
+      let lastCard = lastInPile(table.tableau[to.pile])
       if(to.card === lastCard){
         isLastCard = true
       }
@@ -229,10 +229,10 @@ function moveCards(){
     fromHere = table.tableau[from.pile][from.space]
     removeFromHere = table.tableau[from.pile]
   } else if(from.pileName === "foundation"){
-    fromHere = table.foundations[from.pile][table.foundations[from.pile].length-1]
+    fromHere = lastInPile(table.foundations[from.pile])
     removeFromHere = table.foundations[from.pile]
   } else if(from.pileName === "waste"){
-    fromHere = table.waste[table.waste.length-1]
+    fromHere = lastInPile(table.waste)
     removeFromHere = table.waste
   }
   if(fromHere !== undefined) fromHere.isFlipped = true
@@ -295,7 +295,7 @@ function redrawCards(){
   //in waste
   img = document.createElement("img")
   if(table.waste.length > 0){
-    let thisCard = table.waste[table.waste.length-1]
+    let thisCard = lastInPile(table.waste)
     img.src = `${url}${thisCard.suit}${thisCard.number}.png`
   } else {
     img.src = emptyImg
@@ -347,7 +347,7 @@ function redrawCards(){
     img.setAttribute("data-pile",i)
     img.setAttribute("data-space",0)
     if(table.foundations[i].length > 0){
-      let thisCard = table.foundations[i][table.foundations[i].length-1]
+      let thisCard = lastInPile(table.foundations[i])
       img.src = `${url}${thisCard.suit}${thisCard.number}.png`
     } else {
       img.src = emptyImg
@@ -424,8 +424,8 @@ function doubleClick(){
     for (let i = 0; i < 4; i++) {
       let foundation = table.foundations[i]
       if(foundation.length > 0){
-        if(from.card.suit === foundation[foundation.length-1].suit
-          && foundation[foundation.length-1].number === from.card.number-1){
+        if(from.card.suit === lastInPile(foundation).suit
+          && lastInPile(foundation).number === from.card.number-1){
             if(from.pileName === "tableau" && !done){
               foundation.push(from.card)
               table.tableau[from.pile].pop()
@@ -457,6 +457,11 @@ function doubleClick(){
   setTimeout(() => {
     onDoubleClick = false
   }, 250)
+}
+
+//last card
+function lastInPile(loc){
+  return loc[loc.length-1]
 }
 
 //hud listeners
