@@ -1,6 +1,4 @@
 let deckDesign = "traditional"
-let unflippedImg = "./media/images/cards/traditional/reverse.png"
-let emptyImg = "./media/images/cards/traditional/empty.png"
 let from,to
 let onDoubleClick = false
 let cardsTotal
@@ -34,11 +32,9 @@ function cardCreation(){
       let suit, number, color
       number = cardLoop
       suit = suitsList[suitLoop]
-      url = `./media/images/cards/${deckDesign}/${suit}${cardLoop}.png`
-      
       suitLoop%2 === 0 ? color = "black": color = "red"
       
-      let card = { number, suit, color, isFlipped: false, url }
+      let card = { number, suit, color, isFlipped: false }
       deck.push(card)
     }
   }
@@ -279,6 +275,9 @@ function stockToWaste(){
 
 //draw the card's image in page
 function redrawCards(){
+  let url = `./media/images/cards/${deckDesign}/`
+  let unflippedImg = `${url}reverse.png`
+  let emptyImg = `${url}empty.png`
   //clear existing cards
   document.querySelectorAll(".separator").forEach(sep => { sep.innerHTML = ""})
   //in stock
@@ -296,7 +295,8 @@ function redrawCards(){
   //in waste
   img = document.createElement("img")
   if(table.waste.length > 0){
-    img.src = table.waste[table.waste.length-1].url
+    let thisCard = table.waste[table.waste.length-1]
+    img.src = `${url}${thisCard.suit}${thisCard.number}.png`
   } else {
     img.src = emptyImg
     img.classList.add("not-animated")
@@ -314,7 +314,8 @@ function redrawCards(){
         let space = document.querySelector(`#tab-${i} .n${j}`)
         let img = document.createElement("img")
         if(table.tableau[i][j].isFlipped){
-          img.src = table.tableau[i][j].url
+          let thisCard = table.tableau[i][j]
+          img.src = `${url}${thisCard.suit}${thisCard.number}.png`
         } else {
           img.src = unflippedImg
         }
@@ -346,7 +347,8 @@ function redrawCards(){
     img.setAttribute("data-pile",i)
     img.setAttribute("data-space",0)
     if(table.foundations[i].length > 0){
-      img.src = table.foundations[i][table.foundations[i].length-1].url
+      let thisCard = table.foundations[i][table.foundations[i].length-1]
+      img.src = `${url}${thisCard.suit}${thisCard.number}.png`
     } else {
       img.src = emptyImg
       img.classList.add("not-animated")
