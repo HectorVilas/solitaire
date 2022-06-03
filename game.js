@@ -1,3 +1,5 @@
+let gameOver = false
+
 let deckDesign = "traditional"
 let from,to
 let onDoubleClick = false
@@ -49,6 +51,12 @@ function shuffleCards(){
 }
 
 function layCards(){
+  //removing any previous card for new game
+  for (let i = 0; i < table.tableau.length; i++) table.tableau[i] = []
+  table.waste = []
+  for (let i = 0; i < table.foundations.length; i++) table.foundations[i] = []
+  table.stock = []
+  //laying cards
   for(let i = 0; i < table.tableau.length; i++){
     let quantity = i;
     for (let j = quantity+1; j > 0; j--) {
@@ -69,6 +77,11 @@ function layCards(){
 
 //adding divisions in wastepile and tableau
 function domDivisions(){
+  //removing previous divisions for new game
+  $tableaus.forEach(tab => tab.innerHTML = "")
+  $foundations.forEach(fnd => fnd.innerHTML = "")
+
+  //adding divisions
   $tableaus.forEach((thisTableau, pile) => {
     for (let space = 0; space < 20; space++) {
       createSpace(thisTableau,pile,space)
@@ -81,7 +94,7 @@ function domDivisions(){
   })
 }
 
-//space creation with listener
+//space creation
 function createSpace(appendTo, pile = 0, space = 0){
   let separator = document.createElement("div")
   separator.classList.add("separator",`n${space}`)
@@ -143,7 +156,7 @@ function dragCard(){
     }else if(foundIDs.includes(to.place)){//+++++tableau to foundations
       isValidMove({ascendingNumber:true,sameSuit:true,needsSameColor:true})
     } else {
-      console.log("movement canceled")
+      // console.log("movement canceled")
     }
   }else if(from.place === "waste"){//from waste pile
     if(foundIDs.includes(to.place)){//+++++waste to foundation
@@ -151,13 +164,13 @@ function dragCard(){
     }else if(tabIDs.includes(to.place)){//+++++waste to tableau piles
       isValidMove({ascendingNumber:false,sameSuit:false,needsSameColor:false})
     } else {
-      console.log("movement canceled")
+      // console.log("movement canceled")
     }
   }else if(foundIDs.includes(from.place)){ //from foundation
     if(tabIDs.includes(to.place)){//+++++foundation to tableau piles
       isValidMove({ascendingNumber:false,sameSuit:false,needsSameColor:false})
     } else {
-      console.log("movement canceled")
+      // console.log("movement canceled")
     }
   }
 }
@@ -205,10 +218,6 @@ function isValidMove({ascendingNumber,sameSuit,needsSameColor}){
     if(from.card.isFlipped && to.card.isFlipped){
       isFacingUp = true
     }
-
-    console.log(validNum,validSuit,validColor,
-      isLastCard,isFacingUp,differentPile);
-    console.log(from.card.num,to.card.num);
       
     if(validNum && validSuit && validColor
       && isLastCard && isFacingUp && differentPile){
@@ -365,9 +374,11 @@ function redrawCards(){
 function addListeners(){
   document.querySelectorAll(".card").forEach(card => {
     card.addEventListener("mousedown", (e) => {
-      clickAction("mousedown", card.parentNode.parentNode.id,
-      card.getAttribute("data-pile"),card.getAttribute("data-space"))
-      doubleClick()
+      if(!gameOver){
+        clickAction("mousedown", card.parentNode.parentNode.id,
+        card.getAttribute("data-pile"),card.getAttribute("data-space"))
+        doubleClick()
+      }
       e.preventDefault()
     })
 
@@ -408,6 +419,7 @@ function checkWinCondition(){
   + table.foundations[2].length
   + table.foundations[3].length
   if(totalInFoundation == cardsTotal){
+    gameOver = true
     alert("YOU WIN! This is a temporal message")
   }
 }
@@ -464,15 +476,28 @@ function lastInPile(loc){
   return loc[loc.length-1]
 }
 
+//first start and restarting game
+function newGame(){
+  gameOver = false
+  cardCreation()
+  shuffleCards()
+  layCards()
+  domDivisions()
+  redrawCards()
+}
+
 //hud listeners
 $btnGear = document.querySelector(".btn-gear")
+$btnRestart = document.querySelector(".btn-restart")
+$btnDesign = document.querySelector(".btn-design")
+$btnAbout = document.querySelector(".btn-about")
+
 $menu = document.querySelector(".menu")
+
 $btnGear.addEventListener("click", () => {
   $menu.classList.toggle("menu-show")
 })
 
-cardCreation()
-shuffleCards()
-layCards()
-domDivisions()
-redrawCards()
+$btnRestart.addEventListener("click", newGame)
+
+newGame()
