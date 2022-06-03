@@ -322,3 +322,11 @@ I downloaded a vectorial sheet with a soviet/russian deck design and converted e
 I still need to create an option to swap design, but I don't have an options menu yet.
 
 ![gif](./media/images/READMEmd/progress18.gif)
+
+> new restart and design buttons
+
+Now the player can restart the game without refreshing the page. Also the card style can be swapped now. Those buttons are temporal.
+
+> responsiveness
+
+The margin at the sides of the play area was too big when the screen was too narrow, so I added a little responsiveness with `CSS`' `@media`. The cards will adjust it's size too, same with the play area's height.
