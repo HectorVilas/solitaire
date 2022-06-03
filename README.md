@@ -314,3 +314,11 @@ Before doing such big change, I created a branch (first time doing it on a perso
 > image url moved outside card object
 
 Now I will be able to change card design "in the fly". All the url info is now outside the cards and in the DOM redraw function. Won't be necessary to restart the game. I still need to find new designs and maybe draw my owns.
+
+> russian deck images
+
+I downloaded a vectorial sheet with a soviet/russian deck design and converted each one to a new image, like I did with the first deck. Now I only have to change a variable name and call the `redrawCards()` function to change the design without restarting the game, thanks to the previous change.
+
+I still need to create an option to swap design, but I don't have an options menu yet.
+
+![gif](./media/images/READMEmd/progress18.gif)
