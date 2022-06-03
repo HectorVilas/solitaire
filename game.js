@@ -80,6 +80,8 @@ function domDivisions(){
   //removing previous divisions for new game
   $tableaus.forEach(tab => tab.innerHTML = "")
   $foundations.forEach(fnd => fnd.innerHTML = "")
+  $stock.innerHTML = ""
+  $waste.innerHTML = ""
 
   //adding divisions
   $tableaus.forEach((thisTableau, pile) => {
@@ -499,5 +501,14 @@ $btnGear.addEventListener("click", () => {
 })
 
 $btnRestart.addEventListener("click", newGame)
+
+$btnDesign.addEventListener("click", () =>{
+  if(deckDesign === "traditional"){
+    deckDesign = "russian"
+  } else if(deckDesign === "russian"){
+    deckDesign = "traditional"
+  }
+  redrawCards()
+})
 
 newGame()
