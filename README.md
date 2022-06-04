@@ -330,3 +330,20 @@ Now the player can restart the game without refreshing the page. Also the card s
 > responsiveness
 
 The margin at the sides of the play area was too big when the screen was too narrow, so I added a little responsiveness with `CSS`' `@media`. The cards will adjust it's size too, same with the play area's height.
+
+> partially implemented drag and drop
+
+This was so hard to implement, I was thinking about it while trying to sleep the last night. First I wrote a way to drag the card itself, but it broke a lot of things. Then I though I should have an invisible div following the mouse cursor all the time and, while the left click is held, hide the original card, duplicate it's image and size in viewport and then unhide the div, so it looks like the card from the pile is being moved. The old switcheroo in action.
+
+![gif](./media/images/READMEmd/progress19.gif)
+
+Now I should do the next:
+- don't drag empty spaces
+- don't drag facing down cards (maybe I should remove their listeners)
+- create separators in the div so I can show more than a single card moving
+- remove the original card transition so it won't be noticed how it gets hidden
+- drag the card from the same coordinates it gets clicked (so it won't instantly move to bottom right)
+
+Once everything is working, I want to animate it, like not instantly following the cursor, or maybe getting a little rotation while dragged from side to side.
+
+**thoughts:** I should continue with the frontend course, but holy cow, making a personal project is so addictive. At least I'm learning a lot of things by myself about `JavaScript`.
