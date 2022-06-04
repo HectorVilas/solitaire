@@ -111,6 +111,14 @@ p {
   margin-top: 0;
 }
 
+
+.moving-cards {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  z-index: 1;
+}
+
 .separator {
   display: flex;
   flex: 1 1 0;
@@ -129,6 +137,11 @@ p {
   max-height: 0px;
 }
 
+/*hide allowing clicks*/
+.invisible {
+  opacity: 0%;
+}
+/*hide without allowing clicks*/
 .hidden {
   display: none;
 }

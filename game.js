@@ -1,5 +1,8 @@
 let gameOver = false
 
+let winX,winY
+let movingCard
+
 let deckDesign = "traditional"
 let from,to
 let onDoubleClick = false
@@ -489,6 +492,35 @@ function newGame(){
   redrawCards()
 }
 
+//for moving cards
+function draggedCardDom(bool){
+  //TODO: check if space is empty or facing down, to prevent dragging
+  //      create new array to contain the moving cards and draw in DOM from there
+  if(from !== undefined && bool === true){
+    if(from.pileName === "tableau"){
+      let cardSize = document.querySelector(".card")
+      movingCard = document.querySelector(`#${from.place} .n${from.space}`).firstChild
+      movingCard.classList.add("invisible")
+      let DomMovingCard = document.createElement("img")
+      DomMovingCard.src = movingCard.src
+      DomMovingCard.width = cardSize.width
+      DomMovingCard.height = cardSize.height
+      $movingCards.appendChild(DomMovingCard)
+      $movingCards.classList.remove("hidden")
+    } else if(from.pileName === "foundation" || from.pileName === "waste"){
+      movingCard = document.querySelector(`#${from.place} .n${from.space}`).firstChild
+    }
+    
+
+    console.log(movingCard);
+  } else if(bool === false){
+    if(movingCard !== undefined) movingCard.classList.remove("invisible")
+
+    $movingCards.classList.add("hidden")
+    $movingCards.innerHTML = ""
+  }
+}
+
 //hud listeners
 $btnGear = document.querySelector(".btn-gear")
 $btnRestart = document.querySelector(".btn-restart")
@@ -496,6 +528,7 @@ $btnDesign = document.querySelector(".btn-design")
 $btnAbout = document.querySelector(".btn-about")
 
 $menu = document.querySelector(".menu")
+$movingCards = document.querySelector(".moving-cards")
 
 $btnGear.addEventListener("click", () => {
   $menu.classList.toggle("menu-show")
@@ -511,6 +544,23 @@ $btnDesign.addEventListener("click", () =>{
   }
   redrawCards()
 })
+
+window.onmousedown = () => {
+  draggedCardDom(true)
+}
+
+window.onmouseup = () => {
+  draggedCardDom(false)
+}
+
+//hidden div always following cursor
+window.onmousemove = (e) => {
+  winX = e.x
+  winY = e.y
+
+  $movingCards.style.left = `${winX+5}px`
+  $movingCards.style.top = `${winY+5}px`
+}
 
 //start a new game on page load
 newGame()
