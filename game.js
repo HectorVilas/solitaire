@@ -135,7 +135,8 @@ function clickAction(action, place, pile, space){
       from = undefined
     }else if(tabIDs.includes(from.place) && table.tableau[from.pile][from.space]
     === lastInPile(table.tableau[from.pile])
-    && table.tableau[from.pile].length > 0){
+    && table.tableau[from.pile].length > 0
+    && lastInPile(table.tableau[from.pile]).isFlipped === false){
       lastInPile(table.tableau[from.pile]).isFlipped = true
       redrawCards()
     }
@@ -511,4 +512,5 @@ $btnDesign.addEventListener("click", () =>{
   redrawCards()
 })
 
+//start a new game on page load
 newGame()
