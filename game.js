@@ -495,7 +495,7 @@ function newGame(){
 
 //for moving cards
 function draggedCardDom(bool){
-  //checking how many cards are moved
+  //showing all the dragged cards
   if(from !== undefined){
     if(from.pileName === "tableau"){
       let numOfSeparators = table.tableau[from.pile].length - from.space
@@ -506,7 +506,9 @@ function draggedCardDom(bool){
       //place cards in $movingCards separators
       for (let i = from.space; i < table.tableau[from.pile].length; i++) {
         movingCard = document.querySelector(`#${from.place} .n${i}`).firstChild
-        
+        //hiding originals
+        let hideThis = document.querySelector(`#${from.place} .n${i}`)
+        hideThis.classList.add("invisible")
         //creating card image
         let DomMovingCard = document.createElement("img")
         let cardSize = document.querySelector(".card")
@@ -524,7 +526,6 @@ function draggedCardDom(bool){
         separator.appendChild(DomMovingCard)
         $movingCards.appendChild(separator)
       }
-      console.log("---");
     }else if(from.pileName === "waste"){
       
     }else if(from.pileName === "foundation"){
@@ -536,7 +537,6 @@ function draggedCardDom(bool){
   if(from !== undefined && bool === true){
     if(from.pileName === "tableau"){
       if(movingCard !== null){
-        movingCard.classList.add("invisible")
         $movingCards.classList.remove("hidden")
       }
 
@@ -545,7 +545,9 @@ function draggedCardDom(bool){
     }
 
   } else if(bool === false){
-    if(movingCard !== null && movingCard !== undefined) movingCard.classList.remove("invisible")
+    document.querySelectorAll(".invisible").forEach(space => {
+      space.classList.remove("invisible")
+    })
     from = undefined
     $movingCards.classList.add("hidden")
     $movingCards.innerHTML = ""
