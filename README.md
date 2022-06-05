@@ -347,3 +347,11 @@ Now I should do the next:
 Once everything is working, I want to animate it, like not instantly following the cursor, or maybe getting a little rotation while dragged from side to side.
 
 **thoughts:** I should continue with the frontend course, but holy cow, making a personal project is so addictive. At least I'm learning a lot of things by myself about `JavaScript`.
+
+> the entire pile is moved when dragging
+
+I finally managed to do this. When a card is dragged, it will check how many cards are on top of it, create the necessary separators in an invisible div, copy the cards' url and then show this div and hide the cards in the table, so it looks like those are being dragged.
+
+Empty spaces and facing down cards won't be dragged.
+
+![gif](./media/images/READMEmd/progress20.gif)
