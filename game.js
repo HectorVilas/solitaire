@@ -534,7 +534,7 @@ function draggedCardDom(dragging){
         }
       
       }else if((from.pileName === "waste" && table.waste.length > 0)
-      || (from.pileName === "foundation" && table.foundations[from.place] > 0)){
+      || (from.pileName === "foundation" && table.foundations[from.space].length > 0)){
         //place cards in $movingCards separators
         movingCard = document.querySelector(`#${from.place} .n0`).firstChild
         //hiding originals
