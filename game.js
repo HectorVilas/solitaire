@@ -2,7 +2,6 @@ let gameOver = false
 
 let winX,winY
 let movingCard
-let movingCardsArr = []
 
 let deckDesign = "traditional"
 let from,to
@@ -494,57 +493,63 @@ function newGame(){
 }
 
 //for moving cards
-function draggedCardDom(bool){
-  //showing all the dragged cards
-  if(from !== undefined){
-    if(from.pileName === "tableau"){
-      let numOfSeparators = table.tableau[from.pile].length - from.space
-      //separators
-      for (let i = 0; i < numOfSeparators; i++) {
-        createSpace($movingCards,0,i)
-      }
-      //place cards in $movingCards separators
-      for (let i = from.space; i < table.tableau[from.pile].length; i++) {
-        movingCard = document.querySelector(`#${from.place} .n${i}`).firstChild
+function draggedCardDom(dragging){
+  if(dragging){
+
+    //showing all the dragged cards
+    if(from !== undefined){
+
+      if(from.pileName === "tableau"){
+        let numOfSeparators = table.tableau[from.pile].length - from.space
+        //separators
+        for (let i = 0; i < numOfSeparators; i++) {
+          createSpace($movingCards,0,i)
+        }
+        //place cards in $movingCards separators
+        for (let i = from.space; i < table.tableau[from.pile].length; i++) {
+          movingCard = document.querySelector(`#${from.place} .n${i}`).firstChild
+          //hiding originals
+          let hideThis = document.querySelector(`#${from.place} .n${i}`)
+          hideThis.classList.add("invisible")
+          //creating card image
+          let DomMovingCard = document.createElement("img")
+          let cardSize = document.querySelector(".card")
+          DomMovingCard.src = movingCard.src
+          DomMovingCard.width = cardSize.width
+          DomMovingCard.height = cardSize.height
+          DomMovingCard.classList.add("card")
+          //creating separator
+          let height = document.querySelector(".separator.n1")
+          let separator = document.createElement("div")
+          separator.height = height.clientHeight
+          separator.classList.add("separator",`n${i}`)
+          separator.style.height = "2em"
+          //appending result
+          separator.appendChild(DomMovingCard)
+          $movingCards.appendChild(separator)
+          if(movingCard !== null) $movingCards.classList.remove("hidden")
+        }
+      
+      }else if(from.pileName === "waste" || from.pileName === "foundation"){
+        //place cards in $movingCards separators
+        movingCard = document.querySelector(`#${from.place} .n0`).firstChild
         //hiding originals
-        let hideThis = document.querySelector(`#${from.place} .n${i}`)
+        let hideThis = document.querySelector(`#${from.place} .n0`)
         hideThis.classList.add("invisible")
         //creating card image
         let DomMovingCard = document.createElement("img")
         let cardSize = document.querySelector(".card")
-        DomMovingCard.src = movingCard.src
+        DomMovingCard.src = movingCard.src //not working
         DomMovingCard.width = cardSize.width
         DomMovingCard.height = cardSize.height
         DomMovingCard.classList.add("card")
-        //creating separator
-        let height = document.querySelector(".separator.n1")
-        let separator = document.createElement("div")
-        separator.height = height.clientHeight
-        separator.classList.add("separator",`n${i}`)
-        separator.style.height = "2em"
         //appending result
-        separator.appendChild(DomMovingCard)
-        $movingCards.appendChild(separator)
+        $movingCards.appendChild(DomMovingCard)
+        if(movingCard !== null) $movingCards.classList.remove("hidden")
       }
-    }else if(from.pileName === "waste"){
-      
-    }else if(from.pileName === "foundation"){
-  
     }
-  }
-
-  //show moving cards and hide originals in pile
-  if(from !== undefined && bool === true){
-    if(from.pileName === "tableau"){
-      if(movingCard !== null){
-        $movingCards.classList.remove("hidden")
-      }
-
-    } else if(from.pileName === "foundation" || from.pileName === "waste"){
-      movingCard = document.querySelector(`#${from.place} .n${from.space}`).firstChild
-    }
-
-  } else if(bool === false){
+  //if bool === false (cards stopped being dragged)
+  } else { 
     document.querySelectorAll(".invisible").forEach(space => {
       space.classList.remove("invisible")
     })
@@ -552,6 +557,26 @@ function draggedCardDom(bool){
     $movingCards.classList.add("hidden")
     $movingCards.innerHTML = ""
   }
+
+  //show moving cards and hide originals in pile
+  // if(from !== undefined && bool === true){
+  //   if(from.pileName === "tableau"){
+  //     // if(movingCard !== null){
+  //       // $movingCards.classList.remove("hidden")
+  //     // }
+
+  //   // } else if(from.pileName === "foundation" || from.pileName === "waste"){
+  //   //   movingCard = document.querySelector(`#${from.place} .n${from.space}`).firstChild
+  //   }
+
+  // } else if(bool === false){
+  //   document.querySelectorAll(".invisible").forEach(space => {
+  //     space.classList.remove("invisible")
+  //   })
+  //   from = undefined
+  //   $movingCards.classList.add("hidden")
+  //   $movingCards.innerHTML = ""
+  // }
 }
 
 //check if a card disappeared or is duplicated
