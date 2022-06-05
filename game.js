@@ -2,6 +2,7 @@ let gameOver = false
 
 let winX,winY
 let movingCard
+let movingCardsArr = []
 
 let deckDesign = "traditional"
 let from,to
@@ -494,27 +495,54 @@ function newGame(){
 
 //for moving cards
 function draggedCardDom(bool){
-  //TODO: check if space is empty or facing down, to prevent dragging
-  //      create new array to contain the moving cards and draw in DOM from there
-  if(from !== undefined && bool === true){
+  //checking how many cards are moved
+  if(from !== undefined){
     if(from.pileName === "tableau"){
-      let cardSize = document.querySelector(".card")
-      movingCard = document.querySelector(`#${from.place} .n${from.space}`).firstChild
-      if(movingCard !== null){
-        movingCard.classList.add("invisible")
+      let numOfSeparators = table.tableau[from.pile].length - from.space
+      //separators
+      for (let i = 0; i < numOfSeparators; i++) {
+        createSpace($movingCards,0,i)
+      }
+      //place cards in $movingCards separators
+      for (let i = from.space; i < table.tableau[from.pile].length; i++) {
+        movingCard = document.querySelector(`#${from.place} .n${i}`).firstChild
+        
+        //creating card image
         let DomMovingCard = document.createElement("img")
+        let cardSize = document.querySelector(".card")
         DomMovingCard.src = movingCard.src
         DomMovingCard.width = cardSize.width
         DomMovingCard.height = cardSize.height
-        $movingCards.appendChild(DomMovingCard)
+        DomMovingCard.classList.add("card")
+        //creating separator
+        let height = document.querySelector(".separator.n1")
+        let separator = document.createElement("div")
+        separator.height = height.clientHeight
+        separator.classList.add("separator",`n${i}`)
+        separator.style.height = "2em"
+        //appending result
+        separator.appendChild(DomMovingCard)
+        $movingCards.appendChild(separator)
+      }
+      console.log("---");
+    }else if(from.pileName === "waste"){
+      
+    }else if(from.pileName === "foundation"){
+  
+    }
+  }
+
+  //show moving cards and hide originals in pile
+  if(from !== undefined && bool === true){
+    if(from.pileName === "tableau"){
+      if(movingCard !== null){
+        movingCard.classList.add("invisible")
         $movingCards.classList.remove("hidden")
       }
 
     } else if(from.pileName === "foundation" || from.pileName === "waste"){
       movingCard = document.querySelector(`#${from.place} .n${from.space}`).firstChild
     }
-    
-    console.log(movingCard);
 
   } else if(bool === false){
     if(movingCard !== null && movingCard !== undefined) movingCard.classList.remove("invisible")
@@ -566,7 +594,7 @@ $btnDesign.addEventListener("click", () =>{
 
 window.onmousedown = () => {
   draggedCardDom(true)
-  checkDeck()
+  // checkDeck()
 }
 
 window.onmouseup = () => {

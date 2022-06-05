@@ -139,6 +139,7 @@ p {
 
 /*hide allowing clicks*/
 .invisible {
+  transition: 0ms;
   opacity: 0%;
 }
 /*hide without allowing clicks*/
