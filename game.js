@@ -499,7 +499,10 @@ function draggedCardDom(dragging){
     //showing all the dragged cards
     if(from !== undefined){
 
-      if(from.pileName === "tableau"){
+      if(from.pileName === "tableau"
+      && table.tableau[from.pile].length > 0
+      && table.tableau[from.pile][from.space] !== undefined
+      && table.tableau[from.pile][from.space].isFlipped){
         let numOfSeparators = table.tableau[from.pile].length - from.space
         //separators
         for (let i = 0; i < numOfSeparators; i++) {
@@ -530,7 +533,8 @@ function draggedCardDom(dragging){
           if(movingCard !== null) $movingCards.classList.remove("hidden")
         }
       
-      }else if(from.pileName === "waste" || from.pileName === "foundation"){
+      }else if((from.pileName === "waste" && table.waste.length > 0)
+      || (from.pileName === "foundation" && table.foundations[from.place] > 0)){
         //place cards in $movingCards separators
         movingCard = document.querySelector(`#${from.place} .n0`).firstChild
         //hiding originals
@@ -539,7 +543,7 @@ function draggedCardDom(dragging){
         //creating card image
         let DomMovingCard = document.createElement("img")
         let cardSize = document.querySelector(".card")
-        DomMovingCard.src = movingCard.src //not working
+        DomMovingCard.src = movingCard.src
         DomMovingCard.width = cardSize.width
         DomMovingCard.height = cardSize.height
         DomMovingCard.classList.add("card")
@@ -548,7 +552,7 @@ function draggedCardDom(dragging){
         if(movingCard !== null) $movingCards.classList.remove("hidden")
       }
     }
-  //if bool === false (cards stopped being dragged)
+  //when dragging === false (cards stopped being dragged)
   } else { 
     document.querySelectorAll(".invisible").forEach(space => {
       space.classList.remove("invisible")
