@@ -500,25 +500,44 @@ function draggedCardDom(bool){
     if(from.pileName === "tableau"){
       let cardSize = document.querySelector(".card")
       movingCard = document.querySelector(`#${from.place} .n${from.space}`).firstChild
-      movingCard.classList.add("invisible")
-      let DomMovingCard = document.createElement("img")
-      DomMovingCard.src = movingCard.src
-      DomMovingCard.width = cardSize.width
-      DomMovingCard.height = cardSize.height
-      $movingCards.appendChild(DomMovingCard)
-      $movingCards.classList.remove("hidden")
+      if(movingCard !== null){
+        movingCard.classList.add("invisible")
+        let DomMovingCard = document.createElement("img")
+        DomMovingCard.src = movingCard.src
+        DomMovingCard.width = cardSize.width
+        DomMovingCard.height = cardSize.height
+        $movingCards.appendChild(DomMovingCard)
+        $movingCards.classList.remove("hidden")
+      }
+
     } else if(from.pileName === "foundation" || from.pileName === "waste"){
       movingCard = document.querySelector(`#${from.place} .n${from.space}`).firstChild
     }
     
-
     console.log(movingCard);
-  } else if(bool === false){
-    if(movingCard !== undefined) movingCard.classList.remove("invisible")
 
+  } else if(bool === false){
+    if(movingCard !== null && movingCard !== undefined) movingCard.classList.remove("invisible")
+    from = undefined
     $movingCards.classList.add("hidden")
     $movingCards.innerHTML = ""
   }
+}
+
+//check if a card disappeared or is duplicated
+function checkDeck(){
+  let fullDeck = []
+  table.stock.forEach(card => fullDeck.push(card))
+  table.waste.forEach(card => fullDeck.push(card))
+  table.foundations.forEach(fnd => fnd.forEach(card => fullDeck.push(card)))
+  table.tableau.forEach(tabl => tabl.forEach(card => fullDeck.push(card)))
+
+  if(fullDeck.length < 52){
+    alert("there's missing cards: "+fullDeck.length+"/52 in total")
+  } else if(fullDeck.length > 52){
+    alert("there's extra cards: "+fullDeck.length+"/52 in total")
+  }
+  console.log(fullDeck.length);
 }
 
 //hud listeners
@@ -547,6 +566,7 @@ $btnDesign.addEventListener("click", () =>{
 
 window.onmousedown = () => {
   draggedCardDom(true)
+  checkDeck()
 }
 
 window.onmouseup = () => {
