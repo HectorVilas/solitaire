@@ -355,3 +355,13 @@ I finally managed to do this. When a card is dragged, it will check how many car
 Empty spaces and facing down cards won't be dragged.
 
 ![gif](./media/images/READMEmd/progress20.gif)
+
+> prevent dragging empty spaces
+
+> cards are dragged while holding click only when mouse moves
+
+> card dragged from the same object coordinates
+
+Now the card is grabbed from where it was clicked, instead of moving it's corner to the cursor.
+
+![gif](./media/images/READMEmd/progress21.gif)
