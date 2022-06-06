@@ -376,6 +376,8 @@ function redrawCards(){
 function addListeners(){
   document.querySelectorAll(".card").forEach(card => {
     card.addEventListener("mousedown", (e) => {
+      $movingCards.style.marginLeft = `-${winX-card.x}px`
+      $movingCards.style.marginTop = `-${winY-card.y}px`
       if(!gameOver){
         clickAction("mousedown", card.parentNode.parentNode.id,
         card.getAttribute("data-pile"),card.getAttribute("data-space"))
@@ -491,12 +493,6 @@ function newGame(){
 //for moving cards
 function draggedCardDom(dragging){
   if(dragging){
-
-    //TODO: show card or empty space under waste/foundation while being dragged
-    //check roadmap and update it
-    //grab card only when dragging is happening instead of on mousedown
-    //check for duplicated cards (deck is always still 52)
-
     //showing all the dragged cards
     if(from !== undefined){
 
@@ -553,7 +549,7 @@ function draggedCardDom(dragging){
         if(movingCard !== null) $movingCards.classList.remove("hidden")
       }
     }
-  //when dragging === false (cards stopped being dragged)
+  //when dragging is false (cards stopped being dragged)
   } else { 
     document.querySelectorAll(".invisible").forEach(space => {
       space.classList.remove("invisible")
@@ -632,3 +628,6 @@ window.onmousemove = (e) => {
 
 //start a new game on page load
 newGame()
+
+//TODO: show card or empty space under waste/foundation while being dragged
+//check for duplicated cards (deck is always still 52)
