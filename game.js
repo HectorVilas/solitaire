@@ -501,11 +501,6 @@ function draggedCardDom(dragging){
       && table.tableau[from.pile].length > 0
       && table.tableau[from.pile][from.space] !== undefined
       && table.tableau[from.pile][from.space].isFlipped){
-        let numOfSeparators = table.tableau[from.pile].length - from.space
-        //separators
-        for (let i = 0; i < numOfSeparators; i++) {
-          createSpace($movingCards,0,i)
-        }
         //place cards in $movingCards separators
         for (let i = from.space; i < table.tableau[from.pile].length; i++) {
           movingCard = document.querySelector(`#${from.place} .n${i}`).firstChild
@@ -521,7 +516,6 @@ function draggedCardDom(dragging){
           DomMovingCard.classList.add("card")
           //creating separator
           let separator = document.createElement("div")
-          separator.height = separatorHeight.clientHeight
           separator.classList.add("separator",`n${i}`)
           separator.style.height = `${separatorHeight}px`
           //appending result
@@ -586,19 +580,15 @@ $btnDesign.addEventListener("click", () =>{
 
 window.onmousedown = () => {
   isMouseDown = true
-  $infoSpace.innerText = `dwn: ${isMouseDown}`
   checkDeck()
 }
 
 window.onmouseup = () => {
   isMouseDown = false
   draggedCardDom(false)
-  $infoSpace.innerText = `dwn: ${isMouseDown}`
 }
 
 window.onmousemove = (e) => {
-  $infoSpace.innerText = `dwn: ${isMouseDown}`
-  
   if(isMouseDown){
     isMouseDown = false
     draggedCardDom(true)
@@ -653,5 +643,4 @@ function checkDeck(){
 }
 
 //TODO: show card or empty space under waste/foundation while being dragged
-//check for duplicated cards (deck is always still 52)
 //make stock pile look like contains more cards depending on how much it have
