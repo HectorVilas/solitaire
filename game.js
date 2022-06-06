@@ -495,6 +495,7 @@ function draggedCardDom(dragging){
   if(dragging){
     //showing all the dragged cards
     if(from !== undefined){
+      let separatorHeight = document.querySelector(".separator.n1").clientHeight
 
       if(from.pileName === "tableau"
       && table.tableau[from.pile].length > 0
@@ -519,11 +520,10 @@ function draggedCardDom(dragging){
           DomMovingCard.height = cardSize.height
           DomMovingCard.classList.add("card")
           //creating separator
-          let height = document.querySelector(".separator.n1")
           let separator = document.createElement("div")
-          separator.height = height.clientHeight
+          separator.height = separatorHeight.clientHeight
           separator.classList.add("separator",`n${i}`)
-          separator.style.height = "2em"
+          separator.style.height = `${separatorHeight}px`
           //appending result
           separator.appendChild(DomMovingCard)
           $movingCards.appendChild(separator)
