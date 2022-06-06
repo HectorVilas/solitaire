@@ -435,7 +435,7 @@ function doubleClick(){
   if (onDoubleClick && from !== undefined) {
     done = false
 
-    if(from.card === undefined) return
+    if(from.card.isFlipped === false) return //prevents duplication
     
     for (let i = 0; i < 4; i++) {
       let foundation = table.foundations[i]
@@ -621,36 +621,37 @@ function checkDeck(){
   let fullDeck = []
   table.stock.forEach(card => {
     if(fullDeck.includes(card)){
-      alert(`duplicated card: ${card.number} of ${card.suit}`)
+      console.log(`duplicated card in deck: ${card.number} of ${card.suit}`)
     }
     fullDeck.push(card)
   })
   table.waste.forEach(card => {
     if(fullDeck.includes(card)){
-      alert(`duplicated card: ${card.number} of ${card.suit}`)
+      console.log(`duplicated card in waste: ${card.number} of ${card.suit}`)
     }
     fullDeck.push(card)
   })
   table.foundations.forEach(fnd => fnd.forEach(card => {
     if(fullDeck.includes(card)){
-      alert(`duplicated card: ${card.number} of ${card.suit}`)
+      console.log(`duplicated card in foundation: ${card.number} of ${card.suit}`)
     }
     fullDeck.push(card)
   }))
   table.tableau.forEach(tabl => tabl.forEach(card => {
     if(fullDeck.includes(card)){
-      alert(`duplicated card: ${card.number} of ${card.suit}`)
+      console.log(`duplicated card in tableau: ${card.number} of ${card.suit}`)
     }
     fullDeck.push(card)
   }))
 
   if(fullDeck.length < 52){
-    alert("there's missing cards: "+fullDeck.length+"/52 in total")
+    console.log("there's missing cards: "+fullDeck.length+"/52 in total")
   } else if(fullDeck.length > 52){
-    alert("there's extra cards: "+fullDeck.length+"/52 in total")
+    console.log("there's extra cards: "+fullDeck.length+"/52 in total")
   }
-  console.log(fullDeck.length);
+  // console.log(fullDeck.length);
 }
 
 //TODO: show card or empty space under waste/foundation while being dragged
 //check for duplicated cards (deck is always still 52)
+//make stock pile look like contains more cards depending on how much it have
