@@ -560,22 +560,6 @@ function draggedCardDom(dragging){
   }
 }
 
-//check if a card disappeared or is duplicated
-function checkDeck(){
-  let fullDeck = []
-  table.stock.forEach(card => fullDeck.push(card))
-  table.waste.forEach(card => fullDeck.push(card))
-  table.foundations.forEach(fnd => fnd.forEach(card => fullDeck.push(card)))
-  table.tableau.forEach(tabl => tabl.forEach(card => fullDeck.push(card)))
-
-  if(fullDeck.length < 52){
-    alert("there's missing cards: "+fullDeck.length+"/52 in total")
-  } else if(fullDeck.length > 52){
-    alert("there's extra cards: "+fullDeck.length+"/52 in total")
-  }
-  console.log(fullDeck.length);
-}
-
 //hud listeners
 $btnGear = document.querySelector(".btn-gear")
 $btnRestart = document.querySelector(".btn-restart")
@@ -603,7 +587,7 @@ $btnDesign.addEventListener("click", () =>{
 window.onmousedown = () => {
   isMouseDown = true
   $infoSpace.innerText = `dwn: ${isMouseDown}`
-  // checkDeck()
+  checkDeck()
 }
 
 window.onmouseup = () => {
@@ -628,6 +612,45 @@ window.onmousemove = (e) => {
 
 //start a new game on page load
 newGame()
+
+// - - - - - - - - - - debugging tools - - - - - - - - - -
+
+//check if a card disappeared or is duplicated
+//enable function in "window.onmousedown" to use it
+function checkDeck(){
+  let fullDeck = []
+  table.stock.forEach(card => {
+    if(fullDeck.includes(card)){
+      alert(`duplicated card: ${card.number} of ${card.suit}`)
+    }
+    fullDeck.push(card)
+  })
+  table.waste.forEach(card => {
+    if(fullDeck.includes(card)){
+      alert(`duplicated card: ${card.number} of ${card.suit}`)
+    }
+    fullDeck.push(card)
+  })
+  table.foundations.forEach(fnd => fnd.forEach(card => {
+    if(fullDeck.includes(card)){
+      alert(`duplicated card: ${card.number} of ${card.suit}`)
+    }
+    fullDeck.push(card)
+  }))
+  table.tableau.forEach(tabl => tabl.forEach(card => {
+    if(fullDeck.includes(card)){
+      alert(`duplicated card: ${card.number} of ${card.suit}`)
+    }
+    fullDeck.push(card)
+  }))
+
+  if(fullDeck.length < 52){
+    alert("there's missing cards: "+fullDeck.length+"/52 in total")
+  } else if(fullDeck.length > 52){
+    alert("there's extra cards: "+fullDeck.length+"/52 in total")
+  }
+  console.log(fullDeck.length);
+}
 
 //TODO: show card or empty space under waste/foundation while being dragged
 //check for duplicated cards (deck is always still 52)
