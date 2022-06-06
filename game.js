@@ -1,5 +1,7 @@
 let gameOver = false
 
+let isMouseDown = false
+
 let winX,winY
 let movingCard
 
@@ -496,6 +498,11 @@ function newGame(){
 function draggedCardDom(dragging){
   if(dragging){
 
+    //TODO: show card or empty space under waste/foundation while being dragged
+    //check roadmap and update it
+    //grab card only when dragging is happening instead of on mousedown
+    //check for duplicated cards (deck is always still 52)
+
     //showing all the dragged cards
     if(from !== undefined){
 
@@ -624,21 +631,29 @@ $btnDesign.addEventListener("click", () =>{
 })
 
 window.onmousedown = () => {
-  draggedCardDom(true)
+  isMouseDown = true
+  $infoSpace.innerText = `dwn: ${isMouseDown}`
   // checkDeck()
 }
 
 window.onmouseup = () => {
+  isMouseDown = false
   draggedCardDom(false)
+  $infoSpace.innerText = `dwn: ${isMouseDown}`
 }
 
-//hidden div always following cursor
 window.onmousemove = (e) => {
+  $infoSpace.innerText = `dwn: ${isMouseDown}`
+  
+  if(isMouseDown){
+    isMouseDown = false
+    draggedCardDom(true)
+  }
+  //storing cursor coordinates on move
   winX = e.x
   winY = e.y
-
-  $movingCards.style.left = `${winX+5}px`
-  $movingCards.style.top = `${winY+5}px`
+  $movingCards.style.left = `${e.x+5}px`
+  $movingCards.style.top = `${e.y+5}px`
 }
 
 //start a new game on page load
