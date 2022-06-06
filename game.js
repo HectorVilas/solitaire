@@ -163,22 +163,16 @@ function dragCard(){
       isValidMove({ascendingNumber:false,sameSuit:false,needsSameColor:false})
     }else if(foundIDs.includes(to.place)){//+++++tableau to foundations
       isValidMove({ascendingNumber:true,sameSuit:true,needsSameColor:true})
-    } else {
-      // console.log("movement canceled")
     }
   }else if(from.place === "waste"){//from waste pile
     if(foundIDs.includes(to.place)){//+++++waste to foundation
       isValidMove({ascendingNumber:true,sameSuit:true,needsSameColor:true})
     }else if(tabIDs.includes(to.place)){//+++++waste to tableau piles
       isValidMove({ascendingNumber:false,sameSuit:false,needsSameColor:false})
-    } else {
-      // console.log("movement canceled")
     }
   }else if(foundIDs.includes(from.place)){ //from foundation
     if(tabIDs.includes(to.place)){//+++++foundation to tableau piles
       isValidMove({ascendingNumber:false,sameSuit:false,needsSameColor:false})
-    } else {
-      // console.log("movement canceled")
     }
   }
 }
@@ -568,26 +562,6 @@ function draggedCardDom(dragging){
     $movingCards.classList.add("hidden")
     $movingCards.innerHTML = ""
   }
-
-  //show moving cards and hide originals in pile
-  // if(from !== undefined && bool === true){
-  //   if(from.pileName === "tableau"){
-  //     // if(movingCard !== null){
-  //       // $movingCards.classList.remove("hidden")
-  //     // }
-
-  //   // } else if(from.pileName === "foundation" || from.pileName === "waste"){
-  //   //   movingCard = document.querySelector(`#${from.place} .n${from.space}`).firstChild
-  //   }
-
-  // } else if(bool === false){
-  //   document.querySelectorAll(".invisible").forEach(space => {
-  //     space.classList.remove("invisible")
-  //   })
-  //   from = undefined
-  //   $movingCards.classList.add("hidden")
-  //   $movingCards.innerHTML = ""
-  // }
 }
 
 //check if a card disappeared or is duplicated
