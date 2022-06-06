@@ -117,6 +117,7 @@ p {
   width: 100px;
   height: 100px;
   z-index: 1;
+  pointer-events: none;
 }
 
 .separator {
