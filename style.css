@@ -60,12 +60,18 @@ body {
   height: 100vh;
   margin-left: calc((var(--menu-width)*-1)*2);
   transition: 250ms;
-  box-shadow: inset 0 -20px 30px black;
+  box-shadow: inset -20px 0 30px rgb(25,25,25);
 }.menu-show{
   margin-left: 0;
 }
-.menu>button {
+.btn-restart,
+.btn-design {
+  background: none;
+  border: none;
   aspect-ratio: 1/1;
+}
+.menu>button>img {
+  width: 5em;
 }
 
 .full-screen-container {
