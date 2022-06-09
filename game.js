@@ -1,18 +1,16 @@
 let gameOver = false
-
 let isMouseDown = false
-
-let winX,winY
-let movingCard
-
+let winX,winY //cursor position on viewport
 let deckDesign = "traditional"
-let from,to
+let from,to //which card is going to move over which one
 let onDoubleClick = false
 let cardsTotal
+
+//storing DOM IDs for checks
 const tabIDs = []
 const foundIDs = []
 
-let deck = []
+let deck = [] //the full deck will be stored here
 
 let table = {
   stock: [],
@@ -21,12 +19,26 @@ let table = {
   tableau: [[],[],[],[],[],[],[]],
 }
 
+//query selectors
+//card piles related
 const $stock = document.querySelector("#stock");
 const $waste = document.querySelector("#waste");
 const $infoSpace = document.querySelector("#info-space");
 const $foundations = document.querySelectorAll(".foundation");
 const $tableaus = document.querySelectorAll(".tableau");
+//cards related
 const $playArea = document.querySelector(".play-area")
+const $movingCards = document.querySelector(".moving-cards")
+//hud related
+const $btnGear = document.querySelector(".btn-gear")
+const $menu = document.querySelector(".menu")
+const $btnRestart = document.querySelector(".btn-restart")
+const $btnDesign = document.querySelector(".btn-design")
+const $btnAbout = document.querySelector(".btn-about")
+//prompt related
+const $fullScreenContainer = document.querySelector(".full-screen-container")
+const $contentAbout = document.querySelector(".content-about")
+
 
 $foundations.forEach(found => foundIDs.push(found.id))
 $tableaus.forEach(tab => tabIDs.push(tab.id))
@@ -377,6 +389,7 @@ function addListeners(){
   document.querySelectorAll(".card").forEach(card => {
     card.addEventListener("mousedown", (e) => {
       $movingCards.style.marginLeft = `-${winX-card.x}px`
+      console.log(card.x,winX, `= ${winX-card.x}`);
       $movingCards.style.marginTop = `-${winY-card.y}px`
       if(!gameOver){
         clickAction("mousedown", card.parentNode.parentNode.id,
@@ -503,7 +516,7 @@ function draggedCardDom(dragging){
       && table.tableau[from.pile][from.space].isFlipped){
         //place cards in $movingCards separators
         for (let i = from.space; i < table.tableau[from.pile].length; i++) {
-          movingCard = document.querySelector(`#${from.place} .n${i}`).firstChild
+          let movingCard = document.querySelector(`#${from.place} .n${i}`).firstChild
           //hiding originals
           let hideThis = document.querySelector(`#${from.place} .n${i}`)
           hideThis.classList.add("invisible")
@@ -527,7 +540,7 @@ function draggedCardDom(dragging){
       }else if((from.pileName === "waste" && table.waste.length > 0)
       || (from.pileName === "foundation" && table.foundations[from.pile].length > 0)){
         //place cards in $movingCards separators
-        movingCard = document.querySelector(`#${from.place} .n0`).firstChild
+        let movingCard = document.querySelector(`#${from.place} .n0`).firstChild
         //hiding originals
         let hideThis = document.querySelector(`#${from.place} .n0`)
         hideThis.classList.add("invisible")
@@ -554,15 +567,20 @@ function draggedCardDom(dragging){
   }
 }
 
-//hud listeners
-$btnGear = document.querySelector(".btn-gear")
-$btnRestart = document.querySelector(".btn-restart")
-$btnDesign = document.querySelector(".btn-design")
-$btnAbout = document.querySelector(".btn-about")
+//function for prompts
+function prompts(){
+  if(this.className.includes("btn-about")){
+    $menu.classList.remove("menu-show")
+    $fullScreenContainer.classList.remove("hidden")
+    console.log("about");
+  } else {
+    console.log("nope");
+  }
+}
 
-$menu = document.querySelector(".menu")
-$movingCards = document.querySelector(".moving-cards")
 
+
+//DOM listeners
 $btnGear.addEventListener("click", () => {
   $menu.classList.toggle("menu-show")
 })
@@ -577,6 +595,8 @@ $btnDesign.addEventListener("click", () =>{
   }
   redrawCards()
 })
+
+$btnAbout.addEventListener("click", prompts)
 
 window.onmousedown = () => {
   isMouseDown = true
@@ -596,8 +616,8 @@ window.onmousemove = (e) => {
   //storing cursor coordinates on move
   winX = e.x
   winY = e.y
-  $movingCards.style.left = `${e.x+5}px`
-  $movingCards.style.top = `${e.y+5}px`
+  $movingCards.style.left = `${winX}px`
+  $movingCards.style.top = `${winY}px`
 }
 
 //start a new game on page load
@@ -639,8 +659,9 @@ function checkDeck(){
   } else if(fullDeck.length > 52){
     console.log("there's extra cards: "+fullDeck.length+"/52 in total")
   }
-  // console.log(fullDeck.length);
 }
 
 //TODO: show card or empty space under waste/foundation while being dragged
 //make stock pile look like contains more cards depending on how much it have
+//check why the card isn't dragged from the exact spot where it's clicked
+//or move the dragged cards' corner to cursor, try transition: ease-out 100ms
