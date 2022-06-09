@@ -365,3 +365,21 @@ Empty spaces and facing down cards won't be dragged.
 Now the card is grabbed from where it was clicked, instead of moving it's corner to the cursor.
 
 ![gif](./media/images/READMEmd/progress21.gif)
+
+> function to check for duplicated cards
+
+This is just a debugging tool I made because some cards became duplicated. The problem is already fixed (double click ignored if the card was facing up, messing with the cards), but in case some cards get duplicated (replaced by a copy or added) or a card goes missing, it will show a message in console.
+
+> dragged cards uses same sepration from table cards
+
+Just for consistency, now the dragged cards have the same space in between as the rest, even after rescaling the window.
+
+> prompt menu and about
+
+![gif](./media/images/READMEmd/progress22.png)
+
+I made a card-like prompt for all the credits. Now the authors of the resources I used are credited there, not only in a TXT file.
+
+> images for menu buttons
+
+![gif](./media/images/READMEmd/progress23.gif)
