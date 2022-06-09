@@ -79,15 +79,36 @@ body {
   box-shadow: inset 0 0 50px black;
 }
 .prompt {
+  transition: 1s;
+  font-size: 1.5em;
+  display: flex;
+  align-items: center;
   flex: 0 0 auto;
-  width: 400px;
-  height: 650px;
-  padding: 1em;
+  /* width: 400px;
+  height: 650px; */
+  width: 500px;
+  height: 820px;
   background: beige url(./media/images/hud/joker.png) center no-repeat;
   background-size: 90%;
   border-radius: 2em;
   box-shadow: inset -.1em -.1em .3em black;
   filter: drop-shadow(1em 1em 1em rgba(0,0,0,.5));
+}.prompt p {
+  margin: 2em 0;
+}
+.content-about {
+  padding: 2em;
+}
+.btn-close {
+  position: fixed;
+  top: 1em;
+  left: 1em;
+  flex: 0;
+  width: 2em;
+  aspect-ratio: 1/1;
+  border: none;
+  box-shadow: inset 0 0 .1em black;
+  border-radius: 50%;
 }
 
 
@@ -178,6 +199,11 @@ body {
   :root {
     --card-size: calc(85vw/7);
   }
+  .prompt {
+    width: 400px;
+    height: 650px;
+    font-size: 1.25em;
+  }
 }
 
 @media only screen and (max-width: 800px) {
@@ -188,6 +214,11 @@ body {
   :root {
     --card-size: calc(85vw/7);
   }
+  .prompt {
+    width: 300px;
+    height: 500px;
+    font-size: 1em;
+  }
 }
 
 @media only screen and (max-width: 300px) {
@@ -197,6 +228,11 @@ body {
   }
   :root {
     --card-size: calc(95vw/7);
+  }
+  .prompt {
+    width: 200px;
+    height: 350px;
+    font-size: .75em;
   }
 }
 

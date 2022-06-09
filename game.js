@@ -37,6 +37,7 @@ const $btnDesign = document.querySelector(".btn-design")
 const $btnAbout = document.querySelector(".btn-about")
 //prompt related
 const $fullScreenContainer = document.querySelector(".full-screen-container")
+const $btnClose = document.querySelector(".btn-close")
 const $contentAbout = document.querySelector(".content-about")
 
 
@@ -568,13 +569,13 @@ function draggedCardDom(dragging){
 }
 
 //function for prompts
-function prompts(){
+function promptAction(){
+  $menu.classList.remove("menu-show")
+  
   if(this.className.includes("btn-about")){
-    $menu.classList.remove("menu-show")
     $fullScreenContainer.classList.remove("hidden")
-    console.log("about");
-  } else {
-    console.log("nope");
+  } else if(this.className.includes("btn-close")){
+    $fullScreenContainer.classList.add("hidden")
   }
 }
 
@@ -596,8 +597,11 @@ $btnDesign.addEventListener("click", () =>{
   redrawCards()
 })
 
-$btnAbout.addEventListener("click", prompts)
+$btnAbout.addEventListener("click", promptAction)
 
+$btnClose.addEventListener("click", promptAction)
+
+//mouse events on window
 window.onmousedown = () => {
   isMouseDown = true
   checkDeck()
