@@ -44,6 +44,10 @@ body {
   filter: drop-shadow(0 0 .5em black);
   rotate: 0deg
 }
+.btn-gear>img { /*needed for Chrome*/
+  width: 100%;
+  height: 100%;
+}
 
 .menu{
   --menu-width: 3em;
