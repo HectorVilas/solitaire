@@ -64,7 +64,8 @@ function cardCreation(){
 
 function shuffleCards(){
   for (let i = 0; i < 10; i++) {
-    deck.sort(() => Math.random() > 0.5)
+    // deck.sort(() => Math.random() > 0.5)
+    deck.sort(() => Math.random() > 0.5 ? 1 : -1) //fix for Chrome and Opera
   }
 }
 

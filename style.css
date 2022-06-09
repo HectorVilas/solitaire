@@ -44,7 +44,7 @@ body {
   filter: drop-shadow(0 0 .5em black);
   rotate: 0deg
 }
-.btn-gear>img { /*needed for Chrome*/
+.btn-gear>img { /*needed for Chrome and Opera*/
   width: 100%;
   height: 100%;
 }
