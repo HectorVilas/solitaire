@@ -306,17 +306,20 @@ function redrawCards(){
   //clear existing cards
   document.querySelectorAll(".separator").forEach(sep => { sep.innerHTML = ""})
   //in stock
-  let img = document.createElement("img")
-  if(table.stock.length > 0){
-    img.src = unflippedImg
-  } else {
-    img.src = emptyImg
-    img.classList.add("not-animated")
-  }
+  for (let i = 0; i < table.stock.length+1; i+= 3) {
+    let img = document.createElement("img")
+    if(table.stock.length > 0){
+      img.src = unflippedImg
+    } else {
+      img.src = emptyImg
+      img.classList.add("not-animated")
+    }
+    img.style.margin = `${i}px ${i}px 0 0`  
     img.classList.add("card","card-stock")
     img.setAttribute("data-place","stock")
-
-    $stock.firstChild.appendChild(img)
+  
+      $stock.firstChild.appendChild(img)
+  }
   //in waste
   img = document.createElement("img")
   if(table.waste.length > 0){
