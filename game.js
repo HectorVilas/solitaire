@@ -515,6 +515,11 @@ function newGame(){
 //for moving cards
 function draggedCardDom(dragging){
   if(dragging){
+    //move the dragged card to the corner of the cursor
+    setTimeout(() => {
+      $movingCards.style.marginLeft = `.1em`
+      $movingCards.style.marginTop = `.1em`
+    }, 10);
     //showing all the dragged cards
     if(from !== undefined){
       let separatorHeight = document.querySelector(".separator.n1").clientHeight
@@ -674,5 +679,3 @@ function checkDeck(){
 }
 
 //TODO: show card or empty space under waste/foundation while being dragged
-//check why the card isn't dragged from the exact spot where it's clicked
-//or move the dragged cards' corner to cursor, try transition: ease-out 100ms

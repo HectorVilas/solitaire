@@ -189,13 +189,13 @@ body {
 
 
 .moving-cards {
-  /* transition: ease-out 100ms; */
   position: absolute;
   width: 100px;
   height: 100px;
   z-index: 1;
   pointer-events: none;
   filter: drop-shadow(1em 1em .5em rgba(0,0,0,.5));
+  transition: margin ease-out 250ms;
 }
 
 .separator {
