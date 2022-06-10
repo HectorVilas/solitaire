@@ -389,3 +389,7 @@ I made a card-like prompt for all the credits. Now the authors of the resources 
 Don't having an idea how much cards are left in the stock is annoying, so I did this little change. The more cards are in the stock, the bigger it will look.
 
 ![gif](./media/images/READMEmd/progress24.gif)
+
+> move dragged cards to the corner of the cursor
+
+![gif](./media/images/READMEmd/progress25.gif)
