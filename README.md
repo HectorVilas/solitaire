@@ -383,3 +383,9 @@ I made a card-like prompt for all the credits. Now the authors of the resources 
 > images for menu buttons
 
 ![gif](./media/images/READMEmd/progress23.gif)
+
+> stock pile now looks like a pile of cards
+
+Don't having an idea how much cards are left in the stock is annoying, so I did this little change. The more cards are in the stock, the bigger it will look.
+
+![gif](./media/images/READMEmd/progress24.gif)
