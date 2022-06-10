@@ -306,19 +306,23 @@ function redrawCards(){
   //clear existing cards
   document.querySelectorAll(".separator").forEach(sep => { sep.innerHTML = ""})
   //in stock
-  for (let i = 0; i < table.stock.length+1; i+= 3) {
+  if(table.stock.length > 0){
+    for (let i = 0; i < table.stock.length; i+= 3) {
     let img = document.createElement("img")
-    if(table.stock.length > 0){
       img.src = unflippedImg
-    } else {
-      img.src = emptyImg
-      img.classList.add("not-animated")
+      img.style.margin = `${i}px ${i}px 0 0`
+      img.classList.add("card","card-stock")
+      img.setAttribute("data-place","stock")
+      $stock.firstChild.appendChild(img)
     }
-    img.style.margin = `${i}px ${i}px 0 0`  
+  } else {
+    let img = document.createElement("img")
+    img.src = emptyImg
+    img.classList.add("not-animated")
     img.classList.add("card","card-stock")
     img.setAttribute("data-place","stock")
-  
-      $stock.firstChild.appendChild(img)
+    
+    $stock.firstChild.appendChild(img)
   }
   //in waste
   img = document.createElement("img")
@@ -670,6 +674,5 @@ function checkDeck(){
 }
 
 //TODO: show card or empty space under waste/foundation while being dragged
-//make stock pile look like contains more cards depending on how much it have
 //check why the card isn't dragged from the exact spot where it's clicked
 //or move the dragged cards' corner to cursor, try transition: ease-out 100ms
