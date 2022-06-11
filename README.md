@@ -393,3 +393,7 @@ Don't having an idea how much cards are left in the stock is annoying, so I did 
 > move dragged cards to the corner of the cursor
 
 ![gif](./media/images/READMEmd/progress25.gif)
+
+> when dragging a card, it will show the card under or an empty space
+
+![gif](./media/images/READMEmd/progress26.gif)
