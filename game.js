@@ -556,19 +556,25 @@ function draggedCardDom(dragging){
         let movingCard = document.querySelector(`#${from.place} .n0`).firstChild
         //showing previous card or empty space
         let url = `./media/images/cards/${deckDesign}/`
+        let imgPlace = document.querySelector(`#${from.place} .n0`)
+        let previousCard = document.createElement("img")
         if(from.pileName === "waste"){
-          let imgPlace = document.querySelector(`#${from.place} .n0`)
-          let previousCard = document.createElement("img")
           let penultimate = table.waste[table.waste.length-2]
           if(table.waste.length === 1){
             previousCard.src = `${url}empty.png`
-          // } else if(table.waste.length > 1) {
           } else {
             previousCard.src = `${url}${penultimate.suit}${penultimate.number}.png`
           }
-            previousCard.classList.add("card","placeholder")
-            imgPlace.appendChild(previousCard)
+        }else if(from.pileName === "foundation"){
+          let penultimate = table.foundations[from.pile][table.foundations[from.pile].length-2]
+          if(table.foundations[from.pile].length === 1){
+            previousCard.src = `${url}empty.png`
+          } else {
+            previousCard.src = `${url}${penultimate.suit}${penultimate.number}.png`
+          }
         }
+        previousCard.classList.add("card","placeholder")
+        imgPlace.appendChild(previousCard)
         //hiding originals
         let hideThis = document.querySelector(`#${from.place} .n0`).firstChild
         hideThis.classList.add("invisible")
