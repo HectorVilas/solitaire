@@ -527,6 +527,15 @@ function draggedCardDom(dragging){
       && table.tableau[from.pile].length > 0
       && table.tableau[from.pile][from.space] !== undefined
       && table.tableau[from.pile][from.space].isFlipped){
+        //show empty space if full pile is dragged
+        if(from.space == 0){ //double equal because space is array
+          let imgPlace = document.querySelector(`#${from.place}`)
+          let url = `./media/images/cards/${deckDesign}/`
+          let empty = document.createElement("img")
+          empty.src = `${url}empty.png`
+          empty.classList.add("card","placeholder")
+          imgPlace.appendChild(empty)
+        }
         //place cards in $movingCards separators
         for (let i = from.space; i < table.tableau[from.pile].length; i++) {
           let movingCard = document.querySelector(`#${from.place} .n${i}`).firstChild
@@ -558,8 +567,8 @@ function draggedCardDom(dragging){
         let url = `./media/images/cards/${deckDesign}/`
         let imgPlace = document.querySelector(`#${from.place} .n0`)
         let previousCard = document.createElement("img")
-        let length;
-        let penultimate;
+        let length
+        let penultimate
         if(from.pileName === "waste"){
           length = table.waste.length
           penultimate = table.waste[table.waste.length-2]
@@ -567,7 +576,7 @@ function draggedCardDom(dragging){
           length = table.foundations[from.pile].length
           penultimate = table.foundations[from.pile][table.foundations[from.pile].length-2]
         }
-
+        //choosing between empty space or previous card in pile
         if(length === 1){
           previousCard.src = `${url}empty.png`
         } else {
