@@ -554,8 +554,23 @@ function draggedCardDom(dragging){
       || (from.pileName === "foundation" && table.foundations[from.pile].length > 0)){
         //place cards in $movingCards separators
         let movingCard = document.querySelector(`#${from.place} .n0`).firstChild
+        //showing previous card or empty space
+        let url = `./media/images/cards/${deckDesign}/`
+        if(from.pileName === "waste"){
+          let imgPlace = document.querySelector(`#${from.place} .n0`)
+          let previousCard = document.createElement("img")
+          let penultimate = table.waste[table.waste.length-2]
+          if(table.waste.length === 1){
+            previousCard.src = `${url}empty.png`
+          // } else if(table.waste.length > 1) {
+          } else {
+            previousCard.src = `${url}${penultimate.suit}${penultimate.number}.png`
+          }
+            previousCard.classList.add("card","placeholder")
+            imgPlace.appendChild(previousCard)
+        }
         //hiding originals
-        let hideThis = document.querySelector(`#${from.place} .n0`)
+        let hideThis = document.querySelector(`#${from.place} .n0`).firstChild
         hideThis.classList.add("invisible")
         //creating card image
         let DomMovingCard = document.createElement("img")
@@ -574,6 +589,9 @@ function draggedCardDom(dragging){
     document.querySelectorAll(".invisible").forEach(space => {
       space.classList.remove("invisible")
     })
+    let placeholder = document.querySelector(".placeholder")
+    // placeholder.parentNode.removeChild(placeholder)
+    if(placeholder !== null) placeholder.remove()
     from = undefined
     $movingCards.classList.add("hidden")
     $movingCards.innerHTML = ""
