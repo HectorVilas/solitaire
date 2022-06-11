@@ -310,8 +310,8 @@ function redrawCards(){
     for (let i = 0; i < table.stock.length; i+= 3) {
     let img = document.createElement("img")
       img.src = unflippedImg
-      img.style.margin = `${i}px ${i}px 0 0`
-      img.classList.add("card","card-stock")
+      img.style.padding = `${i}px ${i}px 0 0`//with margin only works on Firefox
+      img.classList.add("card","card-stock","not-animated")
       img.setAttribute("data-place","stock")
       $stock.firstChild.appendChild(img)
     }
@@ -398,7 +398,6 @@ function addListeners(){
   document.querySelectorAll(".card").forEach(card => {
     card.addEventListener("mousedown", (e) => {
       $movingCards.style.marginLeft = `-${winX-card.x}px`
-      console.log(card.x,winX, `= ${winX-card.x}`);
       $movingCards.style.marginTop = `-${winY-card.y}px`
       if(!gameOver){
         clickAction("mousedown", card.parentNode.parentNode.id,
