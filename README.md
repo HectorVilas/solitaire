@@ -397,3 +397,32 @@ Don't having an idea how much cards are left in the stock is annoying, so I did 
 > when dragging a card, it will show the card under or an empty space
 
 ![gif](./media/images/READMEmd/progress26.gif)
+
+> function to preload all deck images
+
+An invisible div will receive every single card image as child so it will be preloaded, preventing cards "blinking" if it's not yet downloaded.
+
+I'm not sure if having this div is a heavy memory load, so it will be emptied one second later.
+
+```HTML
+<div id="preload" class="hidden"></div>
+```
+
+```javascript
+function preloadImages(){
+  const $preload = document.querySelector("#preload")
+  for (let i = 0; i < 2; i++) {
+    deck.forEach(card => {
+      let img = document.createElement("img")
+      let url = `./media/images/cards/${deckDesign}/`
+      img.src = `${url}${card.suit}${card.number}.png`
+      $preload.appendChild(img)
+    })
+    
+    i === 0 ? deckDesign = "russian" : deckDesign = "traditional"
+  }
+  setTimeout(() => {
+    $preload.innerHTML = ""
+  }, 1000);
+}
+```
