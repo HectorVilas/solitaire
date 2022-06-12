@@ -505,6 +505,7 @@ function lastInPile(loc){
 function newGame(){
   gameOver = false
   cardCreation()
+  preloadImages()
   shuffleCards()
   layCards()
   domDivisions()
@@ -624,6 +625,23 @@ function promptAction(){
   }
 }
 
+//preloading all the card images
+function preloadImages(){
+  const $preload = document.querySelector("#preload")
+  for (let i = 0; i < 2; i++) {
+    deck.forEach(card => {
+      let img = document.createElement("img")
+      let url = `./media/images/cards/${deckDesign}/`
+      img.src = `${url}${card.suit}${card.number}.png`
+      $preload.appendChild(img)
+    })
+    
+    i === 0 ? deckDesign = "russian" : deckDesign = "traditional"
+  }
+  setTimeout(() => {
+    $preload.innerHTML = ""
+  }, 1000);
+}
 
 
 //DOM listeners
@@ -711,3 +729,4 @@ function checkDeck(){
 }
 
 //TODO: show card or empty space under waste/foundation while being dragged
+//try to animate the cards in new game
