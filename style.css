@@ -228,6 +228,15 @@ body {
 
 
 
+/* - - - animations - - - */
+
+.animation-intro {
+  transition: ease-out 500ms;
+  z-index: -1;
+}
+
+
+
 /* - - - adjusting size with screen - - - */
 
 @media only screen and (max-width: 1300px) {

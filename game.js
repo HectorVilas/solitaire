@@ -510,10 +510,13 @@ function newGame(){
   layCards()
   domDivisions()
   redrawCards()
+  AnimatedNewGame()
 }
 
 //for moving cards
 function draggedCardDom(dragging){
+  if(gameOver) return
+
   if(dragging){
     //move the dragged card to the corner of the cursor
     setTimeout(() => {
@@ -643,6 +646,54 @@ function preloadImages(){
   }, 1000);
 }
 
+//animation for laying cards in table
+function AnimatedNewGame(){
+  gameOver = true
+  const stockPile = document.querySelector("#stock .n0")
+  const toAnimate = document.querySelectorAll(`.card:not(.not-animated)`)
+  // hiding original cards
+  toAnimate.forEach(card => card.classList.add("invisible"))
+  //creating cards
+  for (let i = 0; i < toAnimate.length; i++) {
+    let newCard = document.createElement("img")
+    newCard.src = `./media/images/cards/${deckDesign}/reverse.png`
+    newCard.classList.add("card","animation-intro")
+    stockPile.appendChild(newCard)
+  }
+
+  const animated = document.querySelectorAll(".animation-intro")
+  
+  animated.forEach(card => {
+    card.style.left = `${stockPile.offsetLeft}px`
+    card.style.top = `${stockPile.offsetTop}px`
+  })
+  
+  for (let i = 0; i < animated.length; i++) {
+    setTimeout(() => {
+      animated[i].style.left = `${toAnimate[i].offsetLeft}px`
+      animated[i].style.top = `${toAnimate[i].offsetTop}px`
+    }, 100*(i+1));
+  }
+  //show original cards once the last card gets animated
+  animated[animated.length-1].addEventListener("transitionend", (e) => {
+    if(e.propertyName === "top"){
+      toAnimate.forEach(card => card.classList.remove("invisible"))
+      //deleting the animated cards
+      setTimeout(() => {
+        animated.forEach(card => {
+          if(card.className.includes("animation-intro")){
+            stockPile.removeChild(card)
+          }
+        })
+      }, 100);
+      
+      gameOver = false
+    }
+  })
+  
+}
+
+
 
 //DOM listeners
 $btnGear.addEventListener("click", () => {
@@ -727,6 +778,3 @@ function checkDeck(){
     console.log("there's extra cards: "+fullDeck.length+"/52 in total")
   }
 }
-
-//TODO: show card or empty space under waste/foundation while being dragged
-//try to animate the cards in new game
