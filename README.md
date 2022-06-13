@@ -426,3 +426,9 @@ function preloadImages(){
   }, 1000);
 }
 ```
+
+> new game animation
+
+![gif](./media/images/READMEmd/progress27.gif)
+
+> restarting the game now hides the menu bar
