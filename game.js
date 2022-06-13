@@ -700,7 +700,10 @@ $btnGear.addEventListener("click", () => {
   $menu.classList.toggle("menu-show")
 })
 
-$btnRestart.addEventListener("click", newGame)
+$btnRestart.addEventListener("click", () => {
+  $menu.classList.toggle("menu-show")
+  newGame()
+})
 
 $btnDesign.addEventListener("click", () =>{
   if(deckDesign === "traditional"){
