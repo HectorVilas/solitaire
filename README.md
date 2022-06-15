@@ -53,13 +53,13 @@ Welcome to my new project! This time I'm making something I wanted to create sin
 - - ✅ add cardFrom card or cards to cardDestination
 - ✅ in the foundations, the same will happen but with ascending numbers and only with same suit type
 - check for win condition:
-- ❌ if all same-suit piled up cards contains 13 cards, the game is over
+- ✅ if all same-suit piled up cards contains 13 cards, the game is over
 
 ### other ideas
-- ❌ spanish card deck to replace design
-- ❌ button to switch language (english-spanish)
+- ❌ spanish card deck to replace design (won't do, there's nothing to pair in this kind of deck, like colors in the actual designs)
+- ❌ button to switch language (english-spanish) (Unnecesary)
 - ❌ sounds
-- ❌ visual representation of options instead of text
+- ✅ visual representation of options instead of text
 - ❌ more game modes (this will be done in a new project someday)
 - ❌ draw the cards with divs instead of using a full image for each one
 
@@ -432,3 +432,16 @@ function preloadImages(){
 ![gif](./media/images/READMEmd/progress27.gif)
 
 > restarting the game now hides the menu bar
+
+> win message
+
+![gif](./media/images/READMEmd/progress28.png)
+
+---
+
+## Final Update:
+This will be the last update, at least for now. While I enjoy working on this project and learn new tricks with JavaScript, it is consuming the time I could spend learning more from the course.
+
+I was going to levate it as finished, but I forgot I had an alert placeholder for the win message. The new one is not as fancy as I wanted, but is enough for now. I hope I don't abandon the project in the future and can go back to it to animate the cards when the player wins, something like in the Solitaire from Windows 3.1 with the falling and bouncing cards.
+
+# Thanks for playing!
