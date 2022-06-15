@@ -39,6 +39,7 @@ const $btnAbout = document.querySelector(".btn-about")
 const $fullScreenContainer = document.querySelector(".full-screen-container")
 const $btnClose = document.querySelector(".btn-close")
 const $contentAbout = document.querySelector(".content-about")
+const $contentWin = document.querySelector(".content-win")
 
 
 $foundations.forEach(found => foundIDs.push(found.id))
@@ -443,9 +444,11 @@ function checkWinCondition(){
   + table.foundations[1].length
   + table.foundations[2].length
   + table.foundations[3].length
-  if(totalInFoundation == cardsTotal){
+  if(totalInFoundation == cardsTotal && !gameOver){
     gameOver = true
-    alert("YOU WIN! This is a temporal message")
+    // alert("YOU WIN! This is a temporal message")
+    $fullScreenContainer.classList.remove("hidden")
+    $contentWin.classList.remove("hidden")
   }
 }
 
@@ -623,8 +626,12 @@ function promptAction(){
   
   if(this.className.includes("btn-about")){
     $fullScreenContainer.classList.remove("hidden")
+    $contentAbout.classList.remove("hidden")
+    $contentWin.classList.add("hidden")
   } else if(this.className.includes("btn-close")){
     $fullScreenContainer.classList.add("hidden")
+    $contentAbout.classList.add("hidden")
+    $contentWin.classList.add("hidden")
   }
 }
 

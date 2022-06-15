@@ -121,8 +121,6 @@ body {
   display: flex;
   align-items: center;
   flex: 0 0 auto;
-  /* width: 400px;
-  height: 650px; */
   width: 500px;
   height: 820px;
   background: beige url(./media/images/hud/joker.png) center no-repeat;
@@ -135,6 +133,15 @@ body {
 }
 .content-about {
   padding: 2em;
+  text-shadow: 3px 3px 5px #333;
+}
+.content-win {
+  flex: auto;
+  text-align: center;
+  font-size: 7em;
+  text-shadow: 3px 3px 5px #333;
+}.content-win>p {
+  margin: 0 0 .5em 0;
 }
 .btn-close {
   position: fixed;
