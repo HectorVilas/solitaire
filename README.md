@@ -445,3 +445,16 @@ This will be the last update, at least for now. While I enjoy working on this pr
 I was going to levate it as finished, but I forgot I had an alert placeholder for the win message. The new one is not as fancy as I wanted, but is enough for now. I hope I don't abandon the project in the future and can go back to it to animate the cards when the player wins, something like in the Solitaire from Windows 3.1 with the falling and bouncing cards.
 
 # Thanks for playing!
+---
+---
+---
+
+> only K cards can move to empty tableau piles
+
+A friend told me this some days ago, only the higher card can move to empty spaces in the bottom piles. Whoops! He's right. This is why the game was so easy.
+
+I was trying to avoid spending time with personal projects to spend more time with the frontend course, but I can't leave the game like this, with a huge fault, so I came back to it.
+
+Luckily it was an easy fix. I tried to add some more code for this, but after reading again how I wrote the code for the rules, I noticed I already had an `if` for empty piles. I just added an extra condition.
+
+Now, time to go back to learning.
