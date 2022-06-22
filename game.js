@@ -242,7 +242,7 @@ function isValidMove({ascendingNumber,sameSuit,needsSameColor}){
     }
   } else if(to.pileName === "foundation" && from.card.number === 1){
     moveCards() //when card is ace and space is empty
-  } else if(to.pileName === "tableau"){
+  } else if(to.pileName === "tableau" && from.card.number === 13){
     moveCards() //when tableau space is empty
   }
 }
