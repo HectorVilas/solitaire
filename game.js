@@ -301,6 +301,8 @@ function stockToWaste(){
 
 //draw the card's image in page
 function redrawCards(){
+  console.log("redrawing");
+  
   let url = `./media/images/cards/${deckDesign}/`
   let unflippedImg = `${url}reverse.png`
   let emptyImg = `${url}empty.png`
@@ -343,6 +345,10 @@ function redrawCards(){
   //in tableau
   for(let i = 0; i < table.tableau.length; i++){
     if(table.tableau[i].length !== 0){
+      //flip last card after moving to other pile
+      let lastCard = lastInPile(table.tableau[i])
+      lastCard.isFlipped = true;
+      
       for (let j = 0; j < table.tableau[i].length; j++) {
         let space = document.querySelector(`#tab-${i} .n${j}`)
         let img = document.createElement("img")
