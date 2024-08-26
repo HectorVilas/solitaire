@@ -301,8 +301,6 @@ function stockToWaste(){
 
 //draw the card's image in page
 function redrawCards(){
-  console.log("redrawing");
-  
   let url = `./media/images/cards/${deckDesign}/`
   let unflippedImg = `${url}reverse.png`
   let emptyImg = `${url}empty.png`
